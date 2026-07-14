@@ -1,0 +1,16 @@
+{
+  "name": "nuxt-otel-playground",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "nuxt": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.3"
+  }
+}
