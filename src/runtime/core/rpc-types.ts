@@ -1,4 +1,4 @@
-import type { Trace, Span, Log } from '../../utils/otlp/parser'
+import type { Trace, Span, Log } from '../../otel/parse/parser'
 
 export interface OtelClientFunctions {
   onTraceReceived: (trace: Trace) => void

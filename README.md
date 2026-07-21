@@ -40,15 +40,25 @@ export default defineNuxtConfig({
 
 ### Configuration
 
-The only module option is `instrument` (defaults to `true`), which controls whether the module sets up OpenTelemetry for you:
+#### Module options
 
 ```ts
 export default defineNuxtConfig({
   nuxtOtel: {
+    // Enable built-in OpenTelemetry SDK (Node.js only)
     instrument: true,
+
+    // Enable DevTools UI at /__nuxt-otel
+    devtools: true,
+
+    // Enable MCP server at /__nuxt-otel-mcp
+    // Provides tools for querying traces, spans, and logs over MCP
+    mcp: true,
   },
 })
 ```
+
+#### Tracing channels
 
 The tracing channels themselves are configured via the top-level `tracingChannel` Nuxt option:
 
@@ -202,11 +212,46 @@ When using a custom instrumentation setup (i.e. `instrument: false`), you can st
 
 The endpoint accepts both trace and log OTLP JSON payloads (`/v1/traces` and `/v1/logs`). This lets you use any OTel SDK or collector to push data into the devtools UI without relying on the built-in NodeSDK.
 
+## 🔌 MCP Server
+
+> **Note:** The MCP integration is development-only. The OTEL tools query in-memory trace and log stores that are populated during development. In production builds, the OTEL-specific tools are not available.
+
+The module exposes a built-in MCP server at `/__nuxt-otel-mcp` for querying OpenTelemetry data over the [Model Context Protocol](https://modelcontextprotocol.io). This uses the `@modelcontextprotocol/sdk` directly with Streamable HTTP transport.
+
+To enable it, set `mcp: true` in the module options (defaults to `false`).
+
+### Available tools
+
+| Tool         | Description                                                             |
+| ------------ | ----------------------------------------------------------------------- |
+| `get_traces` | Retrieve all collected OpenTelemetry traces, with optional `limit`      |
+| `get_trace`  | Retrieve a single trace and its spans by `trace_id`                     |
+| `get_spans`  | Retrieve collected spans, optionally filtered by `trace_id` and `limit` |
+| `get_logs`   | Retrieve all collected OpenTelemetry logs, with optional `limit`        |
+
+### Connecting an MCP client
+
+Once the dev server is running, you can connect any MCP client to the endpoint:
+
+```
+http://localhost:3000/__nuxt-otel-mcp
+```
+
+For example, in **Cursor** or **VS Code**:
+
+```json
+{
+  "mcpServers": {
+    "nuxt-otel": {
+      "url": "http://localhost:3000/__nuxt-otel-mcp"
+    }
+  }
+}
+```
+
 ## ⛰️ Next Steps
 
 - 📖 Explore the [OpenTelemetry Documentation](https://opentelemetry.io/docs/)
-- 🔧 Configure an OpenTelemetry exporter (OTLP, Jaeger, Zipkin, etc.)
-- 📊 Set up metrics collection with the OpenTelemetry Metrics SDK
 
 ## ⚖️ License
 

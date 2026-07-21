@@ -7,9 +7,10 @@ import {
   addDevServerHandler,
   addServerImportsDir,
 } from '@nuxt/kit'
-import { setupDevToolsUI } from './devtools'
-import { setupRPC } from './server-rpc'
-import { otlpIngestHandler } from './utils/otlp/otlpIngestHandler'
+import { setupDevToolsUI } from './devtools/index'
+import { setupRPC } from './rpc/index'
+import { otlpIngestHandler } from './otel/ingest/otlpIngestHandler'
+import { mcpHandler } from './rpc/mcp/index'
 
 export interface TracingChannelOptions {
   nuxt?: boolean
@@ -78,6 +79,10 @@ export default defineNuxtModule<ModuleOptions>({
         route: `/__nuxt-otel-ingest`,
         handler: otlpIngestHandler,
       })
+      addDevServerHandler({
+        route: `/__nuxt-otel-mcp`,
+        handler: mcpHandler,
+      })
       setupDevToolsUI(nuxt, resolver)
       setupRPC(nuxt)
     }
@@ -87,7 +92,7 @@ export default defineNuxtModule<ModuleOptions>({
         const { preset } = nitroConfig
         const nodeSdkPresets = ['node-server', 'node_server', 'nodeServer', 'node', 'bun']
         if (nodeSdkPresets.includes(preset!) || preset === undefined) {
-          addServerPlugin(resolver.resolve('./runtime/server/plugin/instrument/node'))
+          addServerPlugin(resolver.resolve('./runtime/server/plugins/instrument/node'))
         }
         else {
           logger.warn(
@@ -95,7 +100,7 @@ export default defineNuxtModule<ModuleOptions>({
           )
         }
       }
-      addServerPlugin(resolver.resolve('./runtime/server/plugin/trace'))
+      addServerPlugin(resolver.resolve('./runtime/server/plugins/trace'))
     })
   },
 })

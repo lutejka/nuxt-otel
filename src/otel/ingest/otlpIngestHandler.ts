@@ -1,6 +1,6 @@
 import { eventHandler, readBody } from 'h3'
-import { parseOTLPLog, parseOTLPTrace } from './parser'
-import { addLogs, addSpans, addTraces } from '../../server-rpc/traces'
+import { parseOTLPLog, parseOTLPTrace } from '../parse/parser'
+import { addLogs, addSpans, addTraces } from '../../store/index'
 
 export const otlpIngestHandler = eventHandler(async (event) => {
   const body = await readBody(event)

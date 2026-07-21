@@ -1,5 +1,5 @@
-import type { Trace, Span, Log } from '../utils/otlp/parser'
-import type { OtelServerFunctions, OtelClientFunctions } from '../runtime/core/rpc-types'
+import type { Trace, Span, Log } from '../otel/parse/parser'
+import type { OtelClientFunctions } from '../runtime/core/rpc-types'
 
 declare global {
   var __nuxtOtelTraces: Trace[] | undefined
@@ -20,6 +20,10 @@ export function getSpans(traceId?: string): Span[] {
 export function clearTraces(): void {
   if (globalThis.__nuxtOtelTraces) globalThis.__nuxtOtelTraces = []
   if (globalThis.__nuxtOtelSpans) globalThis.__nuxtOtelSpans = []
+}
+
+export function clearLogs() {
+  globalThis.__nuxtOTelLogs = []
 }
 
 export function addSpans(spans: Span[]) {
@@ -48,16 +52,4 @@ export function addLogs(logs: Log[]) {
 
 export function getLogs(): Log[] {
   return globalThis.__nuxtOTelLogs || []
-}
-
-export function clearLogs() {
-  globalThis.__nuxtOTelLogs = []
-}
-
-export function setupTraceRPC(serverFunctions: OtelServerFunctions) {
-  serverFunctions.getTraces = getTraces
-  serverFunctions.getSpans = getSpans
-  serverFunctions.clearTraces = clearTraces
-  serverFunctions.clearLogs = clearLogs
-  serverFunctions.getLogs = getLogs
 }
