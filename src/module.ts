@@ -57,6 +57,7 @@ export default defineNuxtModule<ModuleOptions>({
       return
     }
     const channels = normalizeTracingChannel(nuxt.options.tracingChannel)
+    const devServerUrl = nuxt.options?.devServer?.url
 
     addServerTemplate({
       filename: '#nuxt-otel-config',
@@ -74,7 +75,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     addServerImportsDir(resolver.resolve('./runtime/server/composables'))
 
-    if (nuxt.options.devtools && options.devtools) {
+    if (nuxt.options.dev && nuxt.options.devtools && options.devtools) {
       addDevServerHandler({
         route: `/__nuxt-otel-ingest`,
         handler: otlpIngestHandler,
@@ -83,6 +84,9 @@ export default defineNuxtModule<ModuleOptions>({
         route: `/__nuxt-otel-mcp`,
         handler: mcpHandler,
       })
+      logger.box(`Nuxt OTel  endpoints:
+  OTLP HTTP ingest  → \x1B[36m${devServerUrl}/__nuxt-otel-ingest\x1B[39m
+  MCP server        → \x1B[36m${devServerUrl}/__nuxt-otel-mcp\x1B[39m`)
       setupDevToolsUI(nuxt, resolver)
       setupRPC(nuxt)
     }
