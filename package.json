@@ -47,7 +47,6 @@
     "dev:build": "nuxt build playground",
     "dev:preview": "nuxt preview playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground",
-    "release": "pnpm lint && pnpm test && pnpm prepack && changelogen --release && pnpm publish && git push --follow-tags",
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt --check .",
     "lint": "eslint .",
