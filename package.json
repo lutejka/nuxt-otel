@@ -6,7 +6,8 @@
     "monitoring",
     "observability",
     "openTelemetry",
-    "otel"
+    "otel",
+    "nuxt"
   ],
   "homepage": "https://github.com/lutejka/nuxt-otel#readme",
   "bugs": {
