@@ -83,7 +83,7 @@
 
       <div v-if="logs.length">
         <h4 class="text-gray/50 font-medium mb-2 text-[10px] uppercase tracking-wider">Logs ({{ logs.length }})</h4>
-        <LogRow v-for="logEntry in logs" :key="logEntry.log_id" :log="logEntry" />
+        <LogRow v-for="logEntry in logs" :key="logEntry.log_id" :log="logEntry" :show-service-column="false" />
       </div>
     </div>
   </div>

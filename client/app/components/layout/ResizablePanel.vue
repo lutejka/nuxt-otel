@@ -10,7 +10,7 @@
       <div class="min-h-0 overflow-hidden flex flex-col">
         <slot name="left" />
       </div>
-      <div class="min-h-0 overflow-hidden">
+      <div class="min-h-0 h-full overflow-hidden flex flex-col">
         <slot name="right" />
       </div>
     </div>
