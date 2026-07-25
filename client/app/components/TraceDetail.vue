@@ -1,8 +1,9 @@
 <template>
   <div class="w-full h-full flex overflow-hidden">
-    <main class="flex-1 overflow-y-auto relative n-bg-base">
+    <main class="flex-1 min-h-0 overflow-hidden relative n-bg-base flex flex-col">
       <TraceWaterfall
         v-if="trace && spans.length > 0"
+        class="flex-1 min-h-0"
         :trace="trace"
         :spans="spans"
         @select-span="selectedSpan = $event"
@@ -16,13 +17,15 @@
     </main>
 
     <template v-if="selectedSpan">
-      <div
-        class="w-0 cursor-col-resize border-l n-border-base hover:border-context transition-colors shrink-0 -mx-px px-px z-10"
-        :class="{ 'border-context': spanPanelDragging }"
-        @mousedown="onSpanPanelMouseDown"
-      />
-      <aside class="n-bg-active overflow-y-auto shrink-0" :style="{ width: spanPanelWidth + 'px' }">
-        <SpanDetails :span="selectedSpan" @close="selectedSpan = undefined" />
+      <aside class="absolute right-0 z-20 h-full n-bg-base overflow-y-auto shrink-0" :style="{ width: spanPanelWidth + 'px' }" ref="spanDetails">
+        <div class="relative h-full">
+          <div
+            class=" absolute right-0w-0 cursor-col-resize border-l-2 h-full n-border-base hover:border-context transition-colors shrink-0 -mx-px px-px z-10"
+            :class="{ 'border-context': spanPanelDragging }"
+            @mousedown="onSpanPanelMouseDown"
+          />
+          <SpanDetails :span="selectedSpan" @close="selectedSpan = undefined" />
+        </div>
       </aside>
     </template>
   </div>
@@ -53,4 +56,9 @@ watch(
     selectedSpan.value = undefined
   },
 )
+
+const spanDetails = useTemplateRef('spanDetails')
+onClickOutside(spanDetails, () => {
+  selectedSpan.value = undefined
+})
 </script>

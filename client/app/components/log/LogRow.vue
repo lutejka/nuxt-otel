@@ -1,8 +1,12 @@
 <template>
   <div>
     <div
-      class="grid grid-cols-[60px_180px_150px_1fr_24px] items-center gap-3 px-3 py-2 cursor-pointer n-transition hover:n-bg-hover border-b n-border-base"
-      :class="{ 'n-bg-active': isExpanded }"
+      class="grid grid-cols-[60px_140px_100px_1fr_24px] items-center gap-3 px-3 py-2 cursor-pointer n-transition hover:n-bg-hover border-b n-border-base"
+      :class="{
+        'n-bg-active': isExpanded,
+        'grid-cols-[60px_140px_100px_1fr_24px]': showServiceColumn,
+        'grid-cols-[60px_140px_1fr_24px]': !showServiceColumn,
+      }"
       @click="toggle"
     >
       <SeverityBadge :severity-number="log.severity_number" :severity-text="log.severity_text" />
@@ -11,7 +15,7 @@
         {{ formatTimestamp(log.timestamp) }}
       </span>
 
-      <span class="text-xs text-gray/60 font-medium whitespace-nowrap truncate">
+      <span v-if="showServiceColumn" class="text-xs text-gray/60 font-medium whitespace-nowrap truncate">
         {{ log.service_name }}
       </span>
 
@@ -41,6 +45,12 @@
               {{ log.span_id }}
             </div>
           </div>
+          <div v-if="!showServiceColumn">
+            <h4 class="text-[10px] font-semibold text-gray/40 uppercase mb-1">Service</h4>
+            <div class="text-xs text-gray/80 font-mono break-all">
+              {{ log.service_name }}
+            </div>
+          </div>
         </div>
 
         <div v-if="hasAttributes">
@@ -60,8 +70,9 @@ import { formatTimestamp } from '~/utils/formatters'
 import SeverityBadge from '~/components/ui/SeverityBadge.vue'
 import KeyValueTable from '~/components/ui/KeyValueTable.vue'
 
-const props = defineProps<{
+const { log, showServiceColumn = true } = defineProps<{
   log: Log
+  showServiceColumn?: boolean
 }>()
 
 const isExpanded = ref(false)
@@ -71,7 +82,7 @@ function toggle() {
 }
 
 const hasAttributes = computed(() => {
-  const keys = Object.keys(props.log.attributes)
+  const keys = Object.keys(log.attributes)
   return keys.length > 0
 })
 

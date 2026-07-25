@@ -68,8 +68,8 @@ export function registerNuxtChannels(tracer: Tracer) {
     startUpdate(span, data) {
       span.updateName(`nuxt.plugin ${data.plugin.name || 'unknown'}`)
       setAttr(span, 'nuxt.plugin.name', data.plugin.name || 'unknown')
-      setAttr(span, 'nuxt.plugin.parallel', data.plugin.parallel)
-      setAttr(span, 'nuxt.plugin.dependsOn', data.plugin.dependsOn)
+      setAttr(span, 'nuxt.plugin.parallel', !!data.plugin.parallel)
+      setAttr(span, 'nuxt.plugin.dependsOn', data.plugin.dependsOn || [])
     },
   })
 }
