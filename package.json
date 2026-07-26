@@ -1,6 +1,6 @@
 {
   "name": "@lutejka/nuxt-otel",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "OpenTelemetry tracing for Nuxt applications",
   "keywords": [
     "monitoring",
