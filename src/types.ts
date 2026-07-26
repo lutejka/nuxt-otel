@@ -1,4 +1,17 @@
-import type { Trace, Span, Log } from '../../otel/parse/parser'
+import type { Span } from '@opentelemetry/api'
+import type { Trace, Log } from './runtime/otel/parse/parser'
+
+declare module '#nuxt-otel-config' {
+  export const nuxtOtel: {
+    nuxt?: boolean
+    h3?: boolean
+    srvx?: boolean
+    unstorage?: boolean
+  }
+  export const devtoolsEnabled: boolean
+
+  export const devServerUrl: string | undefined
+}
 
 export interface OtelClientFunctions {
   onTraceReceived: (trace: Trace) => void
