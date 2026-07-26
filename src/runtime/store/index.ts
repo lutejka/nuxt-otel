@@ -28,26 +28,29 @@ export function clearLogs() {
 
 export function addSpans(spans: Span[]) {
   globalThis.__nuxtOtelSpans ||= []
-  globalThis.__nuxtOtelSpans?.push(...spans)
-  for (const span of spans) {
-    globalThis.__nuxtOtelRpcBroadcast?.onSpanReceived(span)
-  }
+  const existingIds = new Set(globalThis.__nuxtOtelSpans!.map(s => s.span_id))
+  const newSpans = spans.filter(s => !existingIds.has(s.span_id))
+  if (newSpans.length === 0) return
+  globalThis.__nuxtOtelSpans!.push(...newSpans)
+  globalThis.__nuxtOtelRpcBroadcast?.onSpansReceived(newSpans)
 }
 
 export function addTraces(traces: Trace[]) {
   globalThis.__nuxtOtelTraces ||= []
-  globalThis.__nuxtOtelTraces?.push(...traces)
-  for (const trace of traces) {
-    globalThis.__nuxtOtelRpcBroadcast?.onTraceReceived(trace)
-  }
+  const existingIds = new Set(globalThis.__nuxtOtelTraces!.map(t => t.trace_id))
+  const newTraces = traces.filter(t => !existingIds.has(t.trace_id))
+  if (newTraces.length === 0) return
+  globalThis.__nuxtOtelTraces!.push(...newTraces)
+  globalThis.__nuxtOtelRpcBroadcast?.onTracesReceived(newTraces)
 }
 
 export function addLogs(logs: Log[]) {
   globalThis.__nuxtOTelLogs ||= []
-  globalThis.__nuxtOTelLogs.push(...logs)
-  for (const log of logs) {
-    globalThis.__nuxtOtelRpcBroadcast?.onLogReceived(log)
-  }
+  const existingIds = new Set(globalThis.__nuxtOTelLogs!.map(l => l.log_id))
+  const newLogs = logs.filter(l => !existingIds.has(l.log_id))
+  if (newLogs.length === 0) return
+  globalThis.__nuxtOTelLogs!.push(...newLogs)
+  globalThis.__nuxtOtelRpcBroadcast?.onLogsReceived(newLogs)
 }
 
 export function getLogs(): Log[] {

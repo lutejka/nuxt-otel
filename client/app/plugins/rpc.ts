@@ -11,9 +11,9 @@ interface OtelServerFunctions {
 }
 
 interface OtelClientFunctions {
-  onTraceReceived: (trace: Trace) => void
-  onSpanReceived: (span: Span) => void
-  onLogReceived: (log: Log) => void
+  onTracesReceived: (traces: Trace[]) => void
+  onSpansReceived: (spans: Span[]) => void
+  onLogsReceived: (logs: Log[]) => void
 }
 
 interface Rpc {
@@ -40,14 +40,17 @@ export default defineNuxtPlugin({
 
       onDevtoolsClientConnected((c) => {
         const clientRpc = c.devtools.extendClientRpc<OtelServerFunctions, OtelClientFunctions>('nuxt-otel', {
-          onTraceReceived: (trace: Trace) => {
-            traces.value.unshift(trace)
+          onTracesReceived: (newTraces: Trace[]) => {
+            // unshift in reverse to preserve chronological order
+            for (let i = newTraces.length - 1; i >= 0; i--) {
+              traces.value.unshift(newTraces[i])
+            }
           },
-          onSpanReceived: (span: Span) => {
-            spans.value.push(span)
+          onSpansReceived: (newSpans: Span[]) => {
+            spans.value.push(...newSpans)
           },
-          onLogReceived(log) {
-            logs.value.push(log)
+          onLogsReceived(newLogs) {
+            logs.value.push(...newLogs)
           },
         })
         rpc.value = clientRpc

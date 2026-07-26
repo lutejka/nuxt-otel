@@ -1,8 +1,8 @@
 import { useLogger } from '@nuxt/kit'
 import { extendServerRpc } from '@nuxt/devtools-kit'
 import type { Nuxt } from '@nuxt/schema'
-import type { OtelClientFunctions, OtelServerFunctions } from '../runtime/core/rpc-types'
 import { setupTraceRPC } from './traces'
+import type { OtelClientFunctions, OtelServerFunctions } from '~/src/types'
 
 export function setupRPC(nuxt: Nuxt) {
   const logger = useLogger('nuxt-otel')
@@ -17,14 +17,14 @@ export function setupRPC(nuxt: Nuxt) {
       const rpcGroup = extendServerRpc<OtelClientFunctions, OtelServerFunctions>('nuxt-otel', serverFunctions, nuxt)
 
       globalThis.__nuxtOtelRpcBroadcast = {
-        onTraceReceived: (trace) => {
-          rpcGroup.broadcast.onTraceReceived(trace)
+        onTracesReceived: (traces) => {
+          rpcGroup.broadcast.onTracesReceived(traces)
         },
-        onSpanReceived: (span) => {
-          rpcGroup.broadcast.onSpanReceived(span)
+        onSpansReceived: (spans) => {
+          rpcGroup.broadcast.onSpansReceived(spans)
         },
-        onLogReceived: (log) => {
-          rpcGroup.broadcast.onLogReceived(log)
+        onLogsReceived: (logs) => {
+          rpcGroup.broadcast.onLogsReceived(logs)
         },
       }
     }
