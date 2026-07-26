@@ -1,4 +1,4 @@
-import type { OtelServerFunctions } from '../runtime/core/rpc-types'
+import type { OtelServerFunctions } from '~/src/types'
 import { getTraces, getSpans, clearTraces, clearLogs, getLogs } from '../store/index'
 
 export function setupTraceRPC(serverFunctions: OtelServerFunctions) {
