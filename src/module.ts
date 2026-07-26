@@ -7,10 +7,13 @@ import {
   addDevServerHandler,
   addServerImportsDir,
 } from '@nuxt/kit'
-import { setupDevToolsUI } from './devtools/index'
-import { setupRPC } from './rpc/index'
-import { otlpIngestHandler } from './otel/ingest/otlpIngestHandler'
-import { mcpHandler } from './rpc/mcp/index'
+import { setupDevToolsUI } from './devtools'
+import { setupRPC } from './runtime/rpc/index'
+import { otlpIngestHandler } from './runtime/otel/ingest/otlpIngestHandler'
+import { mcpHandler } from './runtime/mcp/index'
+
+// Include type augmentations in the published types
+import './types'
 
 export interface TracingChannelOptions {
   nuxt?: boolean

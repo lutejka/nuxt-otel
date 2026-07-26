@@ -1,5 +1,5 @@
+import type { OtelClientFunctions } from '~/src/types'
 import type { Trace, Span, Log } from '../otel/parse/parser'
-import type { OtelClientFunctions } from '../runtime/core/rpc-types'
 
 declare global {
   var __nuxtOtelTraces: Trace[] | undefined
