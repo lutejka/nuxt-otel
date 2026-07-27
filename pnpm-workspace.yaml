@@ -7,8 +7,9 @@ allowBuilds:
   protobufjs: true
   unrs-resolver: true
 minimumReleaseAgeExclude:
-  - '@nuxt/kit@4.5.0'
-  - '@nuxt/nitro-server@4.5.0'
-  - '@nuxt/schema@4.5.0'
-  - '@nuxt/vite-builder@4.5.0'
-  - nuxt@4.5.0
+  - '@nuxt/kit'
+  - nuxt
+  - '@nuxt/schema'
+  - '@nuxt/nitro-server@4.5.0 || 4.5.1'
+  - '@nuxt/vite-builder@4.5.0 || 4.5.1'
+  - '@nuxt/test-utils@4.1.0'
