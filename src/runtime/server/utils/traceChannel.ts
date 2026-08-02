@@ -15,10 +15,12 @@ export function traceChannel<T>(
     startUpdate,
     beforeEndUpdate,
     errorUpdate,
+    skip,
   }: {
     startUpdate?: (span: Span, data: T) => void
     beforeEndUpdate?: (span: Span, data: T) => void
     errorUpdate?: (span: Span, data: T) => void
+    skip?: (data: T) => boolean
   },
 ) {
   const contextManager = (
@@ -33,6 +35,9 @@ export function traceChannel<T>(
   const channel = createTracingChannel(channelName)
   channel.start.bindStore(contextManager._asyncLocalStorage, (rawData) => {
     const data = rawData as T
+    if (skip?.(data)) {
+      return context.active()
+    }
     const span = tracer.startSpan(channelName)
     startUpdate?.(span, data)
     ;(rawData as Record<string, unknown>).span = span

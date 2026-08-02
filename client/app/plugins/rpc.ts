@@ -33,29 +33,55 @@ export default defineNuxtPlugin({
     const traces = useState<Trace[]>('traces', () => [])
     const spans = useState<Span[]>('spans', () => [])
     const logs = useState<Log[]>('logs', () => [])
-    const rpc = ref<Rpc>()
+    const rpc = ref<Rpc | null>(null)
+    const isConnected = ref(false)
 
     if (!initialized) {
       initialized = true
 
       onDevtoolsClientConnected((c) => {
-        const clientRpc = c.devtools.extendClientRpc<OtelServerFunctions, OtelClientFunctions>('nuxt-otel', {
-          onTracesReceived: (newTraces: Trace[]) => {
-            // unshift in reverse to preserve chronological order
-            for (let i = newTraces.length - 1; i >= 0; i--) {
-              traces.value.unshift(newTraces[i])
-            }
-          },
-          onSpansReceived: (newSpans: Span[]) => {
-            spans.value.push(...newSpans)
-          },
-          onLogsReceived(newLogs) {
-            logs.value.push(...newLogs)
-          },
-        })
-        rpc.value = clientRpc
+        // Reset connection state when (re)connecting
+        isConnected.value = false
+        rpc.value = null
 
-        Promise.allSettled([clientRpc.getTraces(), clientRpc.getSpans(), clientRpc.getLogs()])
+        let clientRpc: Rpc | null = null
+        try {
+          clientRpc = c.devtools.extendClientRpc<OtelServerFunctions, OtelClientFunctions>('nuxt-otel', {
+            onTracesReceived: (newTraces: Trace[]) => {
+              if (!newTraces?.length) return
+              // unshift in reverse to preserve chronological order
+              for (let i = newTraces.length - 1; i >= 0; i--) {
+                const trace = newTraces[i]
+                if (trace) traces.value.unshift(trace)
+              }
+            },
+            onSpansReceived: (newSpans: Span[]) => {
+              if (!newSpans?.length) return
+              spans.value.push(...newSpans)
+            },
+            onLogsReceived(newLogs) {
+              if (!newLogs?.length) return
+              logs.value.push(...newLogs)
+            },
+          })
+          rpc.value = clientRpc
+          isConnected.value = true
+        } catch (e) {
+          console.warn('[nuxt-otel] Failed to extend client RPC:', e)
+          return
+        }
+
+        // Clear and reload data on reconnection to ensure consistency
+        traces.value = []
+        spans.value = []
+        logs.value = []
+
+        // Use individual try/catch for each call to prevent partial failure
+        Promise.allSettled([
+          clientRpc!.getTraces().catch(() => []),
+          clientRpc!.getSpans().catch(() => []),
+          clientRpc!.getLogs().catch(() => []),
+        ])
           .then(([tracesResult, spansResult, logsResult]) => {
             traces.value = tracesResult.status === 'fulfilled' ? (tracesResult.value ?? []) : []
             spans.value = spansResult.status === 'fulfilled' ? (spansResult.value ?? []) : []
@@ -71,7 +97,7 @@ export default defineNuxtPlugin({
       if (rpc.value) {
         return await rpc.value.getSpans(traceId)
       }
-      return spans.value.filter(s => s.trace_id === traceId)
+      return spans.value.filter((s) => s.trace_id === traceId)
     }
 
     async function clearAllTraces() {

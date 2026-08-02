@@ -1,13 +1,17 @@
-import { SpanStatusCode } from '@opentelemetry/api'
-import { defineEventHandler } from 'h3'
+import { defineEventHandler, getRequestURL, getRequestHeaders } from 'h3'
 
 export default defineEventHandler(async (event) => {
-  const { trace } = useOtelTracer('middleware')
+  const { trace } = useOtelTracer('http')
 
-  await trace('test', async (span) => {
-    const path = event.path
-    const logger = useOtelLogger()
-    logger.emit({ severityNumber: 9, body: `middleware processing ${path}`, attributes: { path } })
-    span.setStatus({ code: SpanStatusCode.OK })
+  await trace('request', async (span) => {
+    const url = getRequestURL(event)
+    const headers = getRequestHeaders(event)
+
+    span.setAttributes({
+      'http.method': event.method,
+      'http.path': url.pathname,
+      'http.host': url.host,
+      'http.user_agent': headers['user-agent'] || 'unknown',
+    })
   })
 })

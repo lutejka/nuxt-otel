@@ -14,6 +14,7 @@ import { mcpHandler } from './runtime/mcp/index'
 
 // Include type augmentations in the published types
 import './types'
+import { INGEST_PATH, MCP_PATH } from './runtime/server/utils/otel-routes'
 
 export interface TracingChannelOptions {
   nuxt?: boolean
@@ -80,16 +81,16 @@ export default defineNuxtModule<ModuleOptions>({
 
     if (nuxt.options.dev && nuxt.options.devtools && options.devtools) {
       addDevServerHandler({
-        route: `/__nuxt-otel-ingest`,
+        route: INGEST_PATH,
         handler: otlpIngestHandler,
       })
       addDevServerHandler({
-        route: `/__nuxt-otel-mcp`,
+        route: MCP_PATH,
         handler: mcpHandler,
       })
       logger.box(`Nuxt OTel  endpoints:
-  OTLP HTTP ingest  → \x1B[36m${devServerUrl}/__nuxt-otel-ingest\x1B[39m
-  MCP server        → \x1B[36m${devServerUrl}/__nuxt-otel-mcp\x1B[39m`)
+  OTLP HTTP ingest  → \x1B[36m${devServerUrl}${INGEST_PATH}\x1B[39m
+  MCP server        → \x1B[36m${devServerUrl}${MCP_PATH}\x1B[39m`)
       setupDevToolsUI(nuxt, resolver)
       setupRPC(nuxt)
     }

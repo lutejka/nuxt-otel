@@ -17,6 +17,7 @@ import {
   ATTR_HTTP_RESPONSE_STATUS_CODE,
 } from '@opentelemetry/semantic-conventions'
 import { traceChannel, setAttr } from './traceChannel'
+import { isInternalRoute } from './otel-routes'
 
 interface SrvxRequestMessage {
   request: {
@@ -28,7 +29,7 @@ interface SrvxRequestMessage {
     context?: { matchedRoute?: { route?: string } }
     runtime?: {
       node?: {
-        req: { httpVersion: string, socket: { remotePort?: number } }
+        req: { httpVersion: string; socket: { remotePort?: number } }
       }
     }
   }
@@ -41,8 +42,19 @@ interface SrvxMiddlewareMessage extends SrvxRequestMessage {
   }
 }
 
+/** Parse the request URL, tolerating malformed values instead of throwing. */
+function getSrvxUrl(data: SrvxRequestMessage): URL | undefined {
+  if (data.request._url) return data.request._url
+  try {
+    return new URL(data.request.url)
+  } catch {
+    return undefined
+  }
+}
+
 function setSrvxAttributes(span: Span, data: SrvxRequestMessage) {
-  const url = data.request._url ?? new URL(data.request.url)
+  const url = getSrvxUrl(data)
+  if (!url) return
 
   setAttr(span, ATTR_HTTP_REQUEST_METHOD, data.request.method)
   setAttr(span, ATTR_URL_PATH, url.pathname)
@@ -67,8 +79,13 @@ function setSrvxAttributes(span: Span, data: SrvxRequestMessage) {
 
 export function registerSrvxChannels(tracer: Tracer) {
   traceChannel<SrvxRequestMessage>('srvx.request', tracer, {
+    skip(data) {
+      const url = getSrvxUrl(data)
+      return !url || isInternalRoute(url.pathname)
+    },
     startUpdate(span, data) {
-      const url = data.request._url ?? new URL(data.request.url)
+      const url = getSrvxUrl(data)
+      if (!url) return
       // The srvx span wraps the whole request, so by the time it closes h3 has
       // populated `matchedRoute` on the shared request context. Prefer that route
       // template for a low-cardinality span name (OTEL HTTP semconv), matching the
@@ -96,8 +113,13 @@ export function registerSrvxChannels(tracer: Tracer) {
   })
 
   traceChannel<SrvxMiddlewareMessage>('srvx.middleware', tracer, {
+    skip(data) {
+      const url = getSrvxUrl(data)
+      return !url || isInternalRoute(url.pathname)
+    },
     startUpdate(span, data) {
-      const url = data.request._url ?? new URL(data.request.url)
+      const url = getSrvxUrl(data)
+      if (!url) return
       span.updateName(`middleware ${data.request.method} ${url.pathname}`)
       span.updateName(`middleware ${data.request.method} ${url.pathname}`)
       setSrvxAttributes(span, data)

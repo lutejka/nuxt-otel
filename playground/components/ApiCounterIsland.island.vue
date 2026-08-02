@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <p>Island counter: {{ data?.value ?? 'loading...' }}</p>
-  </div>
+  <OrderSimulator />
 </template>
 
-<script setup>
-const { data } = await useAsyncData('island-counter', () => $fetch('/api/unstorage-test'))
+<script setup lang="ts">
+// Simple order simulator that generates realistic OTel traces
 </script>
