@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "nuxtOtel": {
+      "url": "http://localhost:3000/__nuxt-otel-mcp",
+      "directTools": true
+    },
+    "nuxt": {
+      "type": "http",
+      "url": "https://ui.nuxt.com/mcp",
+      "directTools": true
+    }
+  }
+}

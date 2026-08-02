@@ -1,6 +1,6 @@
 <template>
-  <div class="h-full min-h-0 flex flex-col n-bg-base">
-    <header class="n-bg-active border-b n-border-base p-4 min-h-24 shrink-0">
+  <div class="h-full min-h-0 flex flex-col bg-default">
+    <header class="bg-elevated border-b border-default p-4 min-h-24 shrink-0">
       <div class="flex items-center justify-between mb-3 gap-3">
         <div class="flex-1 min-w-0">
           <h2 class="text-base font-semibold text-white truncate">
@@ -45,11 +45,11 @@
     <div class="flex-1 flex overflow-hidden min-h-0">
       <aside
         ref="leftPanel"
-        class="overflow-y-auto overflow-x-hidden shrink-0 n-bg-base"
+        class="overflow-y-auto overflow-x-hidden shrink-0 bg-default"
         :style="{ width: `${nameColWidth}px` }"
         @scroll="syncScrollFromLeft"
       >
-        <div class="sticky top-0 z-10 n-bg-base border-b n-border-base h-7 shrink-0" />
+        <div class="sticky top-0 z-10 bg-default border-b border-default h-7 shrink-0" />
         <div class="space-y-0.5 px-1.5">
           <SpanRowName
             v-for="spanRow in spanTree"
@@ -61,14 +61,14 @@
       </aside>
 
       <div
-        class="shrink-0 w-0 cursor-col-resize -mx-px px-px border-l n-border-base hover:border-context transition-colors z-20"
-        :class="{ '!border-context': nameColDragging }"
+        class="shrink-0 w-0 cursor-col-resize -mx-px px-px border-l border-default hover:border-primary transition-colors z-20"
+        :class="{ '!border-primary': nameColDragging }"
         @mousedown="onNameColMouseDown"
       />
 
       <section
         ref="timelineContainer"
-        class="flex-1 overflow-auto n-bg-base cursor-grab min-w-0"
+        class="flex-1 overflow-auto bg-default cursor-grab min-w-0"
         :class="{ 'cursor-grabbing': isPanning }"
         @scroll="syncScrollFromRight"
         @mousedown="onTimelineMouseDown"
@@ -77,7 +77,7 @@
           class="min-h-full"
           :style="timelineContentStyle"
         >
-          <div class="sticky top-0 z-10 n-bg-base border-b n-border-base">
+          <div class="sticky top-0 z-10 bg-default border-b border-default">
             <TraceTimeline :trace-duration="traceBounds.traceDuration" />
           </div>
 

@@ -8,15 +8,15 @@ const { logs, clearAllLogs } = useLogs()
 </script>
 
 <template>
-  <div class="h-full flex flex-col n-bg-base">
-    <div class="border-b n-border-base shrink-0">
+  <div class="h-full flex flex-col bg-default">
+    <div class="border-b border-default shrink-0">
       <div class="p-3 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <h2 class="text-sm font-semibold text-white">Logs</h2>
-          <span class="n-badge">{{ logs.length }}</span>
+          <UBadge color="primary" variant="soft" size="sm">{{ logs.length }}</UBadge>
         </div>
         <div class="flex items-center gap-3">
-          <NButton n="xs" @click="clearAllLogs">Clear</NButton>
+          <UButton size="xs" color="neutral" variant="outline" @click="clearAllLogs">Clear</UButton>
         </div>
       </div>
     </div>
@@ -25,7 +25,7 @@ const { logs, clearAllLogs } = useLogs()
       <div class="flex-1 overflow-y-auto relative">
         <!-- Sticky header aligned with the grid columns -->
         <div
-          class="sticky top-0 z-10 n-bg-base border-b n-border-base grid grid-cols-[60px_180px_150px_1fr_24px] items-center gap-3 px-3 py-2"
+          class="sticky top-0 z-10 bg-default border-b border-default grid grid-cols-[60px_180px_150px_1fr_24px] items-center gap-3 px-3 py-2"
         >
           <span class="text-[10px] font-semibold text-gray/40 uppercase">Severity</span>
           <span class="text-[10px] font-semibold text-gray/40 uppercase">Timestamp</span>

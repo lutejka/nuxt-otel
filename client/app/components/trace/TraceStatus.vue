@@ -1,14 +1,7 @@
 <template>
-  <div
-    class="px-2 py-0.5 rounded text-[10px] font-bold uppercase"
-    :class="{
-      'bg-red-500/20 text-red-400': trace.status_code === SpanStatusCode.ERROR,
-      'bg-green-500/20 text-green-400': trace.status_code === SpanStatusCode.OK,
-      'bg-orange-400/20 text-orange-400': trace.status_code === SpanStatusCode.UNSET,
-    }"
-  >
+  <UBadge :color="color" variant="soft" size="sm" class="font-bold uppercase">
     {{ statusText }}
-  </div>
+  </UBadge>
 </template>
 
 <script setup lang="ts">
@@ -18,6 +11,12 @@ import type { Trace } from '~~/types'
 const { trace } = defineProps<{
   trace: Trace
 }>()
+
+const color = computed(() => {
+  if (trace.status_code === SpanStatusCode.ERROR) return 'error'
+  if (trace.status_code === SpanStatusCode.OK) return 'success'
+  return 'warning'
+})
 
 const statusText = computed(() => {
   if (trace.status_code === SpanStatusCode.UNSET) return 'Unset'

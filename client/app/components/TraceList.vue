@@ -1,12 +1,12 @@
 <template>
-  <div class="h-full flex flex-col n-bg-base">
-    <div class="border-b n-border-base h-24">
+  <div class="h-full flex flex-col bg-default">
+    <div class="border-b border-default h-24">
       <div class="p-3 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <h2 class="text-sm font-semibold text-white">Traces</h2>
-          <span class="n-badge">{{ traces?.length }}</span>
+          <UBadge color="primary" variant="soft" size="sm">{{ traces?.length }}</UBadge>
         </div>
-        <NButton n="xs" @click="$emit('clear-traces')"> Clear </NButton>
+        <UButton size="xs" color="neutral" variant="outline" @click="$emit('clear-traces')"> Clear </UButton>
       </div>
       <div class="px-3 pb-3">
         <SearchInput v-model="searchQuery" placeholder="Search traces..." />

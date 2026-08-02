@@ -5,10 +5,23 @@ const _dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtConfig({
   appId: 'nuxt-otel-iframe',
-  modules: ['@nuxt/devtools-ui-kit', '@nuxt/icon'],
+  modules: ['@nuxt/ui', '@vueuse/nuxt'],
   ssr: false,
   devtools: { enabled: false },
-  app: { baseURL: '/__nuxt-otel' },
+  colorMode: {
+    preference: 'dark',
+    fallback: 'dark',
+    classSuffix: '',
+  },
+  app: {
+    baseURL: '/__nuxt-otel',
+    head: {
+      htmlAttrs: {
+        class: 'dark',
+      },
+    },
+  },
+  css: ['~/assets/css/main.css'],
   compatibilityDate: '2025-03-01',
   nitro: {
     output: {

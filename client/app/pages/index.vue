@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="flex flex-1 overflow-hidden n-bg-base">
+  <div class="flex flex-1 overflow-hidden bg-default">
     <ResizablePanel storage-key="traces-panel" :default-width="320" class="w-full" :min="150">
       <template #left>
         <TraceList

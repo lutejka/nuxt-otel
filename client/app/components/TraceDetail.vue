@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full flex overflow-hidden">
-    <main class="flex-1 min-h-0 overflow-hidden relative n-bg-base flex flex-col">
+    <main class="flex-1 min-h-0 overflow-hidden relative bg-default flex flex-col">
       <TraceWaterfall
         v-if="trace && spans.length > 0"
         class="flex-1 min-h-0"
@@ -17,11 +17,11 @@
     </main>
 
     <template v-if="selectedSpan">
-      <aside class="absolute right-0 z-20 h-full n-bg-base overflow-y-auto shrink-0" :style="{ width: spanPanelWidth + 'px' }" ref="spanDetails">
+      <aside class="absolute right-0 z-20 h-full bg-default overflow-y-auto shrink-0" :style="{ width: spanPanelWidth + 'px' }" ref="spanDetails">
         <div class="relative h-full">
           <div
-            class=" absolute right-0w-0 cursor-col-resize border-l-2 h-full n-border-base hover:border-context transition-colors shrink-0 -mx-px px-px z-10"
-            :class="{ 'border-context': spanPanelDragging }"
+            class=" absolute right-0w-0 cursor-col-resize border-l-2 h-full border-default hover:border-primary transition-colors shrink-0 -mx-px px-px z-10"
+            :class="{ 'border-primary': spanPanelDragging }"
             @mousedown="onSpanPanelMouseDown"
           />
           <SpanDetails :span="selectedSpan" @close="selectedSpan = undefined" />

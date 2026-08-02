@@ -3,7 +3,7 @@
     <div
       v-for="[key, value] in entries"
       :key="key"
-      class="flex items-start gap-2 py-1 border-b n-border-base last:border-0"
+      class="flex items-start gap-2 py-1 border-b border-default last:border-0"
     >
       <span class="text-gray/50 font-mono text-[10px] shrink-0 min-w-[120px] break-all">{{ key }}</span>
       <span class="text-white font-mono text-[10px] break-all">{{ formatValue(value) }}</span>
