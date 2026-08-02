@@ -27,8 +27,7 @@ export function setupRPC(nuxt: Nuxt) {
           rpcGroup.broadcast.onLogsReceived(logs)
         },
       }
-    }
-    catch (e) {
+    } catch (e) {
       logger.warn('Failed to setup devtools RPC:', e)
     }
   })

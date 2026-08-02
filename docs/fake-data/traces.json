@@ -1,455 +1,455 @@
 {
   "logs": [
-  {
-    "log_id": "d0cc8130-cbab-4e15-9500-df2c7228f353",
-    "timestamp": 1785679429479,
-    "trace_id": "40269df493330d3f67db656928adfbb8",
-    "span_id": "f6e9f2914cc00178",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Processing order ord-1785679429479",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679429479",
-      "productId": "prod-3"
-    }
-  },
-  {
-    "log_id": "ddfeea68-8e77-49da-a5a0-e8b4bb440e5a",
-    "timestamp": 1785679429712,
-    "trace_id": "40269df493330d3f67db656928adfbb8",
-    "span_id": "f6e9f2914cc00178",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Order ord-1785679429479 completed successfully",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679429479",
-      "total": 29.99
-    }
-  },
-  {
-    "log_id": "afb3869e-c06d-4faf-ab2a-099808f14c87",
-    "timestamp": 1785679450700,
-    "trace_id": "b41ca1d9111935bf355e9f204aca7edd",
-    "span_id": "227239d07aa51300",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Processing order ord-1785679450700",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679450700",
-      "productId": "prod-1"
-    }
-  },
-  {
-    "log_id": "6acdcd54-e495-4a82-b24a-02ca1f340dac",
-    "timestamp": 1785679450944,
-    "trace_id": "b41ca1d9111935bf355e9f204aca7edd",
-    "span_id": "227239d07aa51300",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Order ord-1785679450700 completed successfully",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679450700",
-      "total": 59.98
-    }
-  },
-  {
-    "log_id": "271b0acd-8db2-48e5-a6d1-48b40d1da7e0",
-    "timestamp": 1785679459828,
-    "trace_id": "8047c0352fdc691fb5f35434c1926eb7",
-    "span_id": "babee883204a6399",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Processing order ord-1785679459828",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679459828",
-      "productId": "prod-3"
-    }
-  },
-  {
-    "log_id": "abc6f6bf-d72e-4808-beee-64cb9aa2f72a",
-    "timestamp": 1785679460063,
-    "trace_id": "8047c0352fdc691fb5f35434c1926eb7",
-    "span_id": "babee883204a6399",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Order ord-1785679459828 completed successfully",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679459828",
-      "total": 89.97
-    }
-  },
-  {
-    "log_id": "788e78fb-66b2-4e31-afc4-69272a71634f",
-    "timestamp": 1785679468607,
-    "trace_id": "48e45035ac492c1733f083ae23283b79",
-    "span_id": "bd14697eef3d732d",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Processing order ord-1785679468607",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679468607",
-      "productId": "prod-2"
-    }
-  },
-  {
-    "log_id": "236fcdf9-ea33-4b70-ab0a-ae349f82be2a",
-    "timestamp": 1785679468788,
-    "trace_id": "48e45035ac492c1733f083ae23283b79",
-    "span_id": "bd14697eef3d732d",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Order ord-1785679468607 completed successfully",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679468607",
-      "total": 29.99
-    }
-  },
-  {
-    "log_id": "92a4fe21-60dd-44ef-97c2-fc89926a1cf3",
-    "timestamp": 1785679476630,
-    "trace_id": "76938326be1bacf8e016e651a51f6df6",
-    "span_id": "5169ca1fb4ee1263",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Processing order ord-1785679476630",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679476630",
-      "productId": "prod-2"
-    }
-  },
-  {
-    "log_id": "bf4928c6-882b-4a42-8f13-ddd1cdfcdb14",
-    "timestamp": 1785679476817,
-    "trace_id": "76938326be1bacf8e016e651a51f6df6",
-    "span_id": "5169ca1fb4ee1263",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Order ord-1785679476630 completed successfully",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679476630",
-      "total": 29.99
-    }
-  },
-  {
-    "log_id": "befebafd-868b-4501-b20b-1bd8b1acd7bd",
-    "timestamp": 1785679480191,
-    "trace_id": "f0a5a9f3114c33d854f7cf6a56765627",
-    "span_id": "04d3dcf00dc36e0b",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Processing order ord-1785679480191",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679480191",
-      "productId": "prod-4"
-    }
-  },
-  {
-    "log_id": "bb5686f9-1522-4245-a0b5-1f941b4ed4d3",
-    "timestamp": 1785679480447,
-    "trace_id": "f0a5a9f3114c33d854f7cf6a56765627",
-    "span_id": "04d3dcf00dc36e0b",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Order ord-1785679480191 completed successfully",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679480191",
-      "total": 89.97
-    }
-  },
-  {
-    "log_id": "16041208-3389-4e09-98c6-19363604a348",
-    "timestamp": 1785679484016,
-    "trace_id": "88603cffef075595c268274a9bff4df4",
-    "span_id": "5a04932eadbf195e",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Processing order ord-1785679484016",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679484016",
-      "productId": "prod-1"
-    }
-  },
-  {
-    "log_id": "21388692-259a-42d4-a576-bd43629ea1ad",
-    "timestamp": 1785679484088,
-    "trace_id": "88603cffef075595c268274a9bff4df4",
-    "span_id": "5a04932eadbf195e",
-    "severity_number": 17,
-    "severity_text": null,
-    "body": "Order ord-1785679484016 failed: out of stock",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679484016",
-      "productId": "prod-1"
-    }
-  },
-  {
-    "log_id": "5e1f356a-8ede-4e7e-9d38-90e9e4555882",
-    "timestamp": 1785679493673,
-    "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
-    "span_id": "c637951fcd90ac32",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Processing order ord-1785679493673",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679493673",
-      "productId": "prod-5"
-    }
-  },
-  {
-    "log_id": "c19e9109-3dbf-4e26-b59f-c93d62c51cd9",
-    "timestamp": 1785679493924,
-    "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
-    "span_id": "c637951fcd90ac32",
-    "severity_number": 9,
-    "severity_text": null,
-    "body": "Order ord-1785679493673 completed successfully",
-    "service_name": "DEMO",
-    "attributes": {
-      "orderId": "ord-1785679493673",
-      "total": 89.97
-    }
-  }
-],
-"traces": [
-  {
-    "trace_id": "39a21f3fc38652d95b67594212ef1b14",
-    "service_name": "DEMO",
-    "operation_name": "http.request",
-    "start_time": 1785679493673,
-    "end_time": 1785679493673,
-    "duration": 0,
-    "status_code": 0,
-    "status_message": null
-  },
-  {
-    "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
-    "service_name": "DEMO",
-    "operation_name": "order.process",
-    "start_time": 1785679493673,
-    "end_time": 1785679493924,
-    "duration": 251,
-    "status_code": 0,
-    "status_message": null
-  },
-  {
-    "trace_id": "f77901ddd8f2234895e2717458aa782b",
-    "service_name": "DEMO",
-    "operation_name": "http.request",
-    "start_time": 1785679484016,
-    "end_time": 1785679484016,
-    "duration": 0,
-    "status_code": 0,
-    "status_message": null
-  },
-  {
-    "trace_id": "88603cffef075595c268274a9bff4df4",
-    "service_name": "DEMO",
-    "operation_name": "order.process",
-    "start_time": 1785679484016,
-    "end_time": 1785679484088,
-    "duration": 72,
-    "status_code": 2,
-    "status_message": "Out of stock"
-  }
-],
-"spans": [
-  {
-    "span_id": "924848008ba07e33",
-    "trace_id": "f77901ddd8f2234895e2717458aa782b",
-    "parent_span_id": null,
-    "name": "http.request",
-    "kind": 0,
-    "start_time": 1785679484016,
-    "end_time": 1785679484016,
-    "duration": 0,
-    "status_code": 0,
-    "status_message": null,
-    "attributes": {
-      "http.method": "POST",
-      "http.path": "/api/order",
-      "http.host": "localhost:3001",
-      "http.user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0"
+    {
+      "log_id": "d0cc8130-cbab-4e15-9500-df2c7228f353",
+      "timestamp": 1785679429479,
+      "trace_id": "40269df493330d3f67db656928adfbb8",
+      "span_id": "f6e9f2914cc00178",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Processing order ord-1785679429479",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679429479",
+        "productId": "prod-3"
+      }
     },
-    "events": [],
-    "links": []
-  },
-  {
-    "span_id": "bbb64b5f930d3966",
-    "trace_id": "88603cffef075595c268274a9bff4df4",
-    "parent_span_id": "5a04932eadbf195e",
-    "name": "order.validate",
-    "kind": 0,
-    "start_time": 1785679484016,
-    "end_time": 1785679484047,
-    "duration": 31,
-    "status_code": 0,
-    "status_message": null,
-    "attributes": {
-      "validation.passed": true
+    {
+      "log_id": "ddfeea68-8e77-49da-a5a0-e8b4bb440e5a",
+      "timestamp": 1785679429712,
+      "trace_id": "40269df493330d3f67db656928adfbb8",
+      "span_id": "f6e9f2914cc00178",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Order ord-1785679429479 completed successfully",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679429479",
+        "total": 29.99
+      }
     },
-    "events": [],
-    "links": []
-  },
-  {
-    "span_id": "7c69b091aa23fae3",
-    "trace_id": "88603cffef075595c268274a9bff4df4",
-    "parent_span_id": "5a04932eadbf195e",
-    "name": "order.inventory.check",
-    "kind": 0,
-    "start_time": 1785679484048,
-    "end_time": 1785679484088,
-    "duration": 40,
-    "status_code": 0,
-    "status_message": null,
-    "attributes": {
-      "inventory.available": false
+    {
+      "log_id": "afb3869e-c06d-4faf-ab2a-099808f14c87",
+      "timestamp": 1785679450700,
+      "trace_id": "b41ca1d9111935bf355e9f204aca7edd",
+      "span_id": "227239d07aa51300",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Processing order ord-1785679450700",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679450700",
+        "productId": "prod-1"
+      }
     },
-    "events": [],
-    "links": []
-  },
-  {
-    "span_id": "5a04932eadbf195e",
-    "trace_id": "88603cffef075595c268274a9bff4df4",
-    "parent_span_id": null,
-    "name": "order.process",
-    "kind": 0,
-    "start_time": 1785679484016,
-    "end_time": 1785679484088,
-    "duration": 72,
-    "status_code": 2,
-    "status_message": "Out of stock",
-    "attributes": {
-      "order.id": "ord-1785679484016",
-      "order.product_id": "prod-1",
-      "order.quantity": 2,
-      "order.user_id": "user-19"
+    {
+      "log_id": "6acdcd54-e495-4a82-b24a-02ca1f340dac",
+      "timestamp": 1785679450944,
+      "trace_id": "b41ca1d9111935bf355e9f204aca7edd",
+      "span_id": "227239d07aa51300",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Order ord-1785679450700 completed successfully",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679450700",
+        "total": 59.98
+      }
     },
-    "events": [],
-    "links": []
-  },
-  {
-    "span_id": "30c7048396817b53",
-    "trace_id": "39a21f3fc38652d95b67594212ef1b14",
-    "parent_span_id": null,
-    "name": "http.request",
-    "kind": 0,
-    "start_time": 1785679493673,
-    "end_time": 1785679493673,
-    "duration": 0,
-    "status_code": 0,
-    "status_message": null,
-    "attributes": {
-      "http.method": "POST",
-      "http.path": "/api/order",
-      "http.host": "localhost:3001",
-      "http.user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0"
+    {
+      "log_id": "271b0acd-8db2-48e5-a6d1-48b40d1da7e0",
+      "timestamp": 1785679459828,
+      "trace_id": "8047c0352fdc691fb5f35434c1926eb7",
+      "span_id": "babee883204a6399",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Processing order ord-1785679459828",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679459828",
+        "productId": "prod-3"
+      }
     },
-    "events": [],
-    "links": []
-  },
-  {
-    "span_id": "b72391ad1c04fb27",
-    "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
-    "parent_span_id": "c637951fcd90ac32",
-    "name": "order.validate",
-    "kind": 0,
-    "start_time": 1785679493673,
-    "end_time": 1785679493702,
-    "duration": 29,
-    "status_code": 0,
-    "status_message": null,
-    "attributes": {
-      "validation.passed": true
+    {
+      "log_id": "abc6f6bf-d72e-4808-beee-64cb9aa2f72a",
+      "timestamp": 1785679460063,
+      "trace_id": "8047c0352fdc691fb5f35434c1926eb7",
+      "span_id": "babee883204a6399",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Order ord-1785679459828 completed successfully",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679459828",
+        "total": 89.97
+      }
     },
-    "events": [],
-    "links": []
-  },
-  {
-    "span_id": "eb2eaaa625690cd4",
-    "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
-    "parent_span_id": "c637951fcd90ac32",
-    "name": "order.inventory.check",
-    "kind": 0,
-    "start_time": 1785679493703,
-    "end_time": 1785679493750,
-    "duration": 47,
-    "status_code": 0,
-    "status_message": null,
-    "attributes": {
-      "inventory.available": true
+    {
+      "log_id": "788e78fb-66b2-4e31-afc4-69272a71634f",
+      "timestamp": 1785679468607,
+      "trace_id": "48e45035ac492c1733f083ae23283b79",
+      "span_id": "bd14697eef3d732d",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Processing order ord-1785679468607",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679468607",
+        "productId": "prod-2"
+      }
     },
-    "events": [],
-    "links": []
-  },
-  {
-    "span_id": "d65a3cc758dceb45",
-    "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
-    "parent_span_id": "c637951fcd90ac32",
-    "name": "order.payment.process",
-    "kind": 0,
-    "start_time": 1785679493750,
-    "end_time": 1785679493876,
-    "duration": 126,
-    "status_code": 0,
-    "status_message": null,
-    "attributes": {
-      "payment.success": true,
-      "payment.amount": 89.97
+    {
+      "log_id": "236fcdf9-ea33-4b70-ab0a-ae349f82be2a",
+      "timestamp": 1785679468788,
+      "trace_id": "48e45035ac492c1733f083ae23283b79",
+      "span_id": "bd14697eef3d732d",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Order ord-1785679468607 completed successfully",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679468607",
+        "total": 29.99
+      }
     },
-    "events": [],
-    "links": []
-  },
-  {
-    "span_id": "da966f635cc98cb0",
-    "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
-    "parent_span_id": "c637951fcd90ac32",
-    "name": "order.inventory.update",
-    "kind": 0,
-    "start_time": 1785679493877,
-    "end_time": 1785679493924,
-    "duration": 47,
-    "status_code": 0,
-    "status_message": null,
-    "attributes": {
-      "inventory.deducted": 3
+    {
+      "log_id": "92a4fe21-60dd-44ef-97c2-fc89926a1cf3",
+      "timestamp": 1785679476630,
+      "trace_id": "76938326be1bacf8e016e651a51f6df6",
+      "span_id": "5169ca1fb4ee1263",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Processing order ord-1785679476630",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679476630",
+        "productId": "prod-2"
+      }
     },
-    "events": [],
-    "links": []
-  },
-  {
-    "span_id": "c637951fcd90ac32",
-    "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
-    "parent_span_id": null,
-    "name": "order.process",
-    "kind": 0,
-    "start_time": 1785679493673,
-    "end_time": 1785679493924,
-    "duration": 251,
-    "status_code": 1,
-    "status_message": null,
-    "attributes": {
-      "order.id": "ord-1785679493673",
-      "order.product_id": "prod-5",
-      "order.quantity": 3,
-      "order.user_id": "user-14"
+    {
+      "log_id": "bf4928c6-882b-4a42-8f13-ddd1cdfcdb14",
+      "timestamp": 1785679476817,
+      "trace_id": "76938326be1bacf8e016e651a51f6df6",
+      "span_id": "5169ca1fb4ee1263",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Order ord-1785679476630 completed successfully",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679476630",
+        "total": 29.99
+      }
     },
-    "events": [],
-    "links": []
-  }
-]
+    {
+      "log_id": "befebafd-868b-4501-b20b-1bd8b1acd7bd",
+      "timestamp": 1785679480191,
+      "trace_id": "f0a5a9f3114c33d854f7cf6a56765627",
+      "span_id": "04d3dcf00dc36e0b",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Processing order ord-1785679480191",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679480191",
+        "productId": "prod-4"
+      }
+    },
+    {
+      "log_id": "bb5686f9-1522-4245-a0b5-1f941b4ed4d3",
+      "timestamp": 1785679480447,
+      "trace_id": "f0a5a9f3114c33d854f7cf6a56765627",
+      "span_id": "04d3dcf00dc36e0b",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Order ord-1785679480191 completed successfully",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679480191",
+        "total": 89.97
+      }
+    },
+    {
+      "log_id": "16041208-3389-4e09-98c6-19363604a348",
+      "timestamp": 1785679484016,
+      "trace_id": "88603cffef075595c268274a9bff4df4",
+      "span_id": "5a04932eadbf195e",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Processing order ord-1785679484016",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679484016",
+        "productId": "prod-1"
+      }
+    },
+    {
+      "log_id": "21388692-259a-42d4-a576-bd43629ea1ad",
+      "timestamp": 1785679484088,
+      "trace_id": "88603cffef075595c268274a9bff4df4",
+      "span_id": "5a04932eadbf195e",
+      "severity_number": 17,
+      "severity_text": null,
+      "body": "Order ord-1785679484016 failed: out of stock",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679484016",
+        "productId": "prod-1"
+      }
+    },
+    {
+      "log_id": "5e1f356a-8ede-4e7e-9d38-90e9e4555882",
+      "timestamp": 1785679493673,
+      "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
+      "span_id": "c637951fcd90ac32",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Processing order ord-1785679493673",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679493673",
+        "productId": "prod-5"
+      }
+    },
+    {
+      "log_id": "c19e9109-3dbf-4e26-b59f-c93d62c51cd9",
+      "timestamp": 1785679493924,
+      "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
+      "span_id": "c637951fcd90ac32",
+      "severity_number": 9,
+      "severity_text": null,
+      "body": "Order ord-1785679493673 completed successfully",
+      "service_name": "DEMO",
+      "attributes": {
+        "orderId": "ord-1785679493673",
+        "total": 89.97
+      }
+    }
+  ],
+  "traces": [
+    {
+      "trace_id": "39a21f3fc38652d95b67594212ef1b14",
+      "service_name": "DEMO",
+      "operation_name": "http.request",
+      "start_time": 1785679493673,
+      "end_time": 1785679493673,
+      "duration": 0,
+      "status_code": 0,
+      "status_message": null
+    },
+    {
+      "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
+      "service_name": "DEMO",
+      "operation_name": "order.process",
+      "start_time": 1785679493673,
+      "end_time": 1785679493924,
+      "duration": 251,
+      "status_code": 0,
+      "status_message": null
+    },
+    {
+      "trace_id": "f77901ddd8f2234895e2717458aa782b",
+      "service_name": "DEMO",
+      "operation_name": "http.request",
+      "start_time": 1785679484016,
+      "end_time": 1785679484016,
+      "duration": 0,
+      "status_code": 0,
+      "status_message": null
+    },
+    {
+      "trace_id": "88603cffef075595c268274a9bff4df4",
+      "service_name": "DEMO",
+      "operation_name": "order.process",
+      "start_time": 1785679484016,
+      "end_time": 1785679484088,
+      "duration": 72,
+      "status_code": 2,
+      "status_message": "Out of stock"
+    }
+  ],
+  "spans": [
+    {
+      "span_id": "924848008ba07e33",
+      "trace_id": "f77901ddd8f2234895e2717458aa782b",
+      "parent_span_id": null,
+      "name": "http.request",
+      "kind": 0,
+      "start_time": 1785679484016,
+      "end_time": 1785679484016,
+      "duration": 0,
+      "status_code": 0,
+      "status_message": null,
+      "attributes": {
+        "http.method": "POST",
+        "http.path": "/api/order",
+        "http.host": "localhost:3001",
+        "http.user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0"
+      },
+      "events": [],
+      "links": []
+    },
+    {
+      "span_id": "bbb64b5f930d3966",
+      "trace_id": "88603cffef075595c268274a9bff4df4",
+      "parent_span_id": "5a04932eadbf195e",
+      "name": "order.validate",
+      "kind": 0,
+      "start_time": 1785679484016,
+      "end_time": 1785679484047,
+      "duration": 31,
+      "status_code": 0,
+      "status_message": null,
+      "attributes": {
+        "validation.passed": true
+      },
+      "events": [],
+      "links": []
+    },
+    {
+      "span_id": "7c69b091aa23fae3",
+      "trace_id": "88603cffef075595c268274a9bff4df4",
+      "parent_span_id": "5a04932eadbf195e",
+      "name": "order.inventory.check",
+      "kind": 0,
+      "start_time": 1785679484048,
+      "end_time": 1785679484088,
+      "duration": 40,
+      "status_code": 0,
+      "status_message": null,
+      "attributes": {
+        "inventory.available": false
+      },
+      "events": [],
+      "links": []
+    },
+    {
+      "span_id": "5a04932eadbf195e",
+      "trace_id": "88603cffef075595c268274a9bff4df4",
+      "parent_span_id": null,
+      "name": "order.process",
+      "kind": 0,
+      "start_time": 1785679484016,
+      "end_time": 1785679484088,
+      "duration": 72,
+      "status_code": 2,
+      "status_message": "Out of stock",
+      "attributes": {
+        "order.id": "ord-1785679484016",
+        "order.product_id": "prod-1",
+        "order.quantity": 2,
+        "order.user_id": "user-19"
+      },
+      "events": [],
+      "links": []
+    },
+    {
+      "span_id": "30c7048396817b53",
+      "trace_id": "39a21f3fc38652d95b67594212ef1b14",
+      "parent_span_id": null,
+      "name": "http.request",
+      "kind": 0,
+      "start_time": 1785679493673,
+      "end_time": 1785679493673,
+      "duration": 0,
+      "status_code": 0,
+      "status_message": null,
+      "attributes": {
+        "http.method": "POST",
+        "http.path": "/api/order",
+        "http.host": "localhost:3001",
+        "http.user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0"
+      },
+      "events": [],
+      "links": []
+    },
+    {
+      "span_id": "b72391ad1c04fb27",
+      "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
+      "parent_span_id": "c637951fcd90ac32",
+      "name": "order.validate",
+      "kind": 0,
+      "start_time": 1785679493673,
+      "end_time": 1785679493702,
+      "duration": 29,
+      "status_code": 0,
+      "status_message": null,
+      "attributes": {
+        "validation.passed": true
+      },
+      "events": [],
+      "links": []
+    },
+    {
+      "span_id": "eb2eaaa625690cd4",
+      "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
+      "parent_span_id": "c637951fcd90ac32",
+      "name": "order.inventory.check",
+      "kind": 0,
+      "start_time": 1785679493703,
+      "end_time": 1785679493750,
+      "duration": 47,
+      "status_code": 0,
+      "status_message": null,
+      "attributes": {
+        "inventory.available": true
+      },
+      "events": [],
+      "links": []
+    },
+    {
+      "span_id": "d65a3cc758dceb45",
+      "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
+      "parent_span_id": "c637951fcd90ac32",
+      "name": "order.payment.process",
+      "kind": 0,
+      "start_time": 1785679493750,
+      "end_time": 1785679493876,
+      "duration": 126,
+      "status_code": 0,
+      "status_message": null,
+      "attributes": {
+        "payment.success": true,
+        "payment.amount": 89.97
+      },
+      "events": [],
+      "links": []
+    },
+    {
+      "span_id": "da966f635cc98cb0",
+      "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
+      "parent_span_id": "c637951fcd90ac32",
+      "name": "order.inventory.update",
+      "kind": 0,
+      "start_time": 1785679493877,
+      "end_time": 1785679493924,
+      "duration": 47,
+      "status_code": 0,
+      "status_message": null,
+      "attributes": {
+        "inventory.deducted": 3
+      },
+      "events": [],
+      "links": []
+    },
+    {
+      "span_id": "c637951fcd90ac32",
+      "trace_id": "fa1361e3493ae4fd592a89d438e41e51",
+      "parent_span_id": null,
+      "name": "order.process",
+      "kind": 0,
+      "start_time": 1785679493673,
+      "end_time": 1785679493924,
+      "duration": 251,
+      "status_code": 1,
+      "status_message": null,
+      "attributes": {
+        "order.id": "ord-1785679493673",
+        "order.product_id": "prod-5",
+        "order.quantity": 3,
+        "order.user_id": "user-14"
+      },
+      "events": [],
+      "links": []
+    }
+  ]
 }

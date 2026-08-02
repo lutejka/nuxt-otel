@@ -101,8 +101,7 @@ export default defineNuxtModule<ModuleOptions>({
         const nodeSdkPresets = ['node-server', 'node_server', 'nodeServer', 'node', 'bun']
         if (nodeSdkPresets.includes(preset!) || preset === undefined) {
           addServerPlugin(resolver.resolve('./runtime/server/plugins/instrument/node'))
-        }
-        else {
+        } else {
           logger.warn(
             `nuxt-otel currently only supports Node.js presets (node-server, bun) and the default preset. The "${preset}" preset is not supported — please instrument your app manually or set \`nuxtOtel: { instrument: false }\`.`,
           )

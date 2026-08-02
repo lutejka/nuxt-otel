@@ -30,10 +30,7 @@ pnpm add ai @ai-sdk/gateway @ai-sdk/vue @comark/vue
 
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
-  modules: [
-    '@nuxt/ui',
-    '@comark/nuxt'
-  ]
+  modules: ['@nuxt/ui', '@comark/nuxt'],
 })
 ```
 
@@ -69,7 +66,7 @@ export default defineEventHandler(async (event) => {
   const result = streamText({
     model: gateway('anthropic/claude-sonnet-5'),
     instructions: 'You are a helpful assistant.',
-    messages: await convertToModelMessages(messages)
+    messages: await convertToModelMessages(messages),
   })
 
   const stream = toUIMessageStream({ stream: result.stream })
@@ -89,7 +86,7 @@ export default defineEventHandler(async (event) => {
   const result = streamText({
     model: openai('gpt-5-nano'),
     instructions: 'You are a helpful assistant.',
-    messages: await convertToModelMessages(messages)
+    messages: await convertToModelMessages(messages),
   })
 
   const stream = toUIMessageStream({ stream: result.stream })
@@ -125,7 +122,7 @@ const input = ref('')
 const { messages, status, error, sendMessage, stop, regenerate } = useChat({
   onError(error) {
     console.error(error)
-  }
+  },
 })
 
 function onSubmit() {
@@ -146,11 +143,7 @@ function onSubmit() {
         <UChatMessages :messages="messages" :status="status">
           <template #content="{ message }">
             <template v-for="(part, index) in message.parts" :key="`${message.id}-${part.type}-${index}`">
-              <UChatReasoning
-                v-if="isReasoningUIPart(part)"
-                :text="part.text"
-                :streaming="isPartStreaming(part)"
-              >
+              <UChatReasoning v-if="isReasoningUIPart(part)" :text="part.text" :streaming="isPartStreaming(part)">
                 <Comark
                   :markdown="part.text"
                   :streaming="isPartStreaming(part)"
@@ -159,11 +152,7 @@ function onSubmit() {
                 />
               </UChatReasoning>
 
-              <UChatTool
-                v-else-if="isToolUIPart(part)"
-                :text="getToolName(part)"
-                :streaming="isToolStreaming(part)"
-              />
+              <UChatTool v-else-if="isToolUIPart(part)" :text="getToolName(part)" :streaming="isToolStreaming(part)" />
 
               <template v-else-if="isTextUIPart(part)">
                 <Comark

@@ -22,9 +22,7 @@ export function spanListToTree(spans: Span[]): SpanRowNode[] {
     childrenMap.get(parentId)!.push(span)
   }
 
-  const rootSpans = spans.filter(
-    span => !span.parent_span_id || !spanMap.has(span.parent_span_id),
-  )
+  const rootSpans = spans.filter((span) => !span.parent_span_id || !spanMap.has(span.parent_span_id))
   rootSpans.sort((a, b) => a.start_time - b.start_time)
 
   const { traceStart, traceDuration } = getTraceBounds(spans)
@@ -37,7 +35,7 @@ export function spanListToTree(spans: Span[]): SpanRowNode[] {
     const childSpans = childrenMap.get(span.span_id) || []
     childSpans.sort((a, b) => a.start_time - b.start_time)
 
-    const children = childSpans.map(child => traverse(child, depth + 1))
+    const children = childSpans.map((child) => traverse(child, depth + 1))
 
     return {
       span: { ...span },

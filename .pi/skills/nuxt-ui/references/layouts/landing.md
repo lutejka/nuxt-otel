@@ -15,16 +15,20 @@ Build public-facing pages — landing, blog, changelog, pricing — using the He
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
 
-const items = computed<NavigationMenuItem[]>(() => [{
-  label: 'Features',
-  to: '#features'
-}, {
-  label: 'Pricing',
-  to: '/pricing'
-}, {
-  label: 'Blog',
-  to: '/blog'
-}])
+const items = computed<NavigationMenuItem[]>(() => [
+  {
+    label: 'Features',
+    to: '#features',
+  },
+  {
+    label: 'Pricing',
+    to: '/pricing',
+  },
+  {
+    label: 'Blog',
+    to: '/blog',
+  },
+])
 </script>
 
 <template>
@@ -77,7 +81,7 @@ const items = computed<NavigationMenuItem[]>(() => [{
     description="A comprehensive Vue UI component library."
     :links="[
       { label: 'Get started', to: '/docs', icon: 'i-lucide-square-play' },
-      { label: 'Learn more', color: 'neutral', variant: 'subtle', trailingIcon: 'i-lucide-arrow-right' }
+      { label: 'Learn more', color: 'neutral', variant: 'subtle', trailingIcon: 'i-lucide-arrow-right' },
     ]"
     orientation="horizontal"
   >
@@ -92,7 +96,7 @@ const items = computed<NavigationMenuItem[]>(() => [{
     :features="[
       { title: 'Accessible', description: 'Built on Reka UI with full ARIA support.', icon: 'i-lucide-accessibility' },
       { title: 'Customizable', description: 'Tailwind Variants theming with full control.', icon: 'i-lucide-palette' },
-      { title: 'Responsive', description: 'Mobile-first components.', icon: 'i-lucide-monitor-smartphone' }
+      { title: 'Responsive', description: 'Mobile-first components.', icon: 'i-lucide-monitor-smartphone' },
     ]"
   />
 
@@ -101,16 +105,32 @@ const items = computed<NavigationMenuItem[]>(() => [{
     description="Join the community and start building today."
     :links="[
       { label: 'Get started', color: 'neutral' },
-      { label: 'Star on GitHub', color: 'neutral', variant: 'subtle', trailingIcon: 'i-lucide-arrow-right' }
+      { label: 'Star on GitHub', color: 'neutral', variant: 'subtle', trailingIcon: 'i-lucide-arrow-right' },
     ]"
   />
 
   <UPageSection id="pricing" headline="Pricing" title="Simple, transparent pricing">
     <UPricingPlans
       :plans="[
-        { title: 'Free', price: '$0', description: 'For personal projects', features: ['10 components', 'Community support'] },
-        { title: 'Pro', price: '$99', description: 'For teams', features: ['All components', 'Priority support'], highlight: true },
-        { title: 'Enterprise', price: 'Custom', description: 'For large teams', features: ['Custom components', 'Dedicated support'] }
+        {
+          title: 'Free',
+          price: '$0',
+          description: 'For personal projects',
+          features: ['10 components', 'Community support'],
+        },
+        {
+          title: 'Pro',
+          price: '$99',
+          description: 'For teams',
+          features: ['All components', 'Priority support'],
+          highlight: true,
+        },
+        {
+          title: 'Enterprise',
+          price: 'Custom',
+          description: 'For large teams',
+          features: ['Custom components', 'Dedicated support'],
+        },
       ]"
     />
   </UPageSection>

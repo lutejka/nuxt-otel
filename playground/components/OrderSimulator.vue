@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 const loading = ref(false)
-const result = ref<Record<string, any> | null>(null)
+const result = ref<unknown>(null)
 
 async function placeOrder() {
   loading.value = true
@@ -30,8 +30,8 @@ async function placeOrder() {
         userId: `user-${Math.floor(Math.random() * 100)}`,
       },
     })
-  } catch (e: any) {
-    result.value = { error: e.message }
+  } catch (e) {
+    result.value = { error: e instanceof Error ? e.message : String(e) }
   } finally {
     loading.value = false
   }

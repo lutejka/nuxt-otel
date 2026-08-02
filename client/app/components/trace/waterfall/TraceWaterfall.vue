@@ -73,10 +73,7 @@
         @scroll="syncScrollFromRight"
         @mousedown="onTimelineMouseDown"
       >
-        <div
-          class="min-h-full"
-          :style="timelineContentStyle"
-        >
+        <div class="min-h-full" :style="timelineContentStyle">
           <div class="sticky top-0 z-10 bg-default border-b border-default">
             <TraceTimeline :trace-duration="traceBounds.traceDuration" />
           </div>

@@ -14,11 +14,14 @@ import EmptyState from '~/components/ui/EmptyState.vue'
 // page (client/app/pages/index.vue) and the logs page (client/app/pages/logs.vue),
 // fed by the fake-data plugin.
 
-const props = withDefaults(defineProps<{
-  initialTab?: 'traces' | 'logs'
-}>(), {
-  initialTab: 'traces',
-})
+const props = withDefaults(
+  defineProps<{
+    initialTab?: 'traces' | 'logs'
+  }>(),
+  {
+    initialTab: 'traces',
+  },
+)
 
 const activeTab = ref<'traces' | 'logs'>(props.initialTab)
 
@@ -42,7 +45,7 @@ const clearTraces = async () => {
 
 const selectedTrace = computed(() => {
   if (!selectedTraceId.value) return null
-  return traces.value.find(t => t.trace_id === selectedTraceId.value) || null
+  return traces.value.find((t) => t.trace_id === selectedTraceId.value) || null
 })
 
 watch(selectedTraceId, async (id) => {
@@ -53,8 +56,7 @@ watch(selectedTraceId, async (id) => {
   traceLoading.value = true
   try {
     traceSpans.value = await getSpansForTrace(id)
-  }
-  finally {
+  } finally {
     traceLoading.value = false
   }
 })
@@ -78,7 +80,11 @@ watch(
         :key="tab.key"
         type="button"
         class="flex items-center gap-1.5 px-4 py-2.5 text-xs font-medium transition-colors duration-200 border-b-2"
-        :class="activeTab === tab.key ? '!text-highlighted !border-primary' : 'text-muted hover:text-highlighted border-transparent'"
+        :class="
+          activeTab === tab.key
+            ? '!text-highlighted !border-primary'
+            : 'text-muted hover:text-highlighted border-transparent'
+        "
         @click="activeTab = tab.key"
       >
         <UIcon :name="tab.icon" class="size-3.5" />
@@ -144,15 +150,18 @@ watch(
                 </div>
               </div>
               <template #fallback>
-                <div class="px-3 py-6 text-xs text-gray/40">
-                  Loading logs...
-                </div>
+                <div class="px-3 py-6 text-xs text-gray/40">Loading logs...</div>
               </template>
             </ClientOnly>
           </div>
         </template>
 
-        <EmptyState v-else icon="📄" title="No logs yet" description="Waiting for logs from instrumented applications" />
+        <EmptyState
+          v-else
+          icon="📄"
+          title="No logs yet"
+          description="Waiting for logs from instrumented applications"
+        />
       </div>
     </div>
   </div>

@@ -99,5 +99,5 @@ export default defineEventHandler(async (event) => {
 })
 
 function delay(min: number, max: number) {
-  return new Promise(resolve => setTimeout(() => resolve(true), Math.random() * (max - min) + min))
+  return new Promise((resolve) => setTimeout(() => resolve(true), Math.random() * (max - min) + min))
 }

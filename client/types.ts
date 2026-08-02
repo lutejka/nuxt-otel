@@ -10,8 +10,8 @@ export interface Span {
   status_code: number
   status_message: string | null
   attributes: Record<string, unknown>
-  events: Array<{ time: number, name: string, attributes: Record<string, unknown> }>
-  links: Array<{ traceId: string, spanId: string, traceState?: string, attributes: Record<string, unknown> }>
+  events: Array<{ time: number; name: string; attributes: Record<string, unknown> }>
+  links: Array<{ traceId: string; spanId: string; traceState?: string; attributes: Record<string, unknown> }>
 }
 
 export interface Trace {

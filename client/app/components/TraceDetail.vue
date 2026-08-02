@@ -11,16 +11,18 @@
       <div v-else-if="loading" class="flex items-center justify-center h-full text-muted text-sm">
         Loading trace details...
       </div>
-      <div v-else class="flex items-center justify-center h-full text-muted text-sm">
-        No spans found for this trace
-      </div>
+      <div v-else class="flex items-center justify-center h-full text-muted text-sm">No spans found for this trace</div>
     </main>
 
     <template v-if="selectedSpan">
-      <aside class="absolute right-0 z-20 h-full bg-default overflow-y-auto shrink-0" :style="{ width: spanPanelWidth + 'px' }" ref="spanDetails">
+      <aside
+        ref="spanDetails"
+        class="absolute right-0 z-20 h-full bg-default overflow-y-auto shrink-0"
+        :style="{ width: spanPanelWidth + 'px' }"
+      >
         <div class="relative h-full">
           <div
-            class=" absolute right-0w-0 cursor-col-resize border-l-2 h-full border-default hover:border-primary transition-colors shrink-0 -mx-px px-px z-10"
+            class="absolute right-0w-0 cursor-col-resize border-l-2 h-full border-default hover:border-primary transition-colors shrink-0 -mx-px px-px z-10"
             :class="{ 'border-primary': spanPanelDragging }"
             @mousedown="onSpanPanelMouseDown"
           />

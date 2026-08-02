@@ -38,11 +38,13 @@ const { data: navigation } = await useAsyncData('navigation', () => queryCollect
 
 provide('navigation', navigation)
 
-const items = computed<NavigationMenuItem[]>(() => [{
-  label: 'Docs',
-  to: '/docs/getting-started',
-  active: route.path.startsWith('/docs')
-}])
+const items = computed<NavigationMenuItem[]>(() => [
+  {
+    label: 'Docs',
+    to: '/docs/getting-started',
+    active: route.path.startsWith('/docs'),
+  },
+])
 </script>
 
 <template>
