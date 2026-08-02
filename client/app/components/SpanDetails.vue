@@ -1,7 +1,7 @@
 <template>
   <div class="h-full flex flex-col bg-elevated">
     <div class="flex items-center justify-between p-3 border-b border-default">
-      <h3 class="text-sm font-semibold text-white">Span Details</h3>
+      <h3 class="text-sm font-semibold text-highlighted">Span Details</h3>
       <UButton size="xs" square color="neutral" variant="ghost" @click="$emit('close')">
         <UIcon name="carbon:close" class="size-3.5" />
       </UButton>
@@ -9,21 +9,21 @@
 
     <div class="flex-1 overflow-y-auto p-3 space-y-4 text-xs">
       <div>
-        <h4 class="text-gray/50 font-medium mb-1 text-[10px] uppercase tracking-wider">Name</h4>
-        <p class="text-white font-mono break-all">
+        <h4 class="text-muted font-medium mb-1 text-[10px] uppercase tracking-wider">Name</h4>
+        <p class="text-highlighted font-mono break-all">
           {{ span.name }}
         </p>
       </div>
 
       <div class="grid grid-cols-2 gap-3">
         <div>
-          <h4 class="text-gray/50 font-medium mb-1 text-[10px] uppercase tracking-wider">Kind</h4>
+          <h4 class="text-muted font-medium mb-1 text-[10px] uppercase tracking-wider">Kind</h4>
           <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded uppercase" :class="kindClass">
             {{ getSpanKindLabel(span.kind) }}
           </span>
         </div>
         <div>
-          <h4 class="text-gray/50 font-medium mb-1 text-[10px] uppercase tracking-wider">Status</h4>
+          <h4 class="text-muted font-medium mb-1 text-[10px] uppercase tracking-wider">Status</h4>
           <span class="text-[10px] font-bold px-1.5 py-0.5 rounded uppercase" :class="statusClass">
             {{ statusLabel }}
           </span>
@@ -32,49 +32,49 @@
 
       <div class="grid grid-cols-2 gap-3">
         <div>
-          <h4 class="text-gray/50 font-medium mb-1 text-[10px] uppercase tracking-wider">Duration</h4>
-          <p class="text-white font-mono">
+          <h4 class="text-muted font-medium mb-1 text-[10px] uppercase tracking-wider">Duration</h4>
+          <p class="text-highlighted font-mono">
             {{ formatDuration(span.duration) }}
           </p>
         </div>
         <div>
-          <h4 class="text-gray/50 font-medium mb-1 text-[10px] uppercase tracking-wider">Span ID</h4>
-          <p class="text-white font-mono text-[10px] break-all">
+          <h4 class="text-muted font-medium mb-1 text-[10px] uppercase tracking-wider">Span ID</h4>
+          <p class="text-highlighted font-mono text-[10px] break-all">
             {{ span.span_id }}
           </p>
         </div>
       </div>
 
       <div>
-        <h4 class="text-gray/50 font-medium mb-1 text-[10px] uppercase tracking-wider">Parent Span ID</h4>
-        <p class="text-white font-mono text-[10px] break-all">
+        <h4 class="text-muted font-medium mb-1 text-[10px] uppercase tracking-wider">Parent Span ID</h4>
+        <p class="text-highlighted font-mono text-[10px] break-all">
           {{ span.parent_span_id || '(root)' }}
         </p>
       </div>
 
       <div v-if="span.status_message">
-        <h4 class="text-gray/50 font-medium mb-1 text-[10px] uppercase tracking-wider">Status Message</h4>
+        <h4 class="text-muted font-medium mb-1 text-[10px] uppercase tracking-wider">Status Message</h4>
         <p class="text-red-400 bg-red-500/10 px-2 py-1.5 rounded">
           {{ span.status_message }}
         </p>
       </div>
 
       <div v-if="hasAttributes">
-        <h4 class="text-gray/50 font-medium mb-2 text-[10px] uppercase tracking-wider">
+        <h4 class="text-muted font-medium mb-2 text-[10px] uppercase tracking-wider">
           Attributes ({{ attributeCount }})
         </h4>
         <KeyValueTable :data="span.attributes" />
       </div>
 
       <div v-if="span.events.length > 0">
-        <h4 class="text-gray/50 font-medium mb-2 text-[10px] uppercase tracking-wider">
+        <h4 class="text-muted font-medium mb-2 text-[10px] uppercase tracking-wider">
           Events ({{ span.events.length }})
         </h4>
         <div class="space-y-2">
           <div v-for="(event, idx) in span.events" :key="idx" class="p-2 bg-primary/5 rounded">
             <div class="flex items-center justify-between mb-1">
-              <span class="text-white font-medium text-[10px]">{{ event.name }}</span>
-              <span class="text-gray/40 font-mono text-[9px]">{{ formatDuration(event.time - span.start_time) }}</span>
+              <span class="text-highlighted font-medium text-[10px]">{{ event.name }}</span>
+              <span class="text-dimmed font-mono text-[9px]">{{ formatDuration(event.time - span.start_time) }}</span>
             </div>
             <KeyValueTable :data="event.attributes" />
           </div>
@@ -82,7 +82,7 @@
       </div>
 
       <div v-if="logs.length">
-        <h4 class="text-gray/50 font-medium mb-2 text-[10px] uppercase tracking-wider">Logs ({{ logs.length }})</h4>
+        <h4 class="text-muted font-medium mb-2 text-[10px] uppercase tracking-wider">Logs ({{ logs.length }})</h4>
         <LogRow v-for="logEntry in logs" :key="logEntry.log_id" :log="logEntry" :show-service-column="false" />
       </div>
     </div>

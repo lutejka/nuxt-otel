@@ -11,22 +11,22 @@
     >
       <SeverityBadge :severity-number="log.severity_number" :severity-text="log.severity_text" />
 
-      <span class="text-xs text-gray/40 font-mono whitespace-nowrap">
+      <span class="text-xs text-dimmed font-mono whitespace-nowrap">
         {{ formatTimestamp(log.timestamp) }}
       </span>
 
-      <span v-if="showServiceColumn" class="text-xs text-gray/60 font-medium whitespace-nowrap truncate">
+      <span v-if="showServiceColumn" class="text-xs text-muted font-medium whitespace-nowrap truncate">
         {{ log.service_name }}
       </span>
 
-      <span class="text-xs text-gray/50 truncate">
+      <span class="text-xs text-muted truncate">
         {{ log.body }}
       </span>
 
       <UIcon
         name="carbon:chevron-down"
         :class="isExpanded ? 'rotate-180' : ''"
-        class="w-4 h-4 text-gray/30 shrink-0 transition"
+        class="w-4 h-4 text-dimmed shrink-0 transition"
       />
     </div>
 
@@ -34,27 +34,27 @@
       <div class="px-3 py-3 space-y-3">
         <div v-if="log.trace_id || log.span_id" class="flex gap-6">
           <div v-if="log.trace_id">
-            <h4 class="text-[10px] font-semibold text-gray/40 uppercase mb-1">Trace ID</h4>
-            <div class="text-xs text-gray/80 font-mono break-all">
+            <h4 class="text-[10px] font-semibold text-dimmed uppercase mb-1">Trace ID</h4>
+            <div class="text-xs text-highlighted font-mono break-all">
               {{ log.trace_id }}
             </div>
           </div>
           <div v-if="log.span_id">
-            <h4 class="text-[10px] font-semibold text-gray/40 uppercase mb-1">Span ID</h4>
-            <div class="text-xs text-gray/80 font-mono break-all">
+            <h4 class="text-[10px] font-semibold text-dimmed uppercase mb-1">Span ID</h4>
+            <div class="text-xs text-highlighted font-mono break-all">
               {{ log.span_id }}
             </div>
           </div>
           <div v-if="!showServiceColumn">
-            <h4 class="text-[10px] font-semibold text-gray/40 uppercase mb-1">Service</h4>
-            <div class="text-xs text-gray/80 font-mono break-all">
+            <h4 class="text-[10px] font-semibold text-dimmed uppercase mb-1">Service</h4>
+            <div class="text-xs text-highlighted font-mono break-all">
               {{ log.service_name }}
             </div>
           </div>
         </div>
 
         <div v-if="hasAttributes">
-          <h4 class="text-[10px] font-semibold text-gray/40 uppercase mb-1">Attributes</h4>
+          <h4 class="text-[10px] font-semibold text-dimmed uppercase mb-1">Attributes</h4>
           <div class="bg-default rounded px-3 py-2">
             <KeyValueTable :data="log.attributes" />
           </div>

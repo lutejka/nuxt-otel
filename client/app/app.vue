@@ -12,8 +12,8 @@ const tabs = [
         v-for="tab in tabs"
         :key="tab.to"
         :to="tab.to"
-        class="flex items-center gap-1.5 px-4 py-2.5 text-xs font-medium text-gray/50 transition-colors duration-200 hover:text-white border-b-2 border-transparent"
-        active-class="!text-white !border-primary"
+        class="flex items-center gap-1.5 px-4 py-2.5 text-xs font-medium text-muted transition-colors duration-200 hover:text-highlighted border-b-2 border-transparent"
+        active-class="!text-highlighted !border-primary"
       >
         <UIcon :name="tab.icon" class="size-3.5" />
         {{ tab.label }}

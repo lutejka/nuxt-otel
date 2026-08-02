@@ -3,7 +3,7 @@
     <header class="bg-elevated border-b border-default p-4 min-h-24 shrink-0">
       <div class="flex items-center justify-between mb-3 gap-3">
         <div class="flex-1 min-w-0">
-          <h2 class="text-base font-semibold text-white truncate">
+          <h2 class="text-base font-semibold text-highlighted truncate">
             {{ trace.operation_name }}
           </h2>
         </div>
@@ -11,22 +11,22 @@
       </div>
 
       <div class="flex gap-4 flex-wrap items-center text-xs">
-        <span class="text-gray/60">
-          <strong class="text-gray/80 mr-1">Service:</strong>
+        <span class="text-muted">
+          <strong class="text-highlighted mr-1">Service:</strong>
           {{ trace.service_name }}
         </span>
-        <span class="text-gray/60">
-          <strong class="text-gray/80 mr-1">Duration:</strong>
+        <span class="text-muted">
+          <strong class="text-highlighted mr-1">Duration:</strong>
           {{ formatDuration(trace.duration) }}
         </span>
-        <span class="text-gray/60">
-          <strong class="text-gray/80 mr-1">Spans:</strong>
+        <span class="text-muted">
+          <strong class="text-highlighted mr-1">Spans:</strong>
           {{ spans.length }}
         </span>
         <button
           v-if="isZoomed"
           type="button"
-          class="text-gray/60 hover:text-gray/90 underline underline-offset-2"
+          class="text-muted hover:text-highlighted underline underline-offset-2"
           @click="resetZoom"
         >
           Reset zoom

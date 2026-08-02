@@ -1,0 +1,12 @@
+﻿{
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "paths": {
+      "~~": ["../client"],
+      "~~/*": ["../client/*"],
+      "~": ["../client/app"],
+      "~/*": ["../client/app/*"]
+    }
+  }
+}

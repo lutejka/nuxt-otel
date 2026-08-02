@@ -3,7 +3,7 @@
     <span
       v-for="(tick, index) in ticks"
       :key="index"
-      class="absolute top-1/2 -translate-y-1/2 text-[10px] text-gray/40 font-mono whitespace-nowrap -translate-x-1/2 first:translate-x-0.5"
+      class="absolute top-1/2 -translate-y-1/2 text-[10px] text-dimmed font-mono whitespace-nowrap -translate-x-1/2 first:translate-x-0.5"
       :style="index === ticks.length -1 ? { right: '0px'}: { left: `${tick.percent}%` }"
     >
       {{ tick.label }}

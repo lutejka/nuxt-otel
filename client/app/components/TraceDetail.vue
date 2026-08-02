@@ -8,10 +8,10 @@
         :spans="spans"
         @select-span="selectedSpan = $event"
       />
-      <div v-else-if="loading" class="flex items-center justify-center h-full text-gray/50 text-sm">
+      <div v-else-if="loading" class="flex items-center justify-center h-full text-muted text-sm">
         Loading trace details...
       </div>
-      <div v-else class="flex items-center justify-center h-full text-gray/50 text-sm">
+      <div v-else class="flex items-center justify-center h-full text-muted text-sm">
         No spans found for this trace
       </div>
     </main>
