@@ -4,8 +4,9 @@ import type { Nuxt } from '@nuxt/schema'
 import { addDevServerHandler, type Resolver } from '@nuxt/kit'
 import { joinURL } from 'ufo'
 import { eventHandler, getRequestURL, proxyRequest } from 'h3'
+import { UI_PATH } from './runtime/server/utils/otel-routes'
 
-export const DEVTOOLS_UI_ROUTE = '/__nuxt-otel'
+export const DEVTOOLS_UI_ROUTE = UI_PATH
 export const DEVTOOLS_UI_LOCAL_PORT = 3300
 
 export function setupDevToolsUI(nuxt: Nuxt, resolver: Resolver) {
