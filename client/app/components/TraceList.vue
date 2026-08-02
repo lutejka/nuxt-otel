@@ -3,7 +3,7 @@
     <div class="border-b border-default h-24">
       <div class="p-3 flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <h2 class="text-sm font-semibold text-white">Traces</h2>
+          <h2 class="text-sm font-semibold text-highlighted">Traces</h2>
           <UBadge color="primary" variant="soft" size="sm">{{ traces?.length }}</UBadge>
         </div>
         <UButton size="xs" color="neutral" variant="outline" @click="$emit('clear-traces')"> Clear </UButton>
@@ -22,7 +22,7 @@
       />
 
       <div v-else-if="searchQuery && filteredTraces.length === 0" class="p-6 text-center">
-        <p class="text-xs text-gray/50">No traces found for "{{ searchQuery }}"</p>
+        <p class="text-xs text-muted">No traces found for "{{ searchQuery }}"</p>
       </div>
 
       <template v-else>

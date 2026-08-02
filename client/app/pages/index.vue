@@ -3,6 +3,7 @@
   <div class="flex flex-1 overflow-hidden bg-default">
     <ResizablePanel storage-key="traces-panel" :default-width="320" class="w-full" :min="150">
       <template #left>
+        <button @click="print">print</button>
         <TraceList
           v-model:selected-trace-id="selectedTraceId"
           :traces="filteredTraces"
@@ -24,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue'
+import { watch, toValue } from 'vue'
 import type { Span } from '~~/types'
 import { useTraces } from '~/composables/useTraces'
 import { useServiceFilter } from '~/composables/useServiceFilter'
@@ -33,7 +34,12 @@ import EmptyState from '~/components/ui/EmptyState.vue'
 
 const selectedTraceId = ref<string | null>(null)
 
-const { traces, getSpansForTrace, clearAllTraces } = useTraces()
+const { traces, getSpansForTrace, clearAllTraces, spans } = useTraces()
+const { logs } = useLogs()
+
+const print = () => {
+  console.log({ spans: toValue(spans), traces: toValue(traces), logs: toValue(logs)})
+}
 const { filteredTraces } = useServiceFilter(traces)
 
 const traceSpans = ref<Span[]>([])

@@ -23,10 +23,10 @@
       >
         {{ getSpanKindLabel(spanRow.span.kind)[0] }}
       </span>
-      <span class="text-xs text-gray/80 truncate">
+      <span class="text-xs text-highlighted truncate">
         {{ spanRow.span.name }}
       </span>
-      <span class="text-[10px] text-gray/40 font-mono shrink-0 ml-auto">
+      <span class="text-[10px] text-dimmed font-mono shrink-0 ml-auto">
         {{ formatDuration(spanRow.span.duration) }}
       </span>
     </div>

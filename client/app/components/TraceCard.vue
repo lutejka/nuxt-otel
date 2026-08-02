@@ -11,10 +11,10 @@
       <div class="flex-1 min-w-0">
         <div class="flex items-start justify-between gap-2 mb-2">
           <div class="flex-1 min-w-0 space-y-0.5">
-            <h3 class="font-semibold text-white text-sm leading-tight truncate">
+            <h3 class="font-semibold text-highlighted text-sm leading-tight truncate">
               {{ trace.operation_name }}
             </h3>
-            <p class="font-mono text-xs text-gray/40">
+            <p class="font-mono text-xs text-dimmed">
               {{ shortTraceId }}
             </p>
           </div>
@@ -25,11 +25,11 @@
 
         <div class="flex items-center justify-between text-xs">
           <div class="flex items-center gap-1.5 min-w-0">
-            <span class="text-gray/60 font-medium truncate">
+            <span class="text-muted font-medium truncate">
               {{ trace.service_name }}
             </span>
           </div>
-          <span class="text-white font-mono font-semibold text-xs ml-3">
+          <span class="text-highlighted font-mono font-semibold text-xs ml-3">
             {{ formatDuration(trace.duration) }}
           </span>
         </div>

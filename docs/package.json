@@ -1,0 +1,25 @@
+{
+  "name": "nuxt-otel-docs",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "^1.9.1",
+    "@vueuse/core": "^14.4.0",
+    "@vueuse/nuxt": "^14.4.0",
+    "better-sqlite3": "^12.5.0",
+    "docus": "latest",
+    "nuxt": "^4.2.2"
+  },
+  "devDependencies": {
+    "@iconify-json/carbon": "^1.2.0",
+    "@iconify-json/lucide": "^1.2.0",
+    "@iconify-json/simple-icons": "^1.2.0",
+    "@iconify-json/vscode-icons": "^1.2.0",
+    "@types/node": "latest"
+  }
+}
