@@ -17,7 +17,12 @@ function confirmDelete() {
 <template>
   <UButton label="Delete" color="error" variant="soft" @click="isOpen = true" />
 
-  <UModal v-model:open="isOpen" title="Delete item" description="This action cannot be undone. Are you sure?" :ui="{ footer: 'justify-end' }">
+  <UModal
+    v-model:open="isOpen"
+    title="Delete item"
+    description="This action cannot be undone. Are you sure?"
+    :ui="{ footer: 'justify-end' }"
+  >
     <template #footer="{ close }">
       <UButton label="Cancel" color="neutral" variant="outline" @click="close" />
       <UButton label="Delete" color="error" @click="confirmDelete" />
@@ -60,7 +65,7 @@ const confirm = overlay.create(ConfirmModal)
 async function deleteItem(item) {
   const instance = confirm.open({
     title: 'Delete item',
-    description: `Are you sure you want to delete "${item.name}"?`
+    description: `Are you sure you want to delete "${item.name}"?`,
   })
 
   if (await instance.result) {
@@ -79,7 +84,7 @@ const isOpen = ref(false)
 
 const schema = z.object({
   name: z.string().min(1),
-  email: z.email()
+  email: z.email(),
 })
 
 type Schema = z.output<typeof schema>
@@ -121,24 +126,29 @@ function onSave() {
 const isOpen = ref(false)
 
 defineShortcuts({
-  meta_k: () => { isOpen.value = true }
+  meta_k: () => {
+    isOpen.value = true
+  },
 })
 
-const groups = [{
-  id: 'actions',
-  label: 'Actions',
-  items: [
-    { label: 'New file', icon: 'i-lucide-file-plus', kbds: ['meta', 'n'], onSelect: () => newFile() },
-    { label: 'New folder', icon: 'i-lucide-folder-plus', onSelect: () => newFolder() }
-  ]
-}, {
-  id: 'navigation',
-  label: 'Navigation',
-  items: [
-    { label: 'Dashboard', icon: 'i-lucide-house', to: '/dashboard' },
-    { label: 'Settings', icon: 'i-lucide-settings', to: '/settings' }
-  ]
-}]
+const groups = [
+  {
+    id: 'actions',
+    label: 'Actions',
+    items: [
+      { label: 'New file', icon: 'i-lucide-file-plus', kbds: ['meta', 'n'], onSelect: () => newFile() },
+      { label: 'New folder', icon: 'i-lucide-folder-plus', onSelect: () => newFolder() },
+    ],
+  },
+  {
+    id: 'navigation',
+    label: 'Navigation',
+    items: [
+      { label: 'Dashboard', icon: 'i-lucide-house', to: '/dashboard' },
+      { label: 'Settings', icon: 'i-lucide-settings', to: '/settings' },
+    ],
+  },
+]
 </script>
 
 <template>
@@ -170,4 +180,3 @@ const isOpen = ref(false)
   </UDrawer>
 </template>
 ```
-

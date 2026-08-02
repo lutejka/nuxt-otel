@@ -15,7 +15,7 @@ export default defineEventHandler(() => {
   }
   const records = exporter.getFinishedLogRecords()
   return {
-    logs: records.map(r => ({
+    logs: records.map((r) => ({
       body: r.body,
       severityNumber: r.severityNumber,
       severityText: r.severityText,

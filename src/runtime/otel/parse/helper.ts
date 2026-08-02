@@ -9,7 +9,7 @@ export function getAttributeValue(value: IKeyValue['value']): unknown {
   if (value.doubleValue !== undefined) return value.doubleValue
   if (value.boolValue !== undefined) return value.boolValue
   if (value.arrayValue !== undefined) {
-    return value.arrayValue.values.map(v => getAttributeValue(v))
+    return value.arrayValue.values.map((v) => getAttributeValue(v))
   }
   if (value.kvlistValue !== undefined) {
     return parseAttributes(value.kvlistValue.values)

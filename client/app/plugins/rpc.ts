@@ -44,7 +44,7 @@ export default defineNuxtPlugin({
         isConnected.value = false
         rpc.value = null
 
-        let clientRpc: Rpc | null = null
+        let clientRpc: Rpc
         try {
           clientRpc = c.devtools.extendClientRpc<OtelServerFunctions, OtelClientFunctions>('nuxt-otel', {
             onTracesReceived: (newTraces: Trace[]) => {

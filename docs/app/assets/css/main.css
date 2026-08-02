@@ -1,5 +1,5 @@
-﻿@import "tailwindcss";
-@import "@nuxt/ui";
+﻿@import 'tailwindcss';
+@import '@nuxt/ui';
 
 /* Scan the reused dev-ui client sources so Tailwind v4 generates the
    arbitrary utility classes used only inside those components (e.g.
@@ -62,5 +62,3 @@ html,
 
   --ui-primary: #7d7d7d;
 }
-
-

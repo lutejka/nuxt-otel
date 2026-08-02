@@ -8,11 +8,6 @@ export default defineNuxtConfig({
   modules: ['@nuxt/ui', '@vueuse/nuxt'],
   ssr: false,
   devtools: { enabled: false },
-  colorMode: {
-    preference: 'dark',
-    fallback: 'dark',
-    classSuffix: '',
-  },
   app: {
     baseURL: '/__nuxt-otel',
     head: {
@@ -22,6 +17,11 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/css/main.css'],
+  colorMode: {
+    preference: 'dark',
+    fallback: 'dark',
+    classSuffix: '',
+  },
   compatibilityDate: '2025-03-01',
   nitro: {
     output: {

@@ -50,7 +50,6 @@ export default defineNuxtConfig({
 
     // Enable DevTools UI at /__nuxt-otel
     devtools: true,
-
   },
 })
 ```

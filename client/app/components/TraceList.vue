@@ -59,10 +59,10 @@ const filteredTraces = computed(() => {
   const query = searchQuery.value.toLowerCase().trim()
   if (!query) return traces
   return traces.filter(
-    t =>
-      t.trace_id?.toLowerCase().includes(query)
-      || t.service_name?.toLowerCase().includes(query)
-      || t.operation_name?.toLowerCase().includes(query),
+    (t) =>
+      t.trace_id?.toLowerCase().includes(query) ||
+      t.service_name?.toLowerCase().includes(query) ||
+      t.operation_name?.toLowerCase().includes(query),
   )
 })
 </script>

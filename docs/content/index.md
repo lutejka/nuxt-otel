@@ -14,7 +14,6 @@ OpenTelemetry tracing that instruments your app automatically. @lutejka/nuxt-ote
 
 #headline
 
-
 #links
 :::u-button{color="primary" size="xl" to="/getting-started/installation" trailing-icon="i-lucide-arrow-right"}
 Getting Started
