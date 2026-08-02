@@ -1,16 +1,16 @@
 <template>
   <div>
     <div
-      class="flex items-center gap-1.5 min-w-0 h-7 px-1.5 rounded hover:n-bg-hover cursor-pointer"
+      class="flex items-center gap-1.5 min-w-0 h-7 px-1.5 rounded hover:bg-elevated cursor-pointer"
       :style="{ paddingLeft: `${spanRow.depth * 40}px` }"
       @click="$emit('select-span', spanRow.span)"
     >
       <button
         v-if="spanRow.children.length"
-        class="size-5 flex items-center justify-center shrink-0"
+        class="size-5 flex items-center justify-center shrink-0 rounded hover:bg-accented transition"
         @click.stop="toggleShowChildren(spanRow.span.span_id)"
       >
-        <Icon
+        <UIcon
           name="carbon:chevron-down"
           class="transition duration-100"
           :class="{ '-rotate-90': !isExpanded(spanRow.span.span_id) }"

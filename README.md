@@ -51,9 +51,6 @@ export default defineNuxtConfig({
     // Enable DevTools UI at /__nuxt-otel
     devtools: true,
 
-    // Enable MCP server at /__nuxt-otel-mcp
-    // Provides tools for querying traces, spans, and logs over MCP
-    mcp: true,
   },
 })
 ```
@@ -217,8 +214,6 @@ The endpoint accepts both trace and log OTLP JSON payloads (`/v1/traces` and `/v
 > **Note:** The MCP integration is development-only. The OTEL tools query in-memory trace and log stores that are populated during development. In production builds, the OTEL-specific tools are not available.
 
 The module exposes a built-in MCP server at `/__nuxt-otel-mcp` for querying OpenTelemetry data over the [Model Context Protocol](https://modelcontextprotocol.io). This uses the `@modelcontextprotocol/sdk` directly with Streamable HTTP transport.
-
-To enable it, set `mcp: true` in the module options (defaults to `false`).
 
 ### Available tools
 

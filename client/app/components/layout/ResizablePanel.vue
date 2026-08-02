@@ -1,8 +1,8 @@
 <template>
   <div class="relative h-full" :style="{ '--name-col': width + 'px' }">
     <div
-      class="absolute top-0 bottom-0 z-10 cursor-col-resize -mx-px px-px border-l n-border-base hover:border-context transition-colors"
-      :class="{ '!border-context': dragging }"
+      class="absolute top-0 bottom-0 z-10 cursor-col-resize -mx-px px-px border-l border-default hover:border-primary transition-colors"
+      :class="{ '!border-primary': dragging }"
       :style="{ left: width + 'px' }"
       @mousedown="startDrag($event, 'left')"
     />

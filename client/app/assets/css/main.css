@@ -1,0 +1,30 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+html {
+  color-scheme: dark;
+}
+
+/* Nuxt DevTools dark palette, applied to the @nuxt/ui v4 tokens.
+   Unlayered so it wins over the @layer theme defaults shipped by @nuxt/ui. */
+.dark {
+  --ui-bg: #151515;
+  --ui-bg-muted: #191919;
+  --ui-bg-elevated: rgba(136, 136, 136, 0.06);
+  --ui-bg-accented: rgba(136, 136, 136, 0.1);
+  --ui-bg-inverted: #ffffff;
+
+  --ui-text-dimmed: rgba(255, 255, 255, 0.4);
+  --ui-text-muted: rgba(255, 255, 255, 0.55);
+  --ui-text-toned: rgba(255, 255, 255, 0.7);
+  --ui-text: rgba(255, 255, 255, 0.85);
+  --ui-text-highlighted: #ffffff;
+  --ui-text-inverted: #151515;
+
+  --ui-border: rgba(136, 136, 136, 0.2);
+  --ui-border-muted: rgba(136, 136, 136, 0.14);
+  --ui-border-accented: rgba(136, 136, 136, 0.3);
+  --ui-border-inverted: #ffffff;
+
+  --ui-primary: #7d7d7d;
+}

@@ -1,11 +1,11 @@
 <template>
   <div>
     <div
-      class="relative h-7 flex items-center px-1.5 rounded hover:n-bg-hover cursor-pointer"
+      class="relative h-7 flex items-center px-1.5 rounded hover:bg-elevated cursor-pointer"
       @click="$emit('select-span', spanRow.span)"
     >
       <div
-        class="absolute h-4 rounded n-transition"
+        class="absolute h-4 rounded transition"
         :class="getDepthBarColorClass(spanRow.depth, spanRow.span.status_code)"
         :style="barStyle"
         :title="spanRow.span.name"

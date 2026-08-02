@@ -4,10 +4,10 @@
   "description": "OpenTelemetry tracing for Nuxt applications",
   "keywords": [
     "monitoring",
+    "nuxt",
     "observability",
     "openTelemetry",
-    "otel",
-    "nuxt"
+    "otel"
   ],
   "homepage": "https://github.com/lutejka/nuxt-otel#readme",
   "bugs": {
@@ -45,6 +45,9 @@
     "client:build": "nuxi generate client",
     "client:dev": "nuxi dev client --port 3300",
     "prepack": "nuxt-module-build prepare && nuxt-module-build build && pnpm client:build",
+    "docs:build": "pnpm --filter nuxt-otel-docs build",
+    "docs:dev": "pnpm --filter nuxt-otel-docs dev",
+    "docs:generate": "pnpm --filter nuxt-otel-docs generate",
     "dev": "pnpm dev:prepare && nuxt dev playground",
     "dev:build": "nuxt build playground",
     "dev:preview": "nuxt preview playground",
@@ -59,6 +62,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
     "@nuxt/devtools-kit": "^3.2.4",
+    "@nuxt/ui": "^4.10.0",
     "@opentelemetry/api": "^1.9.1",
     "@opentelemetry/api-logs": "^0.220.0",
     "@opentelemetry/exporter-logs-otlp-http": "^0.220.0",
@@ -66,17 +70,18 @@
     "@opentelemetry/sdk-logs": "^0.220.0",
     "@opentelemetry/sdk-node": "^0.220.0",
     "@opentelemetry/semantic-conventions": "^1.41.1",
+    "@vueuse/core": "^14.4.0",
+    "@vueuse/nuxt": "^14.4.0",
     "h3": "^1.15.11",
     "sirv": "^3.0.2",
+    "tailwindcss": "^4.3.3",
     "ufo": "^1.6.4",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@nuxt/cli": "^3.35.2",
-    "@nuxt/devtools": "^3.3.1",
-    "@nuxt/devtools-ui-kit": "^3.3.1",
+    "@nuxt/devtools": "^3.4.0",
     "@nuxt/eslint-config": "^1.15.2",
-    "@nuxt/icon": "^2.2.3",
     "@nuxt/kit": "^4.5.1",
     "@nuxt/module-builder": "^1.0.2",
     "@nuxt/schema": "^4.5.1",

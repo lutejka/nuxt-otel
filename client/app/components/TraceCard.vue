@@ -1,9 +1,9 @@
 <template>
   <div
-    class="group relative n-bg-base border-b n-border-base cursor-pointer n-transition hover:n-bg-hover n-bg-active"
+    class="group relative bg-default border-b border-default cursor-pointer transition-colors duration-200 hover:bg-elevated bg-accented"
     :class="{
       'border-l-2 border-l-red-500': isError,
-      'n-bg-active!': isSelected,
+      'bg-accented!': isSelected,
     }"
     @click="$emit('select', trace.trace_id)"
   >
@@ -34,7 +34,7 @@
           </span>
         </div>
 
-        <div v-if="isError && trace.status_message" class="mt-2 pt-2 border-t n-border-base">
+        <div v-if="isError && trace.status_message" class="mt-2 pt-2 border-t border-default">
           <div class="text-xs text-red-400 bg-red-500/10 px-2 py-1.5 rounded">
             {{ trace.status_message }}
           </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="flex-1 flex flex-col items-center justify-center text-center p-6 size-full">
     <div class="space-y-3 max-w-xs">
-      <div class="w-16 h-16 mx-auto n-bg-active rounded-2xl flex items-center justify-center">
+      <div class="w-16 h-16 mx-auto bg-elevated rounded-2xl flex items-center justify-center">
         <span class="text-2xl text-gray/30">{{ icon }}</span>
       </div>
       <div class="space-y-1">

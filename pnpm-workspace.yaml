@@ -1,11 +1,14 @@
 packages:
   - 'playground'
   - 'client'
+  - 'docs'
 allowBuilds:
   '@parcel/watcher': true
+  better-sqlite3: true
   esbuild: true
   protobufjs: true
   unrs-resolver: true
+  vue-demi: true
 minimumReleaseAgeExclude:
   - '@nuxt/kit'
   - nuxt
@@ -13,3 +16,8 @@ minimumReleaseAgeExclude:
   - '@nuxt/nitro-server@4.5.0 || 4.5.1'
   - '@nuxt/vite-builder@4.5.0 || 4.5.1'
   - '@nuxt/test-utils@4.1.0'
+  - '@nuxt/devtools-kit@3.4.0'
+  - '@nuxt/devtools-ui-kit@3.4.0'
+  - '@nuxt/devtools-wizard@3.4.0'
+  - '@nuxt/devtools@3.4.0'
+  - structured-clone-es@2.0.1

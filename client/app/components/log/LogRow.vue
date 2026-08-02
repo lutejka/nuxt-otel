@@ -1,9 +1,9 @@
 <template>
   <div>
     <div
-      class="grid grid-cols-[60px_140px_100px_1fr_24px] items-center gap-3 px-3 py-2 cursor-pointer n-transition hover:n-bg-hover border-b n-border-base"
+      class="grid grid-cols-[60px_140px_100px_1fr_24px] items-center gap-3 px-3 py-2 cursor-pointer transition hover:bg-elevated border-b border-default"
       :class="{
-        'n-bg-active': isExpanded,
+        'bg-accented': isExpanded,
         'grid-cols-[60px_140px_100px_1fr_24px]': showServiceColumn,
         'grid-cols-[60px_140px_1fr_24px]': !showServiceColumn,
       }"
@@ -23,14 +23,14 @@
         {{ log.body }}
       </span>
 
-      <Icon
+      <UIcon
         name="carbon:chevron-down"
         :class="isExpanded ? 'rotate-180' : ''"
-        class="w-4 h-4 text-gray/30 shrink-0 n-transition"
+        class="w-4 h-4 text-gray/30 shrink-0 transition"
       />
     </div>
 
-    <div v-if="isExpanded" class="border-b n-border-base n-bg-active">
+    <div v-if="isExpanded" class="border-b border-default bg-accented">
       <div class="px-3 py-3 space-y-3">
         <div v-if="log.trace_id || log.span_id" class="flex gap-6">
           <div v-if="log.trace_id">
@@ -55,7 +55,7 @@
 
         <div v-if="hasAttributes">
           <h4 class="text-[10px] font-semibold text-gray/40 uppercase mb-1">Attributes</h4>
-          <div class="n-bg-base rounded px-3 py-2">
+          <div class="bg-default rounded px-3 py-2">
             <KeyValueTable :data="log.attributes" />
           </div>
         </div>

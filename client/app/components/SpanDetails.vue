@@ -1,10 +1,10 @@
 <template>
-  <div class="h-full flex flex-col n-bg-active">
-    <div class="flex items-center justify-between p-3 border-b n-border-base">
+  <div class="h-full flex flex-col bg-elevated">
+    <div class="flex items-center justify-between p-3 border-b border-default">
       <h3 class="text-sm font-semibold text-white">Span Details</h3>
-      <button class="n-icon-button" @click="$emit('close')">
-        <Icon name="carbon:close" class="size-3.5" />
-      </button>
+      <UButton size="xs" square color="neutral" variant="ghost" @click="$emit('close')">
+        <UIcon name="carbon:close" class="size-3.5" />
+      </UButton>
     </div>
 
     <div class="flex-1 overflow-y-auto p-3 space-y-4 text-xs">
@@ -71,7 +71,7 @@
           Events ({{ span.events.length }})
         </h4>
         <div class="space-y-2">
-          <div v-for="(event, idx) in span.events" :key="idx" class="p-2 bg-context/5 rounded">
+          <div v-for="(event, idx) in span.events" :key="idx" class="p-2 bg-primary/5 rounded">
             <div class="flex items-center justify-between mb-1">
               <span class="text-white font-medium text-[10px]">{{ event.name }}</span>
               <span class="text-gray/40 font-mono text-[9px]">{{ formatDuration(event.time - span.start_time) }}</span>
@@ -137,7 +137,7 @@ const kindClass = computed(() => {
     case 3:
       return 'bg-emerald-500/20 text-emerald-400'
     default:
-      return 'bg-context/10 text-context'
+      return 'bg-primary/10 text-primary'
   }
 })
 
