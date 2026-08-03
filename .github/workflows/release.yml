@@ -3,6 +3,11 @@ name: release
 on:
   push:
     branches: [main]
+    # Docs-only changes must NOT trigger a release. `client/**` and
+    # `shared/**` intentionally stay un-ignored: the client is bundled into
+    # the published module, and `shared` feeds the client's types.
+    paths-ignore:
+      - 'docs/**'
   pull_request:
     types: [closed]
     branches: [main]

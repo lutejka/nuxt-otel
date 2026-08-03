@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch } from 'vue'
-import type { Span } from '~~/types'
+import type { Span } from '../../../shared/types'
 import { useTraces } from '~/composables/useTraces'
 import { useLogs } from '~/composables/useLogs'
 import { useServiceFilter } from '~/composables/useServiceFilter'
@@ -14,27 +14,26 @@ import EmptyState from '~/components/ui/EmptyState.vue'
 // page (client/app/pages/index.vue) and the logs page (client/app/pages/logs.vue),
 // fed by the fake-data plugin.
 
-const props = withDefaults(
-  defineProps<{
-    initialTab?: 'traces' | 'logs'
-  }>(),
-  {
-    initialTab: 'traces',
-  },
-)
+const { initialTab = 'traces', preselectTrace } = defineProps<{
+  initialTab?: 'traces' | 'logs'
+  preselectTrace?: string
+}>()
 
-const activeTab = ref<'traces' | 'logs'>(props.initialTab)
+const activeTab = ref<'traces' | 'logs'>(initialTab)
 
 const tabs = [
   { key: 'traces', label: 'Traces', icon: 'carbon:flow' },
   { key: 'logs', label: 'Logs', icon: 'carbon:document' },
 ]
 
+useLocalStorage('traces-panel', 150)
+useLocalStorage('waterfall-name-col', 160)
+
 const { traces, getSpansForTrace, clearAllTraces } = useTraces()
 const { filteredTraces } = useServiceFilter(traces)
 const { logs, clearAllLogs } = useLogs()
 
-const selectedTraceId = ref<string | null>(null)
+const selectedTraceId = ref<string | null>(preselectTrace)
 const traceSpans = ref<Span[]>([])
 const traceLoading = ref(false)
 
@@ -45,7 +44,7 @@ const clearTraces = async () => {
 
 const selectedTrace = computed(() => {
   if (!selectedTraceId.value) return null
-  return traces.value.find((t) => t.trace_id === selectedTraceId.value) || null
+  return traces.value.find(t => t.trace_id === selectedTraceId.value) || null
 })
 
 watch(selectedTraceId, async (id) => {
@@ -56,10 +55,11 @@ watch(selectedTraceId, async (id) => {
   traceLoading.value = true
   try {
     traceSpans.value = await getSpansForTrace(id)
-  } finally {
+  }
+  finally {
     traceLoading.value = false
   }
-})
+}, { immediate: true })
 
 watch(
   () => traces.value[0],
