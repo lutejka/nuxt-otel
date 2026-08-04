@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { watch, toValue } from 'vue'
-import type { Span } from '~~/types'
+import type { Span } from '~shared/types'
 import { useTraces } from '~/composables/useTraces'
 import { useServiceFilter } from '~/composables/useServiceFilter'
 import ResizablePanel from '~/components/layout/ResizablePanel.vue'

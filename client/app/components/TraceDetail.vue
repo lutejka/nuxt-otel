@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Trace, Span } from '~~/types'
+import type { Trace, Span } from '~shared/types'
 import { useResizablePanel } from '../composables/useResizablePanel'
 import TraceWaterfall from '~/components/trace/waterfall/TraceWaterfall.vue'
 import SpanDetails from '~/components/SpanDetails.vue'

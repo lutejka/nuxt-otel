@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { SpanStatusCode } from '@opentelemetry/api'
-import type { Trace } from '~~/types'
+import type { Trace } from '~shared/types'
 
 const { trace } = defineProps<{
   trace: Trace

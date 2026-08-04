@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import SearchInput from '~/components/ui/SearchInput.vue'
 import EmptyState from '~/components/ui/EmptyState.vue'
-import type { Trace } from '~~/types'
+import type { Trace } from '~shared/types'
 
 const { traces = [], selectedTraceId = null } = defineProps<{
   traces?: Trace[]

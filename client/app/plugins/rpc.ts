@@ -1,5 +1,5 @@
 import { onDevtoolsClientConnected } from '@nuxt/devtools-kit/iframe-client'
-import type { Trace, Span, Log } from '~~/types'
+import type { Trace, Span, Log } from '~shared/types'
 import { ref } from 'vue'
 
 interface OtelServerFunctions {

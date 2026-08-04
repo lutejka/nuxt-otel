@@ -44,7 +44,10 @@
   "scripts": {
     "client:build": "nuxi generate client",
     "client:dev": "nuxi dev client --port 3300",
-    "prepack": "nuxt-module-build prepare && nuxt-module-build build && pnpm client:build",
+    "module:build": "nuxt-module-build prepare && nuxt-module-build build",
+    "docs:prepare": "nuxt-module-build prepare && nuxt prepare client",
+    "build": "pnpm module:build && pnpm client:build",
+    "prepack": "pnpm build",
     "docs:build": "pnpm --filter nuxt-otel-docs build",
     "docs:dev": "pnpm --filter nuxt-otel-docs dev",
     "docs:generate": "pnpm --filter nuxt-otel-docs generate",

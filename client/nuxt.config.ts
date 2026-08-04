@@ -3,6 +3,8 @@ import { fileURLToPath } from 'node:url'
 
 const _dirname = dirname(fileURLToPath(import.meta.url))
 
+const sharedDir = resolve(_dirname, '../shared')
+
 export default defineNuxtConfig({
   appId: 'nuxt-otel-iframe',
   modules: ['@nuxt/ui', '@vueuse/nuxt'],
@@ -23,6 +25,9 @@ export default defineNuxtConfig({
     classSuffix: '',
   },
   compatibilityDate: '2025-03-01',
+  alias: {
+    '~shared': sharedDir,
+  },
   nitro: {
     output: {
       publicDir: resolve(_dirname, '../dist/client'),

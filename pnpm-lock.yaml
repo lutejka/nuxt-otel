@@ -119,6 +119,9 @@ importers:
 
   docs:
     dependencies:
+      '@nuxt/ui':
+        specifier: ^4.10.0
+        version: 4.10.0(c53623aab91c35ac89387c8476ba1905)
       '@opentelemetry/api':
         specifier: ^1.9.1
         version: 1.9.1

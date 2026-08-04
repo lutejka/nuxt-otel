@@ -1,5 +1,5 @@
 ﻿import fakeData from '../../fake-data/traces.json'
-import type { Trace, Span, Log } from '~~/types'
+import type { Trace, Span, Log } from '~shared/types'
 
 export default defineNuxtPlugin(() => {
   const traces = useState<Trace[]>('traces', () => (fakeData.traces as Trace[]).map((t) => ({ ...t })))

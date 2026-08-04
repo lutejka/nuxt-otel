@@ -1,4 +1,4 @@
-import type { Span } from '~~/types'
+import type { Span } from '~shared/types'
 
 export interface TraceBounds {
   traceStart: number
