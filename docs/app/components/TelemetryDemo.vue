@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch } from 'vue'
-import type { Span } from '../../../shared/types'
+import type { Span } from '~shared/types'
 import { useTraces } from '~/composables/useTraces'
 import { useLogs } from '~/composables/useLogs'
 import { useServiceFilter } from '~/composables/useServiceFilter'
@@ -44,22 +44,25 @@ const clearTraces = async () => {
 
 const selectedTrace = computed(() => {
   if (!selectedTraceId.value) return null
-  return traces.value.find(t => t.trace_id === selectedTraceId.value) || null
+  return traces.value.find((t) => t.trace_id === selectedTraceId.value) || null
 })
 
-watch(selectedTraceId, async (id) => {
-  if (!id) {
-    traceSpans.value = []
-    return
-  }
-  traceLoading.value = true
-  try {
-    traceSpans.value = await getSpansForTrace(id)
-  }
-  finally {
-    traceLoading.value = false
-  }
-}, { immediate: true })
+watch(
+  selectedTraceId,
+  async (id) => {
+    if (!id) {
+      traceSpans.value = []
+      return
+    }
+    traceLoading.value = true
+    try {
+      traceSpans.value = await getSpansForTrace(id)
+    } finally {
+      traceLoading.value = false
+    }
+  },
+  { immediate: true },
+)
 
 watch(
   () => traces.value[0],

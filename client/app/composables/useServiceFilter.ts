@@ -1,4 +1,4 @@
-import type { Trace } from '~~/types'
+import type { Trace } from '~shared/types'
 import { toValue, watch } from 'vue'
 
 export function useServiceFilter(traces: MaybeRefOrGetter<Trace[]>) {

@@ -91,7 +91,7 @@
 
 <script setup lang="ts">
 import { SpanStatusCode } from '@opentelemetry/api'
-import type { Log, Span } from '~~/types'
+import type { Log, Span } from '~shared/types'
 import { formatDuration, getSpanKindLabel } from '../utils/formatters'
 import { useLogs } from '../composables/useLogs'
 import KeyValueTable from '~/components/ui/KeyValueTable.vue'

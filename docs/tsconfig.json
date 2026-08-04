@@ -6,7 +6,9 @@
       "~~": ["../client"],
       "~~/*": ["../client/*"],
       "~": ["../client/app"],
-      "~/*": ["../client/app/*"]
+      "~/*": ["../client/app/*"],
+      "~shared": ["../shared"],
+      "~shared/*": ["../shared/*"]
     }
   }
 }

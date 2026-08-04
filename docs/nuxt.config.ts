@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const clientRoot = resolve(__dirname, '../client')
 const clientApp = resolve(clientRoot, 'app')
+const sharedDir = resolve(__dirname, '../shared')
 
 export default defineNuxtConfig({
   extends: ['docus'],
@@ -33,6 +34,7 @@ export default defineNuxtConfig({
   alias: {
     '~~': clientRoot,
     '~': clientApp,
+    '~shared': sharedDir,
   },
   compatibilityDate: '2025-08-02',
 })

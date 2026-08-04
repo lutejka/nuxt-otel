@@ -94,7 +94,7 @@
 
 <script setup lang="ts">
 import { SpanStatusCode } from '@opentelemetry/api'
-import type { Span, Trace } from '~~/types'
+import type { Span, Trace } from '~shared/types'
 import { formatDuration } from '../../../utils/formatters.ts'
 import { spanListToTree } from '../../../utils/span-tree.ts'
 import { getTraceBounds } from '../../../utils/trace.ts'

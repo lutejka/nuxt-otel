@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Log } from '~~/types'
+import type { Log } from '~shared/types'
 import { formatTimestamp } from '~/utils/formatters'
 import SeverityBadge from '~/components/ui/SeverityBadge.vue'
 import KeyValueTable from '~/components/ui/KeyValueTable.vue'

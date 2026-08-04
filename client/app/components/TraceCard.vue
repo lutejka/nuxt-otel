@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import { SpanStatusCode } from '@opentelemetry/api'
-import type { Trace } from '~~/types'
+import type { Trace } from '~shared/types'
 import { formatDuration } from '../utils/formatters'
 import TraceStatus from './trace/TraceStatus.vue'
 
