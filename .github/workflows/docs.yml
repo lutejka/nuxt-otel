@@ -43,7 +43,7 @@ jobs:
           NUXT_APP_BASE_URL: /nuxt-otel/
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: docs/.output/public
 
