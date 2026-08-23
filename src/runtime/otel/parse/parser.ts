@@ -194,14 +194,14 @@ export function parseOTLPTrace(otlpData: IExportTraceServiceRequest): TraceResul
         const statusMessage = otlpSpan.status?.message || null
 
         // Parse events
-        const events = (otlpSpan.events || []).map((event) => ({
+        const events = (otlpSpan.events || []).map(event => ({
           time: nanoToMs(event.timeUnixNano),
           name: event.name,
           attributes: parseAttributes(event.attributes),
         }))
 
         // Parse links
-        const links = (otlpSpan.links || []).map((link) => ({
+        const links = (otlpSpan.links || []).map(link => ({
           traceId: link.traceId,
           spanId: link.spanId,
           traceState: link.traceState,
@@ -220,7 +220,8 @@ export function parseOTLPTrace(otlpData: IExportTraceServiceRequest): TraceResul
             status_code: statusCode,
             status_message: statusMessage,
           })
-        } else {
+        }
+        else {
           // Update trace timing if this span extends it
           const trace = traces.get(traceId)!
           if (startTime < trace.start_time) trace.start_time = startTime
@@ -257,11 +258,11 @@ export function parseOTLPTrace(otlpData: IExportTraceServiceRequest): TraceResul
 
   // Update trace operation names to use root span names
   for (const trace of traces.values()) {
-    const traceSpans = spans.filter((s) => s.trace_id === trace.trace_id)
-    const spanMap = new Map(traceSpans.map((s) => [s.span_id, s]))
+    const traceSpans = spans.filter(s => s.trace_id === trace.trace_id)
+    const spanMap = new Map(traceSpans.map(s => [s.span_id, s]))
 
     // Find root span (no parent or parent not in this trace)
-    const rootSpan = traceSpans.find((s) => !s.parent_span_id || !spanMap.has(s.parent_span_id))
+    const rootSpan = traceSpans.find(s => !s.parent_span_id || !spanMap.has(s.parent_span_id))
 
     if (rootSpan) {
       trace.operation_name = rootSpan.name
@@ -282,7 +283,7 @@ function getLogBodyValue(body?: ILogRecord['body']): string {
   if (body.doubleValue !== undefined) return String(body.doubleValue)
   if (body.boolValue !== undefined) return String(body.boolValue)
   if (body.arrayValue !== undefined) {
-    return JSON.stringify(body.arrayValue.values.map((v) => getAttributeValue(v as IKeyValue['value'])))
+    return JSON.stringify(body.arrayValue.values.map(v => getAttributeValue(v as IKeyValue['value'])))
   }
   if (body.kvlistValue !== undefined) {
     return JSON.stringify(parseAttributes(body.kvlistValue.values))

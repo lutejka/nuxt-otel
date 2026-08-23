@@ -14,7 +14,7 @@ export function register(server: McpServer): void {
       const allSpans = globalThis.__nuxtOtelSpans ?? []
       const traceId = trace_id as string | undefined
       const max = limit as number | undefined
-      let spans = traceId ? allSpans.filter((s) => s.trace_id === traceId) : allSpans
+      let spans = traceId ? allSpans.filter(s => s.trace_id === traceId) : allSpans
       if (max) spans = spans.slice(0, max)
       return {
         content: [{ type: 'text', text: JSON.stringify(spans) }],

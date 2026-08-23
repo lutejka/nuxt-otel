@@ -2,7 +2,7 @@ import { useLogger } from '@nuxt/kit'
 import { extendServerRpc } from '@nuxt/devtools-kit'
 import type { Nuxt } from '@nuxt/schema'
 import { setupTraceRPC } from './traces'
-import type { OtelClientFunctions, OtelServerFunctions } from '~/src/types'
+import type { OtelClientFunctions, OtelServerFunctions } from '../../types'
 
 export function setupRPC(nuxt: Nuxt) {
   const logger = useLogger('nuxt-otel')
@@ -27,7 +27,8 @@ export function setupRPC(nuxt: Nuxt) {
           rpcGroup.broadcast.onLogsReceived(logs)
         },
       }
-    } catch (e) {
+    }
+    catch (e) {
       logger.warn('Failed to setup devtools RPC:', e)
     }
   })

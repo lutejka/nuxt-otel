@@ -7,7 +7,7 @@
       :placeholder="placeholder"
       class="w-full bg-elevated border border-default rounded pl-7 pr-2 py-1.5 text-xs text-default placeholder:text-dimmed focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-transparent"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-    />
+    >
   </div>
 </template>
 

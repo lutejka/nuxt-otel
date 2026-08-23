@@ -1,4 +1,4 @@
-import type { OtelClientFunctions } from '~/src/types'
+import type { OtelClientFunctions } from '../../types'
 import type { Trace, Span, Log } from '../otel/parse/parser'
 
 declare global {
@@ -14,7 +14,7 @@ export function getTraces(): Trace[] {
 
 export function getSpans(traceId?: string): Span[] {
   const allSpans = globalThis.__nuxtOtelSpans ?? []
-  return traceId ? allSpans.filter((s) => s.trace_id === traceId) : allSpans
+  return traceId ? allSpans.filter(s => s.trace_id === traceId) : allSpans
 }
 
 export function clearTraces(): void {
@@ -28,8 +28,8 @@ export function clearLogs() {
 
 export function addSpans(spans: Span[]) {
   globalThis.__nuxtOtelSpans ||= []
-  const existingIds = new Set(globalThis.__nuxtOtelSpans!.map((s) => s.span_id))
-  const newSpans = spans.filter((s) => !existingIds.has(s.span_id))
+  const existingIds = new Set(globalThis.__nuxtOtelSpans!.map(s => s.span_id))
+  const newSpans = spans.filter(s => !existingIds.has(s.span_id))
   if (newSpans.length === 0) return
   globalThis.__nuxtOtelSpans!.push(...newSpans)
   // Fire-and-forget broadcast - don't block on RPC connection state
@@ -44,8 +44,8 @@ export function addSpans(spans: Span[]) {
 
 export function addTraces(traces: Trace[]) {
   globalThis.__nuxtOtelTraces ||= []
-  const existingIds = new Set(globalThis.__nuxtOtelTraces!.map((t) => t.trace_id))
-  const newTraces = traces.filter((t) => !existingIds.has(t.trace_id))
+  const existingIds = new Set(globalThis.__nuxtOtelTraces!.map(t => t.trace_id))
+  const newTraces = traces.filter(t => !existingIds.has(t.trace_id))
   if (newTraces.length === 0) return
   globalThis.__nuxtOtelTraces!.push(...newTraces)
   // Fire-and-forget broadcast - don't block on RPC connection state
@@ -60,8 +60,8 @@ export function addTraces(traces: Trace[]) {
 
 export function addLogs(logs: Log[]) {
   globalThis.__nuxtOTelLogs ||= []
-  const existingIds = new Set(globalThis.__nuxtOTelLogs!.map((l) => l.log_id))
-  const newLogs = logs.filter((l) => !existingIds.has(l.log_id))
+  const existingIds = new Set(globalThis.__nuxtOTelLogs!.map(l => l.log_id))
+  const newLogs = logs.filter(l => !existingIds.has(l.log_id))
   if (newLogs.length === 0) return
   globalThis.__nuxtOTelLogs!.push(...newLogs)
   // Fire-and-forget broadcast - don't block on RPC connection state

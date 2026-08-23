@@ -21,7 +21,7 @@ const { traceDuration } = defineProps<{
 }>()
 
 const ticks = computed(() => {
-  const items: Array<{ percent: number; label: string }> = []
+  const items: Array<{ percent: number, label: string }> = []
   for (let index = 0; index <= LABEL_COUNT; index++) {
     const percent = (index / LABEL_COUNT) * 100
     items.push({

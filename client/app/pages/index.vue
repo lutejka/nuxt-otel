@@ -52,7 +52,7 @@ const clearTraces = async () => {
 
 const selectedTrace = computed(() => {
   if (!selectedTraceId.value) return null
-  return traces.value.find((t) => t.trace_id === selectedTraceId.value) || null
+  return traces.value.find(t => t.trace_id === selectedTraceId.value) || null
 })
 
 watch(selectedTraceId, async (id) => {
@@ -63,7 +63,8 @@ watch(selectedTraceId, async (id) => {
   traceLoading.value = true
   try {
     traceSpans.value = await getSpansForTrace(id)
-  } finally {
+  }
+  finally {
     traceLoading.value = false
   }
 })
@@ -80,7 +81,7 @@ watch(
 watch(
   () => filteredTraces.value[0],
   (newFirst) => {
-    if (selectedTraceId.value && !traces.value.find((t) => t.trace_id === selectedTraceId.value)) {
+    if (selectedTraceId.value && !traces.value.find(t => t.trace_id === selectedTraceId.value)) {
       selectedTraceId.value = newFirst?.trace_id || null
     }
   },

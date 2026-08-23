@@ -2,12 +2,12 @@
 import type { Trace, Span, Log } from '~shared/types'
 
 export default defineNuxtPlugin(() => {
-  const traces = useState<Trace[]>('traces', () => (fakeData.traces as Trace[]).map((t) => ({ ...t })))
-  const spans = useState<Span[]>('spans', () => (fakeData.spans as Span[]).map((s) => ({ ...s })))
-  const logs = useState<Log[]>('logs', () => (fakeData.logs as Log[]).map((l) => ({ ...l })))
+  const traces = useState<Trace[]>('traces', () => (fakeData.traces as Trace[]).map(t => ({ ...t })))
+  const spans = useState<Span[]>('spans', () => (fakeData.spans as Span[]).map(s => ({ ...s })))
+  const logs = useState<Log[]>('logs', () => (fakeData.logs as Log[]).map(l => ({ ...l })))
 
   function getSpansForTrace(traceId: string): Span[] {
-    return spans.value.filter((s) => s.trace_id === traceId)
+    return spans.value.filter(s => s.trace_id === traceId)
   }
 
   function clearAllTraces() {

@@ -30,9 +30,11 @@ async function placeOrder() {
         userId: `user-${Math.floor(Math.random() * 100)}`,
       },
     })
-  } catch (e) {
+  }
+  catch (e) {
     result.value = { error: e instanceof Error ? e.message : String(e) }
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }

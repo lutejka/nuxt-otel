@@ -16,7 +16,7 @@ export default defineEventHandler(() => {
   const spans = exporter.getFinishedSpans()
   return {
     spans: spans.map(
-      (s: { name: string; attributes: Record<string, unknown>; status: { code: number }; kind: number }) => ({
+      (s: { name: string, attributes: Record<string, unknown>, status: { code: number }, kind: number }) => ({
         name: s.name,
         attributes: s.attributes,
         status: s.status,

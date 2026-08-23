@@ -76,7 +76,8 @@ export async function mcpHandler(event: H3Event): Promise<void> {
   try {
     const raw = await readRawBody(event, 'utf-8')
     body = raw ? JSON.parse(raw) : undefined
-  } catch {
+  }
+  catch {
     res.statusCode = 400
     res.setHeader('Content-Type', 'application/json')
     res.end(
@@ -97,7 +98,8 @@ export async function mcpHandler(event: H3Event): Promise<void> {
   try {
     await server.connect(transport)
     await transport.handleRequest(req, res, body)
-  } catch (error) {
+  }
+  catch (error) {
     console.error('[nuxt-otel-mcp] Error handling MCP request:', error)
     if (!res.headersSent) {
       res.statusCode = 500
@@ -110,7 +112,8 @@ export async function mcpHandler(event: H3Event): Promise<void> {
         }),
       )
     }
-  } finally {
+  }
+  finally {
     await transport.close().catch(() => {})
     await server.close().catch(() => {})
   }

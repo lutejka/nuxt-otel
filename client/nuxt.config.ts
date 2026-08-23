@@ -24,10 +24,10 @@ export default defineNuxtConfig({
     fallback: 'dark',
     classSuffix: '',
   },
-  compatibilityDate: '2025-03-01',
   alias: {
     '~shared': sharedDir,
   },
+  compatibilityDate: '2025-03-01',
   nitro: {
     output: {
       publicDir: resolve(_dirname, '../dist/client'),

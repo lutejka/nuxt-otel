@@ -147,7 +147,7 @@ const attributeCount = computed(() => Object.keys(props.span.attributes).length)
 const { logs: allLogs } = useLogs()
 const logs = computed<Log[]>(() => {
   return allLogs.value.filter(
-    (logEntry) => logEntry.trace_id === props.span.trace_id && logEntry.span_id === props.span.span_id,
+    logEntry => logEntry.trace_id === props.span.trace_id && logEntry.span_id === props.span.span_id,
   )
 })
 </script>

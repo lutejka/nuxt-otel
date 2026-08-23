@@ -31,7 +31,8 @@ export function useServiceFilter(traces: MaybeRefOrGetter<Trace[]>) {
     const next = new Set(selectedServices.value)
     if (next.has(name)) {
       next.delete(name)
-    } else {
+    }
+    else {
       next.add(name)
     }
     selectedServices.value = next

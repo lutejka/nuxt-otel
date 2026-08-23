@@ -66,7 +66,8 @@ export default defineNuxtPlugin({
           })
           rpc.value = clientRpc
           isConnected.value = true
-        } catch (e) {
+        }
+        catch (e) {
           console.warn('[nuxt-otel] Failed to extend client RPC:', e)
           return
         }
@@ -97,7 +98,7 @@ export default defineNuxtPlugin({
       if (rpc.value) {
         return await rpc.value.getSpans(traceId)
       }
-      return spans.value.filter((s) => s.trace_id === traceId)
+      return spans.value.filter(s => s.trace_id === traceId)
     }
 
     async function clearAllTraces() {

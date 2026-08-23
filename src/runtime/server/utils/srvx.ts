@@ -29,7 +29,7 @@ interface SrvxRequestMessage {
     context?: { matchedRoute?: { route?: string } }
     runtime?: {
       node?: {
-        req: { httpVersion: string; socket: { remotePort?: number } }
+        req: { httpVersion: string, socket: { remotePort?: number } }
       }
     }
   }
@@ -47,7 +47,8 @@ function getSrvxUrl(data: SrvxRequestMessage): URL | undefined {
   if (data.request._url) return data.request._url
   try {
     return new URL(data.request.url)
-  } catch {
+  }
+  catch {
     return undefined
   }
 }

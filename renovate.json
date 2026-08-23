@@ -1,6 +1,41 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    ":semanticCommits"
+  ],
+  "configMigration": true,
+  "labels": ["dependencies"],
+  "schedule": ["before 6am on monday"],
+  "minimumReleaseAge": "3 days",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on monday"]
+  },
+  "packageRules": [
+    {
+      "description": "Nuxt core moves fast - exempt it from the release-age delay like pnpm does",
+      "matchPackageNames": ["nuxt", "/^@nuxt//"],
+      "minimumReleaseAge": null,
+      "groupName": "nuxt"
+    },
+    {
+      "description": "OpenTelemetry packages are released in lockstep - always update them together",
+      "matchPackageNames": ["/^@opentelemetry//"],
+      "groupName": "opentelemetry"
+    },
+    {
+      "description": "Batch minor/patch dev tooling updates and automerge them once CI passes",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "dev dependencies (minor and patch)",
+      "automerge": true,
+      "platformAutomerge": true
+    },
+    {
+      "description": "Never automerge major updates - they need manual review",
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    }
   ]
 }

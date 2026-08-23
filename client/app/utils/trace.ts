@@ -12,7 +12,7 @@ export function getTraceBounds(spans: Span[]): TraceBounds {
     spanMap.set(span.span_id, span)
   }
 
-  const rootSpans = spans.filter((span) => !span.parent_span_id || !spanMap.has(span.parent_span_id))
+  const rootSpans = spans.filter(span => !span.parent_span_id || !spanMap.has(span.parent_span_id))
   rootSpans.sort((a, b) => a.start_time - b.start_time)
 
   const traceStart = rootSpans[0]?.start_time ?? 0
