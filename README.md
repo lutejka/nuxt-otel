@@ -47,7 +47,6 @@ export default defineNuxtConfig({
   nuxtOtel: {
     // Enable built-in OpenTelemetry SDK (Node.js only)
     instrument: true,
-
     // Enable DevTools UI at /__nuxt-otel
     devtools: true,
   },
