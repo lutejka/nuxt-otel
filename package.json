@@ -97,7 +97,7 @@
     "eslint": "^10.4.1",
     "nuxt": "^4.5.1",
     "oxfmt": "^0.67.0",
-    "typescript": "~6.0.3",
+    "typescript": "~7.0.0",
     "vitest": "^5.0.0",
     "vue-tsc": "^3.3.3"
   }
