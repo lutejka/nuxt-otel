@@ -1,48 +1,100 @@
-import { addCustomTab } from '@nuxt/devtools-kit'
-import { existsSync } from 'node:fs'
 import type { Nuxt } from '@nuxt/schema'
-import { addDevServerHandler, type Resolver } from '@nuxt/kit'
+import type { DevframeDefinition } from 'devframe'
+import { createRequire } from 'node:module'
 import { joinURL } from 'ufo'
-import { eventHandler, getRequestURL, proxyRequest } from 'h3'
-import { UI_PATH } from './runtime/server/utils/otel-routes'
 
-export const DEVTOOLS_UI_ROUTE = UI_PATH
-export const DEVTOOLS_UI_LOCAL_PORT = 3300
+const DEVTOOLS_ID = 'opentelemetry'
+const DEVTOOLS_TITLE = 'OpenTelemetry'
+const DEVTOOLS_ICON = 'simple-icons:opentelemetry'
 
-export function setupDevToolsUI(nuxt: Nuxt, resolver: Resolver) {
-  const clientPath = resolver.resolve('./client')
-  const clientBuiltIndex = resolver.resolve('./client/index.html')
-  const isProductionBuild = existsSync(clientBuiltIndex)
+interface DevtoolsReadyContext {
+  install: (definition: DevframeDefinition, options?: { dock?: Record<string, unknown> }) => unknown
+}
 
-  if (isProductionBuild) {
-    nuxt.hook('vite:serverCreated', async (server) => {
-      const sirv = await import('sirv').then(r => r.default || r)
-      server.middlewares.use(`${DEVTOOLS_UI_ROUTE}/`, sirv(clientPath, { dev: true, single: true }))
-    })
+interface LegacyCustomTab {
+  name: string
+  title: string
+  icon: string
+  category: 'analyze'
+  view: { type: 'iframe', src: string }
+}
+
+type Hook = <T extends unknown[]>(name: string, fn: (...args: T) => unknown) => void
+
+/** Nuxt DevTools v4 exposes the Vite DevTools context on `nuxt.devtools`; v3 does not. */
+function isViteDevtools(nuxt: Nuxt) {
+  const devtools = (nuxt as Nuxt & { devtools?: object }).devtools
+  return !!devtools && 'devtoolsKit' in devtools
+}
+
+/** Base path the devframe UI is served from (iframe tab `src`). */
+export function getDevtoolsBase(nuxt: Nuxt) {
+  return joinURL(nuxt.options.app.baseURL || '/', `/__${DEVTOOLS_ID}/`)
+}
+
+/**
+ * MCP endpoint auto-mounted by `initDevframe` at `<base>__mcp`, or `undefined`
+ * when the optional `@devframes/agentic` peer is not installed (devframe then
+ * logs DF0078 and serves no MCP endpoint).
+ */
+export function getMcpEndpoint(nuxt: Nuxt): string | undefined {
+  try {
+    createRequire(import.meta.url).resolve('@devframes/agentic')
   }
-  // In local development, start a separate Nuxt Server and proxy to serve the client
-  else {
-    addDevServerHandler({
-      route: `${DEVTOOLS_UI_ROUTE}`,
-      handler: eventHandler(async (e) => {
-        const reqUrl = getRequestURL(e)
-        const url = 'http://localhost:' + DEVTOOLS_UI_LOCAL_PORT + reqUrl.pathname + reqUrl.search
-        return proxyRequest(e, url)
-      }),
-    })
+  catch {
+    return undefined
   }
+  const devServerUrl = (nuxt.options?.devServer?.url || '').replace(/\/$/, '')
+  return `${devServerUrl}${joinURL(getDevtoolsBase(nuxt), '__mcp')}`
+}
 
-  addCustomTab(
-    {
-      name: 'nuxt-otel',
-      title: 'OpenTelemetry',
-      icon: 'simple-icons:opentelemetry',
-      category: 'analyze',
-      view: {
-        type: 'iframe',
-        src: joinURL(nuxt.options.app?.baseURL || '/', DEVTOOLS_UI_ROUTE),
-      },
-    },
-    nuxt,
-  )
+/**
+ * Mount the `vite-opentelemetry-inspector` devframe: natively in Vite
+ * DevTools via `devtools:ready`, or — on older Nuxt DevTools without a
+ * devframe host — as an iframe tab serving the devframe locally.
+ */
+export async function setupDevtools(nuxt: Nuxt) {
+  const { createOpentelemetryDevframe } = await import('vite-opentelemetry-inspector/devtools')
+  const { definition, ingest } = createOpentelemetryDevframe({
+    id: DEVTOOLS_ID,
+    name: DEVTOOLS_TITLE,
+    icon: DEVTOOLS_ICON,
+  })
+
+  const hook = nuxt.hook as Hook
+
+  hook('devtools:ready', (ctx: DevtoolsReadyContext) => {
+    console.log('REDY')
+    return ctx.install(definition, {
+      dock: { groupId: 'nuxt', category: 'analyze' },
+    })
+  })
+
+  let legacyDevtools = false
+  hook('devtools:initialized', () => {
+    legacyDevtools = !isViteDevtools(nuxt)
+  })
+
+  const base = getDevtoolsBase(nuxt)
+
+  hook('devtools:customTabs', (tabs: LegacyCustomTab[]) => {
+    if (legacyDevtools) {
+      tabs.push({ name: DEVTOOLS_ID, title: DEVTOOLS_TITLE, icon: DEVTOOLS_ICON, category: 'analyze', view: { type: 'iframe', src: base } })
+    }
+  })
+
+  let instance: { close: () => Promise<void> } | undefined
+  nuxt.hook('close', () => instance?.close())
+  nuxt.hook('vite:serverCreated', async (server, { isClient }) => {
+    if (!isClient || !legacyDevtools) {
+      return
+    }
+    await instance?.close()
+    const { initDevframe } = await import('devframe/initiate')
+    const created = initDevframe(definition, { base: '/', ws: false, auth: false })
+    server.middlewares.use(base, created.nodeMiddleware)
+    instance = created
+  })
+
+  return { ingest }
 }

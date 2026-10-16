@@ -2,7 +2,7 @@ import type { NuxtSSRContext, NuxtIslandContext } from '#app'
 import { SpanStatusCode, type Tracer } from '@opentelemetry/api'
 import type { H3Event } from 'h3'
 import { getResponseStatus } from 'h3'
-import { traceChannel, setAttr } from './traceChannel'
+import { traceChannel, setAttr } from './traceChannel.ts'
 
 interface NuxtRenderMessage {
   event: H3Event

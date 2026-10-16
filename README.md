@@ -47,7 +47,7 @@ export default defineNuxtConfig({
   nuxtOtel: {
     // Enable built-in OpenTelemetry SDK (Node.js only)
     instrument: true,
-    // Enable DevTools UI at /__nuxt-otel
+    // Enable the OpenTelemetry panel in Vite DevTools
     devtools: true,
   },
 })
@@ -189,7 +189,7 @@ Each traced operation follows the Diagnostic Channels lifecycle:
 
 ## 🖥️ DevTools UI
 
-When devtools are enabled (`devtools: true` in `nuxtOtel` config), the module provides a built-in client UI at `/__nuxt-otel` for browsing traces and logs in real time.
+When devtools are enabled (`devtools: true` in `nuxtOtel` config), the module adds an **OpenTelemetry** panel to [Vite DevTools](https://devtools.vite.dev) for browsing traces and logs in real time. It is powered by [`vite-opentelemetry-inspector`](https://github.com/lutejka/vite-opentelemetry-inspector).
 
 **Traces** shows a resizable split panel with a trace list on the left and a waterfall timeline with span details on the right.
 
@@ -199,48 +199,73 @@ When devtools are enabled (`devtools: true` in `nuxtOtel` config), the module pr
 
 ![Logs view - expandable log entries with severity badges](./.github/logs.png)
 
-When using a custom instrumentation setup (i.e. `instrument: false`), you can still forward spans and logs to the devtools UI by exporting them to the OTLP HTTP endpoint at:
+When using a custom instrumentation setup (i.e. `instrument: false`), you can still forward spans and logs to the devtools panel by exporting them to the OTLP HTTP endpoint at:
 
 ```
-{devServerUrl}/__nuxt-otel-ingest
+{devServerUrl}/__opentelemetry-ingest
 ```
 
-The endpoint accepts both trace and log OTLP JSON payloads (`/v1/traces` and `/v1/logs`). This lets you use any OTel SDK or collector to push data into the devtools UI without relying on the built-in NodeSDK.
+The endpoint accepts both trace and log OTLP JSON payloads (`/v1/traces` and `/v1/logs`). This lets you use any OTel SDK or collector to push data into the devtools panel without relying on the built-in NodeSDK.
 
 ## 🔌 MCP Server
 
 > **Note:** The MCP integration is development-only. The OTEL tools query in-memory trace and log stores that are populated during development. In production builds, the OTEL-specific tools are not available.
 
-The module exposes a built-in MCP server at `/__nuxt-otel-mcp` for querying OpenTelemetry data over the [Model Context Protocol](https://modelcontextprotocol.io). This uses the `@modelcontextprotocol/sdk` directly with Streamable HTTP transport.
+The OpenTelemetry panel exposes agent tools (`get-traces`, `get-trace`, `get-spans`, `get-logs`, `clear-traces`, `clear-logs`) over the devframe MCP adapter provided by [`vite-opentelemetry-inspector`](https://github.com/lutejka/vite-opentelemetry-inspector#mcp).
 
-### Available tools
+### Prerequisites
 
-| Tool         | Description                                                             |
-| ------------ | ----------------------------------------------------------------------- |
-| `get_traces` | Retrieve all collected OpenTelemetry traces, with optional `limit`      |
-| `get_trace`  | Retrieve a single trace and its spans by `trace_id`                     |
-| `get_spans`  | Retrieve collected spans, optionally filtered by `trace_id` and `limit` |
-| `get_logs`   | Retrieve all collected OpenTelemetry logs, with optional `limit`        |
+The MCP endpoint is only mounted when the optional `@devframes/agentic` peer is installed. Without it, devframe logs `DF0078`, serves no MCP endpoint, and the terminal shows `MCP server → disabled`.
 
-### Connecting an MCP client
-
-Once the dev server is running, you can connect any MCP client to the endpoint:
-
-```
-http://localhost:3000/__nuxt-otel-mcp
+```bash
+pnpm add -D @devframes/agentic
 ```
 
-For example, in **Cursor** or **VS Code**:
+### Endpoint
+
+Start the dev server with DevTools enabled (`nuxtOtel.devtools: true`) and look for the `Nuxt OTel devtools` box in the terminal:
+
+```
+Nuxt OTel devtools:
+  OTLP HTTP ingest  → http://localhost:3000/__opentelemetry-ingest
+  MCP server        → http://localhost:3000/__opentelemetry/__mcp
+```
+
+### Connect an agent
+
+Point your MCP client at the `__mcp` URL as a remote server. Devframe rejects requests without a matching `Origin` header, so always set `Origin` to your dev server origin:
 
 ```json
 {
-  "mcpServers": {
+  "mcp": {
     "nuxt-otel": {
-      "url": "http://localhost:3000/__nuxt-otel-mcp"
+      "type": "remote",
+      "url": "http://localhost:3000/__opentelemetry/__mcp",
+      "headers": {
+        "Origin": "http://localhost:3000"
+      },
+      "enabled": true
     }
   }
 }
 ```
+
+If your dev server runs on a different port or host, update both `url` and the `Origin` header to match it.
+
+### Available tools
+
+| Tool           | Description                                                 |
+| -------------- | ----------------------------------------------------------- |
+| `get-traces`   | Retrieve all collected OpenTelemetry traces                 |
+| `get-trace`    | Retrieve a single trace and its spans by `trace_id`         |
+| `get-spans`    | Retrieve collected spans, optionally filtered by `trace_id` |
+| `get-logs`     | Retrieve all collected OpenTelemetry logs                   |
+| `clear-traces` | Clear all collected traces and spans                        |
+| `clear-logs`   | Clear all collected logs                                    |
+
+- **Endpoint shows `disabled`** — install `@devframes/agentic` as a dev dependency and restart the dev server.
+- **Request rejected or forbidden** — set the `Origin` header to your exact dev server origin (scheme + host + port).
+- **Empty traces or logs** — load a page in the browser first so the in-memory stores are populated, then query again.
 
 ## ⛰️ Next Steps
 

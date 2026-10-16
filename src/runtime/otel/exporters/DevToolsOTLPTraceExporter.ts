@@ -4,7 +4,7 @@ import { devServerUrl } from '#nuxt-otel-config'
 export class DevToolsOTLPTraceExporter extends OTLPTraceExporter {
   constructor() {
     super({
-      url: devServerUrl ? new URL('__nuxt-otel-ingest', devServerUrl).toString() : undefined,
+      url: devServerUrl ? new URL('__opentelemetry-ingest', devServerUrl).toString() : undefined,
     })
   }
 }

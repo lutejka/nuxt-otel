@@ -16,8 +16,8 @@ import {
   ATTR_USER_AGENT_ORIGINAL,
   ATTR_HTTP_RESPONSE_STATUS_CODE,
 } from '@opentelemetry/semantic-conventions'
-import { traceChannel, setAttr } from './traceChannel'
-import { isInternalRoute } from './otel-routes'
+import { traceChannel, setAttr } from './traceChannel.ts'
+import { isInternalRoute } from './otel-routes.ts'
 import {
   getRequestProtocol,
   getRequestHost,

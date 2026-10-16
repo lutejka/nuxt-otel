@@ -8,14 +8,9 @@ import {
   addDevServerHandler,
   addServerImportsDir,
 } from '@nuxt/kit'
-import { setupDevToolsUI } from './devtools'
-import { setupRPC } from './runtime/rpc/index'
-import { otlpIngestHandler } from './runtime/otel/ingest/otlpIngestHandler'
-import { mcpHandler } from './runtime/mcp/index'
-
-// Include type augmentations in the published types
-import './types'
-import { INGEST_PATH, MCP_PATH } from './runtime/server/utils/otel-routes'
+import { eventHandler, readBody } from 'h3'
+import { setupDevtools, getMcpEndpoint } from './devtools.ts'
+import { INGEST_PATH } from './runtime/server/utils/otel-routes.ts'
 
 export interface TracingChannelOptions {
   nuxt?: boolean
@@ -54,7 +49,7 @@ export default defineNuxtModule<ModuleOptions>({
     instrument: true,
     devtools: true,
   },
-  setup(options, nuxt) {
+  async setup(options, nuxt) {
     const logger = useLogger('nuxt-otel')
 
     if (!globalThis.process?.getBuiltinModule?.('node:diagnostics_channel')) {
@@ -97,24 +92,25 @@ export default defineNuxtModule<ModuleOptions>({
     addServerImportsDir(resolver.resolve('./runtime/server/composables'))
 
     if (nuxt.options.dev && nuxt.options.devtools && options.devtools) {
+      const { ingest } = await setupDevtools(nuxt)
       addDevServerHandler({
         route: INGEST_PATH,
-        handler: otlpIngestHandler,
+        handler: eventHandler(async (event) => {
+          ingest(await readBody(event))
+        }),
       })
-      addDevServerHandler({
-        route: MCP_PATH,
-        handler: mcpHandler,
-      })
-      logger.box(`Nuxt OTel  endpoints:
+      const mcpEndpoint = getMcpEndpoint(nuxt)
+      const mcpLine = mcpEndpoint
+        ? `\x1B[36m${mcpEndpoint}\x1B[39m`
+        : 'disabled (`@devframes/agentic` is not installed)'
+      logger.box(`Nuxt OTel devtools:
   OTLP HTTP ingest  → \x1B[36m${devServerUrl}${INGEST_PATH}\x1B[39m
-  MCP server        → \x1B[36m${devServerUrl}${MCP_PATH}\x1B[39m`)
-      setupDevToolsUI(nuxt, resolver)
-      setupRPC(nuxt)
+  MCP server        → ${mcpLine}`)
     }
 
     nuxt.hook('nitro:config', (nitroConfig) => {
       if (options.instrument) {
-        const { preset } = nitroConfig
+        const { preset } = nitroConfig as { preset?: string }
         const nodeSdkPresets = ['node-server', 'node_server', 'nodeServer', 'node', 'bun']
         if (nodeSdkPresets.includes(preset!) || preset === undefined) {
           addServerPlugin(resolver.resolve('./runtime/server/plugins/instrument/node'))

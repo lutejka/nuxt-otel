@@ -1,16 +1,17 @@
-/** Shared prefix for all of the module's internal endpoints. */
-export const INTERNAL_PREFIX = '/__nuxt-otel'
-
-export const INGEST_PATH = `${INTERNAL_PREFIX}-ingest`
-export const MCP_PATH = `${INTERNAL_PREFIX}-mcp`
-
-export const UI_PATH = INTERNAL_PREFIX
+/**
+ * OTLP HTTP ingest endpoint served by the dev server.
+ *
+ * Mirrors the default of `vite-opentelemetry-inspector` (`INGEST_PATH`),
+ * which owns the OpenTelemetry panel in Vite DevTools (including the agent
+ * tools previously served by the module's own MCP endpoint).
+ */
+export const INGEST_PATH = '/__opentelemetry-ingest'
 
 /**
- * Returns `true` if the given request path matches one of the module's internal
- * endpoints (DevTools UI, OTLP ingest or MCP server). These endpoints should be
- * excluded from OpenTelemetry tracing to avoid circular spans and noise.
+ * Returns `true` if the given request path matches one of the module's (or
+ * the inspector's) internal endpoints. These endpoints should be excluded
+ * from OpenTelemetry tracing to avoid circular spans and noise.
  */
 export function isInternalRoute(path: string): boolean {
-  return path.startsWith(INTERNAL_PREFIX)
+  return path.startsWith('/__opentelemetry') || path.startsWith('/__otel') || path.startsWith('/__nuxt-otel')
 }

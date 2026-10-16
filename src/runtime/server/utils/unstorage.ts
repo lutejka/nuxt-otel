@@ -1,5 +1,5 @@
 import type { Tracer } from '@opentelemetry/api'
-import { traceChannel, setAttr } from './traceChannel'
+import { traceChannel, setAttr } from './traceChannel.ts'
 
 interface UnstorageMessage {
   keys: string[]

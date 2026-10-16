@@ -1,6 +1,5 @@
 packages:
   - 'playground'
-  - 'client'
   - 'docs'
 allowBuilds:
   '@parcel/watcher': true
@@ -13,12 +12,14 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@nuxt/kit'
   - nuxt
+  - nuxt-nightly
+  - '@nuxt/*'
   - '@nuxt/schema'
-  - '@nuxt/nitro-server@4.5.0 || 4.5.1'
-  - '@nuxt/vite-builder@4.5.0 || 4.5.1'
-  - '@nuxt/test-utils@4.1.0'
-  - '@nuxt/devtools-kit@3.4.0'
-  - '@nuxt/devtools-ui-kit@3.4.0'
-  - '@nuxt/devtools-wizard@3.4.0'
-  - '@nuxt/devtools@3.4.0'
+  - '@nuxt/nitro-server@4.6.0 || 4.6.1'
+  - '@nuxt/vite-builder@4.6.0 || 4.6.1'
+  - '@nuxt/test-utils@4.3.3'
+  - '@nuxt/devtools-ui-kit@3.4.3'
+  - '@nuxt/devtools-wizard@3.4.3'
+  - '@nuxt/devtools@3.4.3'
   - structured-clone-es@2.0.1
+  - vite-opentelemetry-inspector@0.0.0

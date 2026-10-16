@@ -1,10 +1,10 @@
 import { trace } from '@opentelemetry/api'
 import { defineNitroPlugin } from 'nitropack/runtime'
 import { nuxtOtel } from '#nuxt-otel-config'
-import { registerH3Channels } from '../utils/h3'
-import { registerNuxtChannels } from '../utils/nuxt'
-import { registerSrvxChannels } from '../utils/srvx'
-import { registerUnstorageChannels } from '../utils/unstorage'
+import { registerH3Channels } from '../utils/h3.ts'
+import { registerNuxtChannels } from '../utils/nuxt.ts'
+import { registerSrvxChannels } from '../utils/srvx.ts'
+import { registerUnstorageChannels } from '../utils/unstorage.ts'
 
 export default defineNitroPlugin(() => {
   const tracer = trace.getTracer('nuxt-otel')

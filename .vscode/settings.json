@@ -1,7 +1,7 @@
 {
   "eslint.useFlatConfig": true,
   "cSpell.words": ["Srvx"],
-  "tailwindCSS.experimental.configFile": "client/app/assets/css/main.css",
-  "tailwindCSS.include": ["client/**/*.vue", "client/**/*.ts"],
+  "tailwindCSS.experimental.configFile": "docs/app/assets/css/main.css",
+  "tailwindCSS.include": ["docs/**/*.vue", "docs/**/*.ts"],
   "tailwindCSS.classAttributes": ["class", "className", "ngClass", ":class"]
 }
