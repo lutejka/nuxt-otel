@@ -1,10 +1,9 @@
 import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http'
-import { devServerUrl } from '#nuxt-otel-config'
 
 export class DevToolsOTLPLogExporter extends OTLPLogExporter {
   constructor() {
     super({
-      url: devServerUrl ? new URL('__opentelemetry-ingest', devServerUrl).toString() : undefined,
+      url: globalThis.devServerUrl ? new URL('__opentelemetry-ingest', globalThis.devServerUrl).toString() : undefined,
     })
   }
 }
