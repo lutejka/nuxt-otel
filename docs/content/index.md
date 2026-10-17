@@ -4,6 +4,9 @@ seo:
   description: Automatic OpenTelemetry tracing for Nuxt renders, H3 requests, server routes and storage. Zero overhead, zero code changes, DevTools included.
 ---
 
+::hero-background{class="absolute w-full top-[var(--ui-header-height)] transition-all text-primary flex-shrink-0"}
+::
+
 ::u-page-hero
 ---
 orientation: horizontal
@@ -26,16 +29,7 @@ Write a server route and Nuxt OTEL traces it, links the async context, and shows
   Get started
   :::
 
-  :::u-button
-  ---
-  size: xl
-  color: neutral
-  variant: subtle
-  to: https://github.com/lutejka/nuxt-otel
-  target: _blank
-  icon: i-simple-icons-github
-  ---
-  Star on GitHub
+  :::copy-code-input{source="npm install @lutejka/nuxt-otel"}
   :::
 
 #default

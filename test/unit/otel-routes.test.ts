@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { getPathname, isInternalRoute } from '../../src/runtime/server/utils/otel-routes'
 
 describe('getPathname', () => {

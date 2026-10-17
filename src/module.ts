@@ -89,10 +89,13 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.hook('nitro:init', (nitro) => {
       nitro.hooks.hook('rollup:before', async (_nitro, rollupConfig) => {
+        const instrumentEnabled = Boolean(options.instrument)
         // TODO use instrumentation fiel from hsot or preset
-        const instrumentationsFile = pathToFileURL(
-          await resolver.resolvePath('./runtime/server/instrument/preset/node'),
-        ).href
+        const instrumentationsFile = instrumentEnabled
+          ? pathToFileURL(
+              await resolver.resolvePath('./runtime/server/instrument/preset/node'),
+            ).href
+          : undefined
 
         rollupConfig.output.entryFileNames = 'server.mjs'
         rollupConfig.plugins = [
@@ -122,9 +125,15 @@ export default defineNuxtModule<ModuleOptions>({
                   '',
                   // dev-only: the devtools ingest endpoints exist solely on the dev server
                   ...(devtoolsEnabled ? [`globalThis.devServerUrl = '${nuxt.options?.devServer?.url}'`, ''] : []),
-                  `const {default: start} = await import(${JSON.stringify(instrumentationsFile)})`,
-                  `start(${JSON.stringify({ ...options, devtools: devtoolsEnabled })})`,
-                  '',
+                  // only start the built-in SDK when instrumentation is enabled; otherwise
+                  // the host app is expected to register its own provider.
+                  ...(instrumentEnabled
+                    ? [
+                        `const {default: start} = await import(${JSON.stringify(instrumentationsFile)})`,
+                        `start(${JSON.stringify({ ...options, devtools: devtoolsEnabled })})`,
+                        '',
+                      ]
+                    : []),
                   `const tracer = trace.getTracer('nuxt-otel')`,
                   ...tracingChannels.map(({ enabled, name }) => {
                     if (!enabled) {
