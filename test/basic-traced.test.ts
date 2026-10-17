@@ -33,12 +33,12 @@ describe('ssr with tracing enabled', async () => {
     const { spans } = (await $fetch('/api/spans')) as { spans: Spans }
     const spanNames = spans.map((s: { name: string }) => s.name)
 
-    expect(spanNames).toContain('nuxt.render')
-    expect(spans.find((s: { name: string }) => s.name === 'nuxt.render')!.attributes).toHaveProperty('url')
+    expect(spanNames.some((n: string) => n.startsWith('nuxt render'))).toBe(true)
+    expect(spans.find((s: { name: string }) => s.name.startsWith('nuxt render'))!.attributes).toHaveProperty('url')
     /*
     This will start working with nuxt 5. Until then only nuxt.* and useOtelTracer will show up in the spans
-    expect(spanNames).toContain('GET /**')
-    expect(spans.find((s: { name: string }) => s.name === 'GET /')?.attributes).toHaveProperty(
+    expect(spanNames).toContain('h3 GET /**')
+    expect(spans.find((s: { name: string }) => s.name.startsWith('h3 GET /'))?.attributes).toHaveProperty(
       'http.request.method',
       'GET',
     )

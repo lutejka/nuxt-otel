@@ -49,16 +49,18 @@
     "docs:build": "pnpm --filter nuxt-otel-docs build",
     "docs:dev": "pnpm --filter nuxt-otel-docs dev",
     "docs:generate": "pnpm --filter nuxt-otel-docs generate",
-    "dev": "pnpm dev:prepare && nuxt dev playground",
-    "dev:build": "nuxt build playground",
-    "dev:preview": "nuxt preview playground",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground",
+    "dev": "pnpm dev:nuxt4",
+    "dev:nuxt4": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playgrounds/nuxt4 && nuxt dev playgrounds/nuxt4",
+    "dev:nuxt5": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playgrounds/nuxt5 && nuxt dev playgrounds/nuxt5",
+    "dev:build": "nuxt build playgrounds/nuxt4",
+    "dev:preview": "nuxt preview playgrounds/nuxt4",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playgrounds/nuxt4",
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt --check .",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
+    "test:types": "vue-tsc --noEmit && cd playgrounds/nuxt4 && vue-tsc --noEmit"
   },
   "dependencies": {
     "@nuxt/ui": "^4.10.0",

@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-otel-playground",
+  "name": "nuxt-otel-playground-nuxt5",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "nuxt": "^4.6.1"
+    "nuxt": "npm:nuxt-nightly@5x"
   },
   "devDependencies": {
     "@types/node": "^25.9.3"

@@ -1,6 +1,13 @@
 packages:
-  - 'playground'
+  - 'playgrounds/*'
   - 'docs'
+overrides:
+  # keep the nuxt 5 playground fully on nightly packages
+  nuxt-otel-playground-nuxt5>nuxt: npm:nuxt-nightly@5x
+  'nuxt-nightly>@nuxt/kit': npm:@nuxt/kit-nightly@5x
+  'nuxt-nightly>@nuxt/nitro-server': npm:@nuxt/nitro-server-nightly@5x
+  'nuxt-nightly>@nuxt/schema': npm:@nuxt/schema-nightly@5x
+  'nuxt-nightly>@nuxt/vite-builder': npm:@nuxt/vite-builder-nightly@5x
 allowBuilds:
   '@parcel/watcher': true
   better-sqlite3: true

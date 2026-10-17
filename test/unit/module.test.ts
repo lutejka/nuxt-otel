@@ -2,10 +2,15 @@ import { describe, it, expect, vi } from 'vitest'
 
 vi.mock('@nuxt/kit', () => ({
   defineNuxtModule: vi.fn(() => vi.fn()),
-  createResolver: vi.fn(() => ({ resolve: (...p: string[]) => p.join('/') })),
+  createResolver: vi.fn(() => ({
+    resolve: (...p: string[]) => p.join('/'),
+    resolvePath: vi.fn(async (...p: string[]) => p.join('/')),
+  })),
   addServerPlugin: vi.fn(),
-  addServerTemplate: vi.fn(),
-  useLogger: vi.fn(() => ({ warn: vi.fn(), success: vi.fn(), info: vi.fn() })),
+  addServerImportsDir: vi.fn(),
+  addTemplate: vi.fn(() => ({ dst: '/tmp/nuxt-otel/instrument.mjs' })),
+  addTypeTemplate: vi.fn(),
+  useLogger: vi.fn(() => ({ warn: vi.fn(), success: vi.fn(), info: vi.fn(), box: vi.fn() })),
 }))
 
 // eslint-disable-next-line import/first

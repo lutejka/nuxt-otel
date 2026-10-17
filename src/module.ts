@@ -1,15 +1,21 @@
 import {
-  defineNuxtModule,
-  createResolver,
-  addTypeTemplate,
-  useLogger,
-  addDevServerHandler,
   addServerImportsDir,
+  addTemplate,
+  addTypeTemplate,
+  createResolver,
+  defineNuxtModule,
+  useLogger,
 } from '@nuxt/kit'
-import { pathToFileURL } from 'node:url'
-import { eventHandler, readBody } from 'h3'
+import type { IncomingMessage, ServerResponse } from 'node:http'
+import { dirname, relative } from 'node:path'
 import { setupDevtools, getMcpEndpoint } from './devtools.ts'
 import { INGEST_PATH } from './runtime/server/utils/otel-routes.ts'
+
+/** Express `toFile` as a relative import specifier from the generated bootstrap. */
+function toRelativeImport(fromDir: string, toFile: string): string {
+  const rel = relative(fromDir, toFile).replace(/\\/g, '/')
+  return rel.startsWith('.') ? rel : `./${rel}`
+}
 
 export interface TracingChannelOptions {
   nuxt?: boolean
@@ -56,91 +62,145 @@ export default defineNuxtModule<ModuleOptions>({
       return
     }
 
+    const resolver = createResolver(import.meta.url)
+
     addTypeTemplate({
       filename: 'types/nuxt-otel.d.ts',
-      getContents: () => `
-        declare global {
-          var devServerUrl: string | undefined
-        }
+      getContents: () => `declare global {
+  var devServerUrl: string | undefined
+}
 
-        export {}`,
+export {}`,
     })
-
-    const resolver = createResolver(import.meta.url)
 
     addServerImportsDir(resolver.resolve('./runtime/server/composables'))
 
-    if (nuxt.options.dev && nuxt.options.devtools && options.devtools) {
+    const isDev = Boolean(nuxt.options.dev)
+    const devtoolsEnabled = isDev && Boolean(nuxt.options.devtools && options.devtools)
+    const channels = normalizeTracingChannel(nuxt.options.tracingChannel)
+
+    // Resolve a runtime file to a relative specifier the generated bootstrap can import.
+    // Relative (not `file://`) specifiers are the ones both Nitro bundlers follow, and
+    // extensionless on purpose: the published module ships `.js`, the source `.ts`.
+    // `bootstrapDir` is filled in right after `addTemplate`; `getContents` runs later.
+    let bootstrapDir = nuxt.options.buildDir
+    const runtime = async (path: string) => toRelativeImport(bootstrapDir, await resolver.resolvePath(path))
+
+    // A single bootstrap, wired as a Nitro plugin, covers Nuxt 4 (Nitro 2) and Nuxt 5
+    // (Nitro 3), in dev and in the build — no more separate dev/build entry wrappers.
+    const bootstrap = addTemplate({
+      filename: 'nuxt-otel/instrument.mjs',
+      write: true,
+      getContents: async () => {
+        const imports = [`import { trace } from '@opentelemetry/api'`]
+        const registrations: string[] = []
+
+        if (channels.nuxt) {
+          imports.push(`import { registerNuxtChannels } from ${JSON.stringify(await runtime('./runtime/server/utils/nuxt'))}`)
+          registrations.push(`registerNuxtChannels(tracer)`)
+        }
+        if (channels.h3) {
+          imports.push(`import { registerH3Channels } from ${JSON.stringify(await runtime('./runtime/server/utils/h3'))}`)
+          registrations.push(`registerH3Channels(tracer)`)
+        }
+        if (channels.srvx) {
+          imports.push(`import { registerSrvxChannels } from ${JSON.stringify(await runtime('./runtime/server/utils/srvx'))}`)
+          registrations.push(`registerSrvxChannels(tracer)`)
+        }
+        if (channels.unstorage) {
+          imports.push(`import { registerUnstorageChannels } from ${JSON.stringify(await runtime('./runtime/server/utils/unstorage'))}`)
+          registrations.push(`registerUnstorageChannels(tracer)`)
+        }
+        if (isDev) {
+          imports.push(`import { installRequestRootSpan } from ${JSON.stringify(await runtime('./runtime/server/utils/requestRootSpan'))}`)
+        }
+
+        const lines = [...imports, '']
+
+        // The devtools exporters read `globalThis.devServerUrl`, so it has to be set
+        // before the SDK (and with it, the exporters) is imported below.
+        if (devtoolsEnabled) {
+          lines.push(`globalThis.devServerUrl = ${JSON.stringify(nuxt.options.devServer?.url)}`, '')
+        }
+
+        // Starting the SDK at module top level (before the server handlers are
+        // imported) is what keeps the auto instrumentations ahead of the app code
+        // they patch — the reason instrumentation used to be wrapped around the
+        // built entry instead.
+        if (options.instrument) {
+          lines.push(
+            `const { default: start } = await import(${JSON.stringify(await runtime('./runtime/server/instrument/preset/node'))})`,
+            `await start(${JSON.stringify({ instrument: options.instrument, devtools: devtoolsEnabled })})`,
+            '',
+          )
+        }
+
+        // Channels subscribe from the plugin body, not module scope: Nitro calls all
+        // plugin functions only after every plugin module has been imported, so an
+        // app (or preset) that registers its own tracer provider has installed the
+        // OpenTelemetry context manager by then. Subscribing earlier would bind the
+        // channels to a missing async-local-storage store and silently drop nesting.
+        lines.push(
+          `export default function nuxtOtelPlugin (nitroApp) {`,
+          `  const tracer = trace.getTracer('nuxt-otel')`,
+          ...registrations.map(line => `  ${line}`),
+          // Dev-only: the production server emits `srvx.request` as the trace root,
+          // but the Nuxt 5 / Vite dev server never runs Nitro's srvx producers, so
+          // without this each h3 channel span would become its own trace root.
+          ...(isDev ? [`  installRequestRootSpan(nitroApp, tracer)`] : []),
+          `}`,
+          '',
+        )
+
+        return lines.join('\n')
+      },
+    })
+    bootstrapDir = dirname(bootstrap.dst)
+    // Append straight onto the Nitro config. The kit's `addServerPlugin` routes through a
+    // per-major variant registry that a Nuxt 4 host does not read back, so the bootstrap
+    // would silently be dropped there.
+    nuxt.options.nitro.plugins ||= []
+    nuxt.options.nitro.plugins.push(bootstrap.dst)
+
+    if (devtoolsEnabled) {
       const { ingest } = await setupDevtools(nuxt)
-      addDevServerHandler({
-        route: INGEST_PATH,
-        handler: eventHandler(async (event) => {
-          ingest(await readBody(event))
-        }),
+
+      // Serve the OTLP ingest endpoint straight from the Vite dev server: a plain
+      // connect middleware works on both Nuxt 4 and Nuxt 5, and avoids h3 handlers,
+      // which are not compatible with the srvx request objects of the Nuxt 5 dev
+      // server.
+      nuxt.hook('vite:serverCreated', (server, { isClient }) => {
+        if (!isClient) {
+          return
+        }
+        server.middlewares.use(INGEST_PATH, (req: IncomingMessage, res: ServerResponse) => {
+          if (req.method !== 'POST') {
+            res.statusCode = 405
+            res.end()
+            return
+          }
+          const chunks: Buffer[] = []
+          req.on('data', (chunk: Buffer) => chunks.push(chunk))
+          req.on('end', () => {
+            try {
+              ingest(JSON.parse(Buffer.concat(chunks).toString('utf8')))
+              res.statusCode = 204
+            }
+            catch {
+              res.statusCode = 400
+            }
+            res.end()
+          })
+        })
       })
+
       const mcpEndpoint = getMcpEndpoint(nuxt)
       const mcpLine = mcpEndpoint
         ? `\x1B[36m${mcpEndpoint}\x1B[39m`
         : 'disabled (`@devframes/agentic` is not installed)'
       logger.box(`Nuxt OTel devtools:
-  OTLP HTTP ingest  → \x1B[36m${nuxt.options?.devServer?.url}${INGEST_PATH}\x1B[39m
+  OTLP HTTP ingest  → \x1B[36m${nuxt.options.devServer?.url}${INGEST_PATH}\x1B[39m
   MCP server        → ${mcpLine}`)
     }
-
-    nuxt.hook('nitro:init', (nitro) => {
-      nitro.hooks.hook('rollup:before', async (_nitro, rollupConfig) => {
-        // TODO use instrumentation fiel from hsot or preset
-        const instrumentationsFile = pathToFileURL(
-          await resolver.resolvePath('./runtime/server/instrument/preset/node'),
-        ).href
-
-        rollupConfig.output.entryFileNames = 'server.mjs'
-        rollupConfig.plugins = [
-          rollupConfig.plugins,
-          {
-            name: '@lutejka/nuxt-otel:entry',
-            async generateBundle() {
-              const channels = normalizeTracingChannel(nuxt.options.tracingChannel)
-              const tracingChannels = [
-                { enabled: channels.srvx, name: 'Srvx' },
-                { enabled: channels.h3, name: 'H3' },
-                { enabled: channels.nuxt, name: 'Nuxt' },
-                { enabled: channels.unstorage, name: 'Unstorage' },
-              ]
-
-              const devtoolsEnabled = Boolean(options.devtools && nuxt.options.dev)
-              this.emitFile({
-                type: 'asset',
-                fileName: 'index.mjs',
-                source: [
-                  // inline resolved option values directly into the bundle
-                  `import { trace } from '@opentelemetry/api'`,
-                  `import { registerH3Channels } from '${pathToFileURL(await resolver.resolvePath('./runtime/server/utils/h3.ts')).href}'`,
-                  `import { registerNuxtChannels } from '${pathToFileURL(await resolver.resolvePath('./runtime/server/utils/nuxt.ts')).href}'`,
-                  `import { registerSrvxChannels } from '${pathToFileURL(await resolver.resolvePath('./runtime/server/utils/srvx.ts')).href}'`,
-                  `import { registerUnstorageChannels } from '${pathToFileURL(await resolver.resolvePath('./runtime/server/utils/unstorage.ts')).href}'`,
-                  '',
-                  // dev-only: the devtools ingest endpoints exist solely on the dev server
-                  ...(devtoolsEnabled ? [`globalThis.devServerUrl = '${nuxt.options?.devServer?.url}'`, ''] : []),
-                  `const {default: start} = await import(${JSON.stringify(instrumentationsFile)})`,
-                  `start(${JSON.stringify({ ...options, devtools: devtoolsEnabled })})`,
-                  '',
-                  `const tracer = trace.getTracer('nuxt-otel')`,
-                  ...tracingChannels.map(({ enabled, name }) => {
-                    if (!enabled) {
-                      return ''
-                    }
-                    return `register${name}Channels(tracer)`
-                  }),
-                  '',
-                  `await import('./server.mjs')`,
-                  '',
-                ].join('\n'),
-              })
-            },
-          },
-        ]
-      })
-    })
   },
 })
