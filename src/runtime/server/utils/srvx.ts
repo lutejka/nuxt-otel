@@ -94,7 +94,7 @@ export function registerSrvxChannels(tracer: Tracer) {
       // (static assets, 404s).
       const route = data.request.context?.matchedRoute?.route
       const target = route || url.pathname
-      span.updateName(`${data.request.method} ${target}`)
+      span.updateName(`srvx ${data.request.method} ${target}`)
       setSrvxAttributes(span, data)
       if (route) {
         setAttr(span, ATTR_HTTP_ROUTE, route)
@@ -121,8 +121,7 @@ export function registerSrvxChannels(tracer: Tracer) {
     startUpdate(span, data) {
       const url = getSrvxUrl(data)
       if (!url) return
-      span.updateName(`middleware ${data.request.method} ${url.pathname}`)
-      span.updateName(`middleware ${data.request.method} ${url.pathname}`)
+      span.updateName(`srvx middleware ${data.request.method} ${url.pathname}`)
       setSrvxAttributes(span, data)
       setAttr(span, 'srvx.middleware.index', data.middleware.index)
     },

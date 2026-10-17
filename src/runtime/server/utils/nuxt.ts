@@ -36,6 +36,7 @@ export function registerNuxtChannels(tracer: Tracer) {
       return isTracingSuppressed() || isInternalRoute(data.ssrContext?.url ?? data.event?.path ?? '')
     },
     startUpdate(span, data) {
+      span.updateName(`nuxt render ${data.ssrContext?.url ?? data.event?.path ?? ''}`)
       setAttr(span, 'url', data.ssrContext.url)
     },
     beforeEndUpdate(span, data) {
@@ -52,6 +53,7 @@ export function registerNuxtChannels(tracer: Tracer) {
       return isTracingSuppressed() || isInternalRoute(data.event?.path ?? data.ssrContext?.url ?? '')
     },
     startUpdate(span, data) {
+      span.updateName(`nuxt island ${data.islandContext.name ?? data.islandContext.id ?? ''}`)
       setAttr(span, 'component', data.islandContext.name)
       setAttr(span, 'id', data.islandContext.id)
     },
@@ -68,7 +70,7 @@ export function registerNuxtChannels(tracer: Tracer) {
       return isTracingSuppressed()
     },
     startUpdate(span, data) {
-      span.updateName(`nuxt.data ${data.key}`)
+      span.updateName(`nuxt data ${data.key}`)
       setAttr(span, 'key', data.key)
       setAttr(span, 'functionName', data.functionName)
     },
@@ -79,7 +81,7 @@ export function registerNuxtChannels(tracer: Tracer) {
       return isTracingSuppressed()
     },
     startUpdate(span, data) {
-      span.updateName(`nuxt.plugin ${data.plugin.name || 'unknown'}`)
+      span.updateName(`nuxt plugin ${data.plugin.name || 'unknown'}`)
       setAttr(span, 'nuxt.plugin.name', data.plugin.name || 'unknown')
       setAttr(span, 'nuxt.plugin.parallel', !!data.plugin.parallel)
       setAttr(span, 'nuxt.plugin.dependsOn', data.plugin.dependsOn || [])

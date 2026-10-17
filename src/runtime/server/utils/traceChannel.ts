@@ -1,6 +1,6 @@
 import type { AsyncLocalStorage } from 'node:async_hooks'
 import { tracingChannel as createTracingChannel } from 'node:diagnostics_channel'
-import { type Span, type Tracer, SpanStatusCode, context, trace } from '@opentelemetry/api'
+import { type Context, type Span, type Tracer, SpanStatusCode, context, trace } from '@opentelemetry/api'
 
 /**
  * Context key marking a request (or nested operation) whose tracing has been
@@ -12,6 +12,28 @@ export const SUPPRESS_TRACING_KEY = Symbol.for('nuxt-otel.suppress')
 /** Whether tracing is suppressed in the currently active context. */
 export function isTracingSuppressed(): boolean {
   return context.active().getValue(SUPPRESS_TRACING_KEY) === true
+}
+
+/** OTel's async-hooks context manager keeps its store in a private ALS. */
+function getContextStore(): AsyncLocalStorage<Context> | undefined {
+  return (
+    context as unknown as {
+      _getContextManager(): { _asyncLocalStorage?: AsyncLocalStorage<Context> } | undefined
+    }
+  )._getContextManager()?._asyncLocalStorage
+}
+
+/**
+ * Make `ctx` the active OpenTelemetry context for the current async scope and
+ * everything it spawns.
+ *
+ * Unlike `context.with`, this persists after the caller returns, which is what
+ * lets a request-scoped root span (established from a Nitro `request` hook)
+ * remain active while the h3 dispatch loop later runs the individual
+ * middleware/route handlers.
+ */
+export function enterWithContext(ctx: Context): void {
+  getContextStore()?.enterWith(ctx)
 }
 
 export function setAttr(span: Span, key: string, value: unknown) {
@@ -35,17 +57,13 @@ export function traceChannel<T>(
     skip?: (data: T) => boolean
   },
 ) {
-  const contextManager = (
-    context as unknown as {
-      _getContextManager(): { _asyncLocalStorage: AsyncLocalStorage<object> } | undefined
-    }
-  )._getContextManager()
-  if (!contextManager?._asyncLocalStorage) {
+  const contextStore = getContextStore()
+  if (!contextStore) {
     console.warn('Propagation will not work without asyncLocalStorage')
     return
   }
   const channel = createTracingChannel(channelName)
-  channel.start.bindStore(contextManager._asyncLocalStorage, (rawData) => {
+  channel.start.bindStore(contextStore, (rawData) => {
     const data = rawData as T
     if (skip?.(data)) {
       // Propagate suppression to nested channels/composables in this request

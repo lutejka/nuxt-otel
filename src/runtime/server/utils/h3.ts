@@ -55,8 +55,7 @@ export function registerH3Channels(tracer: Tracer) {
       // stays low-cardinality per OTEL HTTP semconv; fall back to the concrete
       // path when the request didn't match a route (404, middleware-only).
       const route = getMatchedRoute(event)
-      const target = route || pathname
-      span.updateName(data.type === 'middleware' ? `middleware ${event.method} ${target}` : `${event.method} ${target}`)
+      span.updateName(data.type === 'middleware' ? `h3 middleware ${event.method} ${pathname}` : `h3 ${event.method} ${pathname}`)
       setAttr(span, ATTR_HTTP_REQUEST_METHOD, event.method)
       setAttr(span, ATTR_URL_PATH, pathname)
       setAttr(span, ATTR_NETWORK_PROTOCOL_NAME, 'http')

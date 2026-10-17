@@ -1,9 +1,9 @@
 import { defineEventHandler, getRequestURL, getRequestHeaders } from 'h3'
 
 export default defineEventHandler(async (event) => {
-  const { trace } = useOtelTracer('http')
+  const { trace } = useOtelTracer('app')
 
-  await trace('request', async (span) => {
+  await trace('middleware', async (span) => {
     const url = getRequestURL(event)
     const headers = getRequestHeaders(event)
 

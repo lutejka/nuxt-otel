@@ -38,7 +38,7 @@ export function registerUnstorageChannels(tracer: Tracer) {
           setAttr(span, 'unstorage.base', data.base)
         }
         // Use the operation name (with optional base) as the span name, matching nitro's approach
-        span.updateName(data.base ? `${operation} ${data.base}` : operation)
+        span.updateName(data.base ? `unstorage ${operation} ${data.base}` : `unstorage ${operation}`)
       },
     })
   }
