@@ -2,7 +2,8 @@ import type { NuxtSSRContext, NuxtIslandContext } from '#app'
 import { SpanStatusCode, type Tracer } from '@opentelemetry/api'
 import type { H3Event } from 'h3'
 import { getResponseStatus } from 'h3'
-import { traceChannel, setAttr } from './traceChannel.ts'
+import { traceChannel, setAttr, isTracingSuppressed } from './traceChannel.ts'
+import { isInternalRoute } from './otel-routes.ts'
 
 interface NuxtRenderMessage {
   event: H3Event
@@ -31,6 +32,9 @@ interface NuxtPluginMessage {
 
 export function registerNuxtChannels(tracer: Tracer) {
   traceChannel<NuxtRenderMessage>('nuxt.render', tracer, {
+    skip(data) {
+      return isTracingSuppressed() || isInternalRoute(data.ssrContext?.url ?? data.event?.path ?? '')
+    },
     startUpdate(span, data) {
       setAttr(span, 'url', data.ssrContext.url)
     },
@@ -44,6 +48,9 @@ export function registerNuxtChannels(tracer: Tracer) {
   })
 
   traceChannel<NuxtIslandMessage>('nuxt.island', tracer, {
+    skip(data) {
+      return isTracingSuppressed() || isInternalRoute(data.event?.path ?? data.ssrContext?.url ?? '')
+    },
     startUpdate(span, data) {
       setAttr(span, 'component', data.islandContext.name)
       setAttr(span, 'id', data.islandContext.id)
@@ -57,6 +64,9 @@ export function registerNuxtChannels(tracer: Tracer) {
   })
 
   traceChannel<NuxtDataMessage>('nuxt.data', tracer, {
+    skip() {
+      return isTracingSuppressed()
+    },
     startUpdate(span, data) {
       span.updateName(`nuxt.data ${data.key}`)
       setAttr(span, 'key', data.key)
@@ -65,6 +75,9 @@ export function registerNuxtChannels(tracer: Tracer) {
   })
 
   traceChannel<NuxtPluginMessage>('nuxt.plugin', tracer, {
+    skip() {
+      return isTracingSuppressed()
+    },
     startUpdate(span, data) {
       span.updateName(`nuxt.plugin ${data.plugin.name || 'unknown'}`)
       setAttr(span, 'nuxt.plugin.name', data.plugin.name || 'unknown')

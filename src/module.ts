@@ -90,7 +90,9 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('nitro:init', (nitro) => {
       nitro.hooks.hook('rollup:before', async (_nitro, rollupConfig) => {
         // TODO use instrumentation fiel from hsot or preset
-        const instrumentationsFile = pathToFileURL(await resolver.resolvePath('./runtime/server/instrument/preset/node')).href
+        const instrumentationsFile = pathToFileURL(
+          await resolver.resolvePath('./runtime/server/instrument/preset/node'),
+        ).href
 
         rollupConfig.output.entryFileNames = 'server.mjs'
         rollupConfig.plugins = [
@@ -106,6 +108,7 @@ export default defineNuxtModule<ModuleOptions>({
                 { enabled: channels.unstorage, name: 'Unstorage' },
               ]
 
+              const devtoolsEnabled = Boolean(options.devtools && nuxt.options.dev)
               this.emitFile({
                 type: 'asset',
                 fileName: 'index.mjs',
@@ -117,10 +120,10 @@ export default defineNuxtModule<ModuleOptions>({
                   `import { registerSrvxChannels } from '${pathToFileURL(await resolver.resolvePath('./runtime/server/utils/srvx.ts')).href}'`,
                   `import { registerUnstorageChannels } from '${pathToFileURL(await resolver.resolvePath('./runtime/server/utils/unstorage.ts')).href}'`,
                   '',
-                  `globalThis.devServerUrl = '${nuxt.options?.devServer?.url}'`,
-                  '',
+                  // dev-only: the devtools ingest endpoints exist solely on the dev server
+                  ...(devtoolsEnabled ? [`globalThis.devServerUrl = '${nuxt.options?.devServer?.url}'`, ''] : []),
                   `const {default: start} = await import(${JSON.stringify(instrumentationsFile)})`,
-                  `start(${JSON.stringify({ ...options, devtools: options.devtools && nuxt.options.dev })})`,
+                  `start(${JSON.stringify({ ...options, devtools: devtoolsEnabled })})`,
                   '',
                   `const tracer = trace.getTracer('nuxt-otel')`,
                   ...tracingChannels.map(({ enabled, name }) => {

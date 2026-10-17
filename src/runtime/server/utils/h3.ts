@@ -16,7 +16,7 @@ import {
   ATTR_USER_AGENT_ORIGINAL,
   ATTR_HTTP_RESPONSE_STATUS_CODE,
 } from '@opentelemetry/semantic-conventions'
-import { traceChannel, setAttr } from './traceChannel.ts'
+import { traceChannel, setAttr, isTracingSuppressed } from './traceChannel.ts'
 import { isInternalRoute } from './otel-routes.ts'
 import {
   getRequestProtocol,
@@ -42,7 +42,7 @@ function getMatchedRoute(event: H3Event): string | undefined {
 export function registerH3Channels(tracer: Tracer) {
   traceChannel<H3RequestMessage>('h3.request', tracer, {
     skip(data) {
-      return isInternalRoute(data.event.path ?? '')
+      return isTracingSuppressed() || isInternalRoute(data.event.path ?? '')
     },
     startUpdate(span, data) {
       const event = data.event

@@ -16,7 +16,7 @@ import {
   ATTR_NETWORK_PEER_PORT,
   ATTR_HTTP_RESPONSE_STATUS_CODE,
 } from '@opentelemetry/semantic-conventions'
-import { traceChannel, setAttr } from './traceChannel.ts'
+import { traceChannel, setAttr, isTracingSuppressed } from './traceChannel.ts'
 import { isInternalRoute } from './otel-routes.ts'
 
 interface SrvxRequestMessage {
@@ -82,7 +82,7 @@ export function registerSrvxChannels(tracer: Tracer) {
   traceChannel<SrvxRequestMessage>('srvx.request', tracer, {
     skip(data) {
       const url = getSrvxUrl(data)
-      return !url || isInternalRoute(url.pathname)
+      return isTracingSuppressed() || !url || isInternalRoute(url.pathname)
     },
     startUpdate(span, data) {
       const url = getSrvxUrl(data)
@@ -116,7 +116,7 @@ export function registerSrvxChannels(tracer: Tracer) {
   traceChannel<SrvxMiddlewareMessage>('srvx.middleware', tracer, {
     skip(data) {
       const url = getSrvxUrl(data)
-      return !url || isInternalRoute(url.pathname)
+      return isTracingSuppressed() || !url || isInternalRoute(url.pathname)
     },
     startUpdate(span, data) {
       const url = getSrvxUrl(data)

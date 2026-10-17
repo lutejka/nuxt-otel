@@ -2,6 +2,18 @@ import type { AsyncLocalStorage } from 'node:async_hooks'
 import { tracingChannel as createTracingChannel } from 'node:diagnostics_channel'
 import { type Span, type Tracer, SpanStatusCode, context, trace } from '@opentelemetry/api'
 
+/**
+ * Context key marking a request (or nested operation) whose tracing has been
+ * suppressed (e.g. internal devtools/ingest routes). Nested channels and the
+ * `useOtelTracer` composable check this to avoid creating spans.
+ */
+export const SUPPRESS_TRACING_KEY = Symbol.for('nuxt-otel.suppress')
+
+/** Whether tracing is suppressed in the currently active context. */
+export function isTracingSuppressed(): boolean {
+  return context.active().getValue(SUPPRESS_TRACING_KEY) === true
+}
+
 export function setAttr(span: Span, key: string, value: unknown) {
   if (value !== null && value !== undefined) {
     span.setAttribute(key, value as number | string | boolean)
@@ -36,7 +48,9 @@ export function traceChannel<T>(
   channel.start.bindStore(contextManager._asyncLocalStorage, (rawData) => {
     const data = rawData as T
     if (skip?.(data)) {
-      return context.active()
+      // Propagate suppression to nested channels/composables in this request
+      // so that, e.g., `nuxt.plugin` spans are skipped once `nuxt.render` is.
+      return context.active().setValue(SUPPRESS_TRACING_KEY, true)
     }
     const span = tracer.startSpan(channelName)
     startUpdate?.(span, data)

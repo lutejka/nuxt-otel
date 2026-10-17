@@ -1,5 +1,5 @@
 import type { Tracer } from '@opentelemetry/api'
-import { traceChannel, setAttr } from './traceChannel.ts'
+import { traceChannel, setAttr, isTracingSuppressed } from './traceChannel.ts'
 
 interface UnstorageMessage {
   keys: string[]
@@ -26,6 +26,9 @@ export function registerUnstorageChannels(tracer: Tracer) {
     'unstorage.setItemRaw',
   ]) {
     traceChannel<UnstorageMessage>(name, tracer, {
+      skip() {
+        return isTracingSuppressed()
+      },
       startUpdate(span, data) {
         const operation = name.slice('unstorage.'.length)
         setAttr(span, 'db.operation', operation)
