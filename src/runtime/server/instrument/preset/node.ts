@@ -7,7 +7,6 @@ import { DevToolsOTLPTraceExporter } from '../../../otel//exporters/DevToolsOTLP
 import { DevToolsOTLPLogExporter } from '../../../otel//exporters/DevToolsOTLPLogExporter.ts'
 
 export default defineInstrumentation((options) => {
-  console.log('options', options)
   const { devtools: devtoolsEnabled } = options
   const sdk = new NodeSDK({
     traceExporter: devtoolsEnabled ? new DevToolsOTLPTraceExporter() : undefined,
