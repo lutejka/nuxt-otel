@@ -1,8 +1,6 @@
 import {
   defineNuxtModule,
   createResolver,
-  addServerPlugin,
-  addServerTemplate,
   addTypeTemplate,
   useLogger,
   addDevServerHandler,
@@ -56,35 +54,15 @@ export default defineNuxtModule<ModuleOptions>({
       logger.warn('nuxt-otel: Diagnostics Channel is not available.')
       return
     }
-    const channels = normalizeTracingChannel(nuxt.options.tracingChannel)
-    const devServerUrl = nuxt.options?.devServer?.url
-
-    addServerTemplate({
-      filename: '#nuxt-otel-config',
-      getContents: () => {
-        const devServerUrl = nuxt.options?.devServer?.url ? `'${nuxt.options?.devServer?.url}'` : 'undefined'
-        return `
-        export const nuxtOtel = ${JSON.stringify(channels)}
-        export const devtoolsEnabled = ${options.devtools || false}
-        export const devServerUrl = ${devServerUrl}
-        `
-      },
-    })
 
     addTypeTemplate({
-      filename: 'types/nuxt-otel-config.d.ts',
-      getContents: () => `declare module '#nuxt-otel-config' {
-  export const nuxtOtel: {
-    nuxt?: boolean
-    h3?: boolean
-    srvx?: boolean
-    unstorage?: boolean
-  }
-  export const devtoolsEnabled: boolean
+      filename: 'types/nuxt-otel.d.ts',
+      getContents: () => `
+        declare global {
+          var devServerUrl: string | undefined
+        }
 
-  export const devServerUrl: string | undefined
-}
-`,
+        export {}`,
     })
 
     const resolver = createResolver(import.meta.url)
@@ -104,24 +82,61 @@ export default defineNuxtModule<ModuleOptions>({
         ? `\x1B[36m${mcpEndpoint}\x1B[39m`
         : 'disabled (`@devframes/agentic` is not installed)'
       logger.box(`Nuxt OTel devtools:
-  OTLP HTTP ingest  → \x1B[36m${devServerUrl}${INGEST_PATH}\x1B[39m
+  OTLP HTTP ingest  → \x1B[36m${nuxt.options?.devServer?.url}${INGEST_PATH}\x1B[39m
   MCP server        → ${mcpLine}`)
     }
 
-    nuxt.hook('nitro:config', (nitroConfig) => {
-      if (options.instrument) {
-        const { preset } = nitroConfig as { preset?: string }
-        const nodeSdkPresets = ['node-server', 'node_server', 'nodeServer', 'node', 'bun']
-        if (nodeSdkPresets.includes(preset!) || preset === undefined) {
-          addServerPlugin(resolver.resolve('./runtime/server/plugins/instrument/node'))
-        }
-        else {
-          logger.warn(
-            `nuxt-otel currently only supports Node.js presets (node-server, bun) and the default preset. The "${preset}" preset is not supported — please instrument your app manually or set \`nuxtOtel: { instrument: false }\`.`,
-          )
-        }
-      }
-      addServerPlugin(resolver.resolve('./runtime/server/plugins/trace'))
+    nuxt.hook('nitro:init', (nitro) => {
+      nitro.hooks.hook('rollup:before', async (_nitro, rollupConfig) => {
+        // TODO use instrumentation fiel from hsot or preset
+        const instrumentationsFile = await resolver.resolvePath('./runtime/server/instrument/preset/node')
+
+        rollupConfig.output.entryFileNames = 'server.mjs'
+        rollupConfig.plugins = [
+          rollupConfig.plugins,
+          {
+            name: '@lutejka/nuxt-otel:entry',
+            async generateBundle() {
+              const channels = normalizeTracingChannel(nuxt.options.tracingChannel)
+              const tracingChannels = [
+                { enabled: channels.srvx, name: 'Srvx' },
+                { enabled: channels.h3, name: 'H3' },
+                { enabled: channels.nuxt, name: 'Nuxt' },
+                { enabled: channels.unstorage, name: 'Unstorage' },
+              ]
+
+              this.emitFile({
+                type: 'asset',
+                fileName: 'index.mjs',
+                source: [
+                  // inline resolved option values directly into the bundle
+                  `import { trace } from '@opentelemetry/api'`,
+                  `import { registerH3Channels } from '${await resolver.resolvePath('./runtime/server/utils/h3.ts')}'`,
+                  `import { registerNuxtChannels } from '${await resolver.resolvePath('./runtime/server/utils/nuxt.ts')}'`,
+                  `import { registerSrvxChannels } from '${await resolver.resolvePath('./runtime/server/utils/srvx.ts')}'`,
+                  `import { registerUnstorageChannels } from '${await resolver.resolvePath('./runtime/server/utils/unstorage.ts')}'`,
+                  '',
+                  `globalThis.devServerUrl = '${nuxt.options?.devServer?.url}'`,
+                  '',
+                  `const {default: start} = await import(${JSON.stringify(instrumentationsFile)})`,
+                  `start(${JSON.stringify({ ...options, devtools: options.devtools && nuxt.options.dev })})`,
+                  '',
+                  `const tracer = trace.getTracer('nuxt-otel')`,
+                  ...tracingChannels.map(({ enabled, name }) => {
+                    if (!enabled) {
+                      return ''
+                    }
+                    return `register${name}Channels(tracer)`
+                  }),
+                  '',
+                  `await import('./server.mjs')`,
+                  '',
+                ].join('\n'),
+              })
+            },
+          },
+        ]
+      })
     })
   },
 })

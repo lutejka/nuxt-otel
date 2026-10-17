@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
   const { trace } = useOtelTracer('order')
   const logger = useOtelLogger()
   const orderStorage = useStorage('order')
+  await useStorage('redis').setItem('myKey', { hello: 'world' })
 
   const body = await readBody<OrderRequest>(event)
   const orderId = `ord-${Date.now()}`
