@@ -36,6 +36,12 @@
       "description": "Never automerge major updates - they need manual review",
       "matchUpdateTypes": ["major"],
       "automerge": false
+    },
+    {
+      "description": "TypeScript 7 is not supported yet - stay on TypeScript 6",
+      "matchPackageNames": ["typescript"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     }
   ]
 }
