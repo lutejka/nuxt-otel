@@ -1,7 +1,8 @@
-import { InMemorySpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base'
-import { NodeTracerProvider } from '@opentelemetry/sdk-trace-node'
-import { LoggerProvider, SimpleLogRecordProcessor, InMemoryLogRecordExporter } from '@opentelemetry/sdk-logs'
-import { logs } from '@opentelemetry/api-logs'
+import { context, logs, propagation, trace } from '@opentelemetry/api'
+import { AsyncLocalStorageContextManager } from '@opentelemetry/context-async-hooks'
+import { CompositePropagator, W3CBaggagePropagator, W3CTraceContextPropagator } from '@opentelemetry/core'
+import { InMemoryLogRecordExporter, LoggerProvider, SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs'
+import { InMemorySpanExporter, SimpleSpanProcessor, TracerProvider } from '@opentelemetry/sdk-trace'
 import { defineNitroPlugin } from 'nitropack/runtime'
 
 declare global {
@@ -10,10 +11,16 @@ declare global {
 }
 
 const exporter = new InMemorySpanExporter()
-const provider = new NodeTracerProvider({
-  spanProcessors: [new SimpleSpanProcessor(exporter)],
+const provider = new TracerProvider({
+  spanProcessors: [new SimpleSpanProcessor({ exporter })],
 })
-provider.register()
+trace.setGlobalTracerProvider(provider)
+context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable())
+propagation.setGlobalPropagator(
+  new CompositePropagator({
+    propagators: [new W3CTraceContextPropagator(), new W3CBaggagePropagator()],
+  }),
+)
 
 globalThis.__otel_test_exporter = exporter
 

@@ -1,25 +1,26 @@
 packages:
-  - 'playground'
-  - 'docs'
+  - "playground"
+  - "docs"
 allowBuilds:
-  '@parcel/watcher': true
+  "@parcel/watcher": true
   better-sqlite3: true
+  dprint: true
   esbuild: true
   protobufjs: true
   sharp: true
   unrs-resolver: true
   vue-demi: true
 minimumReleaseAgeExclude:
-  - '@nuxt/kit'
+  - "@nuxt/kit"
   - nuxt
   - nuxt-nightly
-  - '@nuxt/*'
-  - '@nuxt/schema'
-  - '@nuxt/nitro-server@4.6.0 || 4.6.1'
-  - '@nuxt/vite-builder@4.6.0 || 4.6.1'
-  - '@nuxt/test-utils@4.3.3'
-  - '@nuxt/devtools-ui-kit@3.4.3'
-  - '@nuxt/devtools-wizard@3.4.3'
-  - '@nuxt/devtools@3.4.3'
+  - "@nuxt/*"
+  - "@nuxt/schema"
+  - "@nuxt/nitro-server@4.6.0 || 4.6.1"
+  - "@nuxt/vite-builder@4.6.0 || 4.6.1"
+  - "@nuxt/test-utils@4.3.3"
+  - "@nuxt/devtools-ui-kit@3.4.3"
+  - "@nuxt/devtools-wizard@3.4.3"
+  - "@nuxt/devtools@3.4.3"
   - structured-clone-es@2.0.1
   - vite-opentelemetry-inspector@0.0.2

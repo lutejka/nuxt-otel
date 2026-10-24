@@ -1,5 +1,5 @@
 import type { Tracer } from '@opentelemetry/api'
-import { traceChannel, setAttr, isTracingSuppressed } from './traceChannel.ts'
+import { isTracingSuppressed, setAttr, traceChannel } from './traceChannel.ts'
 
 interface UnstorageMessage {
   keys: string[]
@@ -12,19 +12,21 @@ interface UnstorageMessage {
 }
 
 export function registerUnstorageChannels(tracer: Tracer) {
-  for (const name of [
-    'unstorage.getItem',
-    'unstorage.getMeta',
-    'unstorage.setItem',
-    'unstorage.removeItem',
-    'unstorage.getKeys',
-    'unstorage.clear',
-    'unstorage.hasItem',
-    'unstorage.setItems',
-    'unstorage.getItems',
-    'unstorage.getItemRaw',
-    'unstorage.setItemRaw',
-  ]) {
+  for (
+    const name of [
+      'unstorage.getItem',
+      'unstorage.getMeta',
+      'unstorage.setItem',
+      'unstorage.removeItem',
+      'unstorage.getKeys',
+      'unstorage.clear',
+      'unstorage.hasItem',
+      'unstorage.setItems',
+      'unstorage.getItems',
+      'unstorage.getItemRaw',
+      'unstorage.setItemRaw',
+    ]
+  ) {
     traceChannel<UnstorageMessage>(name, tracer, {
       skip() {
         return isTracingSuppressed()

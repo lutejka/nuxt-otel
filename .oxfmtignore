@@ -1,5 +1,0 @@
-dist
-node_modules
-.nuxt
-package-lock.json
-CHANGELOG.md

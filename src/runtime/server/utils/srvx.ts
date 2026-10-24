@@ -1,23 +1,23 @@
-import { SpanStatusCode, type Span, type Tracer } from '@opentelemetry/api'
+import { type Span, SpanStatusCode, type Tracer } from '@opentelemetry/api'
 import {
-  ATTR_HTTP_REQUEST_METHOD,
-  ATTR_HTTP_ROUTE,
-  ATTR_URL_PATH,
-  ATTR_URL_SCHEME,
-  ATTR_NETWORK_PROTOCOL_NAME,
   ATTR_CLIENT_ADDRESS,
+  ATTR_CLIENT_PORT,
+  ATTR_HTTP_REQUEST_METHOD,
+  ATTR_HTTP_RESPONSE_STATUS_CODE,
+  ATTR_HTTP_ROUTE,
+  ATTR_NETWORK_PEER_ADDRESS,
+  ATTR_NETWORK_PEER_PORT,
+  ATTR_NETWORK_PROTOCOL_NAME,
+  ATTR_NETWORK_PROTOCOL_VERSION,
   ATTR_SERVER_ADDRESS,
   ATTR_SERVER_PORT,
-  ATTR_NETWORK_PEER_ADDRESS,
-  ATTR_USER_AGENT_ORIGINAL,
+  ATTR_URL_PATH,
   ATTR_URL_QUERY,
-  ATTR_NETWORK_PROTOCOL_VERSION,
-  ATTR_CLIENT_PORT,
-  ATTR_NETWORK_PEER_PORT,
-  ATTR_HTTP_RESPONSE_STATUS_CODE,
+  ATTR_URL_SCHEME,
+  ATTR_USER_AGENT_ORIGINAL,
 } from '@opentelemetry/semantic-conventions'
-import { traceChannel, setAttr, isTracingSuppressed } from './traceChannel.ts'
 import { isInternalRoute } from './otel-routes.ts'
+import { isTracingSuppressed, setAttr, traceChannel } from './traceChannel.ts'
 
 interface SrvxRequestMessage {
   request: {
@@ -29,7 +29,7 @@ interface SrvxRequestMessage {
     context?: { matchedRoute?: { route?: string } }
     runtime?: {
       node?: {
-        req: { httpVersion: string, socket: { remotePort?: number } }
+        req: { httpVersion: string; socket: { remotePort?: number } }
       }
     }
   }
@@ -47,8 +47,7 @@ function getSrvxUrl(data: SrvxRequestMessage): URL | undefined {
   if (data.request._url) return data.request._url
   try {
     return new URL(data.request.url)
-  }
-  catch {
+  } catch {
     return undefined
   }
 }

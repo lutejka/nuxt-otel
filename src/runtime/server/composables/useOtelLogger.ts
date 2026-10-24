@@ -1,4 +1,4 @@
-import { logs } from '@opentelemetry/api-logs'
+import { logs } from '@opentelemetry/api'
 
 export function useOtelLogger() {
   return logs.getLogger('nuxt-otel')

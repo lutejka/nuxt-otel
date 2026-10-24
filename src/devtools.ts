@@ -16,7 +16,7 @@ interface LegacyCustomTab {
   title: string
   icon: string
   category: 'analyze'
-  view: { type: 'iframe', src: string }
+  view: { type: 'iframe'; src: string }
 }
 
 type Hook = <T extends unknown[]>(name: string, fn: (...args: T) => unknown) => void
@@ -40,8 +40,7 @@ export function getDevtoolsBase(nuxt: Nuxt) {
 export function getMcpEndpoint(nuxt: Nuxt): string | undefined {
   try {
     createRequire(import.meta.url).resolve('@devframes/agentic')
-  }
-  catch {
+  } catch {
     return undefined
   }
   const devServerUrl = (nuxt.options?.devServer?.url || '').replace(/\/$/, '')
@@ -79,7 +78,13 @@ export async function setupDevtools(nuxt: Nuxt) {
 
   hook('devtools:customTabs', (tabs: LegacyCustomTab[]) => {
     if (legacyDevtools) {
-      tabs.push({ name: DEVTOOLS_ID, title: DEVTOOLS_TITLE, icon: DEVTOOLS_ICON, category: 'analyze', view: { type: 'iframe', src: base } })
+      tabs.push({
+        name: DEVTOOLS_ID,
+        title: DEVTOOLS_TITLE,
+        icon: DEVTOOLS_ICON,
+        category: 'analyze',
+        view: { type: 'iframe', src: base },
+      })
     }
   })
 

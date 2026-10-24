@@ -1,6 +1,6 @@
+import { type Context, context, type Span, SpanStatusCode, trace, type Tracer } from '@opentelemetry/api'
 import type { AsyncLocalStorage } from 'node:async_hooks'
 import { tracingChannel as createTracingChannel } from 'node:diagnostics_channel'
-import { type Context, type Span, type Tracer, SpanStatusCode, context, trace } from '@opentelemetry/api'
 
 /**
  * Context key marking a request (or nested operation) whose tracing has been
@@ -83,7 +83,7 @@ export function traceChannel<T>(
       if (!span) return
       span.setStatus({ code: SpanStatusCode.OK })
 
-      if (span.status.code === SpanStatusCode.UNSET) {
+      if (span.status?.code === SpanStatusCode.UNSET) {
         span.setStatus({ code: SpanStatusCode.OK })
       }
       beforeEndUpdate?.(span, restData as T)
@@ -99,7 +99,7 @@ export function traceChannel<T>(
       errorUpdate?.(span, restData as T)
       if (error) span.recordException(error)
       // set span status to error when it was not set in errorUpdate()
-      if (span.status.code === SpanStatusCode.UNSET) {
+      if (span.status?.code === SpanStatusCode.UNSET) {
         span.setStatus({ code: SpanStatusCode.ERROR })
       }
       span.end()

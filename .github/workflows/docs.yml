@@ -5,7 +5,7 @@ on:
   # workflow), not on every push to main.
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 permissions:

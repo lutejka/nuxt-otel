@@ -1,9 +1,9 @@
-import type { NuxtSSRContext, NuxtIslandContext } from '#app'
+import type { NuxtIslandContext, NuxtSSRContext } from '#app'
 import { SpanStatusCode, type Tracer } from '@opentelemetry/api'
 import type { H3Event } from 'h3'
 import { getResponseStatus } from 'h3'
-import { traceChannel, setAttr, isTracingSuppressed } from './traceChannel.ts'
 import { isInternalRoute } from './otel-routes.ts'
+import { isTracingSuppressed, setAttr, traceChannel } from './traceChannel.ts'
 
 interface NuxtRenderMessage {
   event: H3Event

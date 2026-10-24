@@ -6,7 +6,7 @@ on:
     # Docs-only changes must NOT trigger a release. `shared/**`
     # intentionally stays un-ignored: `shared` feeds the docs demo types.
     paths-ignore:
-      - 'docs/**'
+      - "docs/**"
   pull_request:
     types: [closed]
     branches: [main]

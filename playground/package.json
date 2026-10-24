@@ -8,9 +8,9 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "nuxt": "^4.6.1"
+    "nuxt": "^4.6.2"
   },
   "devDependencies": {
-    "@types/node": "^25.9.3"
+    "@types/node": "^26.6.5"
   }
 }

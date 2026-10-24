@@ -13,19 +13,19 @@
   "bugs": {
     "url": "https://github.com/lutejka/nuxt-otel/issues"
   },
-  "license": "MIT",
-  "author": "",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lutejka/nuxt-otel.git"
   },
-  "directories": {
-    "test": "test"
-  },
-  "files": [
-    "dist"
-  ],
+  "license": "MIT",
+  "author": "",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/module.d.mts",
+      "import": "./dist/module.mjs"
+    }
+  },
   "main": "./dist/module.mjs",
   "types": "./dist/module.d.mts",
   "typesVersions": {
@@ -35,12 +35,12 @@
       ]
     }
   },
-  "exports": {
-    ".": {
-      "types": "./dist/module.d.mts",
-      "import": "./dist/module.mjs"
-    }
+  "directories": {
+    "test": "test"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "module:build": "nuxt-module-build prepare && nuxt-module-build build",
     "docs:prepare": "nuxt-module-build prepare",
@@ -53,52 +53,51 @@
     "dev:build": "nuxt build playground",
     "dev:preview": "nuxt preview playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground",
-    "fmt": "oxfmt .",
-    "fmt:check": "oxfmt --check .",
+    "fmt": "dprint fmt",
+    "fmt:check": "dprint check",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
   "dependencies": {
-    "@nuxt/ui": "^4.10.0",
-    "@opentelemetry/api": "^1.9.1",
-    "@opentelemetry/api-logs": "^0.222.0",
-    "@opentelemetry/auto-instrumentations-node": "^0.81.1",
-    "@opentelemetry/exporter-logs-otlp-http": "^0.222.0",
-    "@opentelemetry/exporter-trace-otlp-http": "^0.222.0",
-    "@opentelemetry/sdk-logs": "^0.222.0",
-    "@opentelemetry/sdk-node": "^0.222.0",
-    "@opentelemetry/semantic-conventions": "^1.41.1",
-    "@vueuse/core": "^14.4.0",
-    "@vueuse/nuxt": "^14.4.0",
-    "devframe": "^1.2.5",
+    "@nuxt/ui": "^4.12.0",
+    "@opentelemetry/api": "^1.10.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.82.0",
+    "@opentelemetry/exporter-logs-otlp-http": "^0.300.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.300.0",
+    "@opentelemetry/sdk-logs": "^3.0.0",
+    "@opentelemetry/sdk-node": "^0.300.0",
+    "@opentelemetry/semantic-conventions": "^1.43.0",
+    "@vueuse/core": "^15.0.0",
+    "@vueuse/nuxt": "^15.0.0",
+    "devframe": "^1.2.6",
     "h3": "^1.15.11",
     "tailwindcss": "^4.3.3",
     "ufo": "^1.6.4",
     "vite-opentelemetry-inspector": "0.0.2",
-    "zod": "^4.4.3"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@devframes/agentic": "^1.2.5",
+    "@devframes/agentic": "^1.2.6",
     "@nuxt/cli": "^4.0.1",
-    "@nuxt/devtools": "^3.4.3",
-    "@nuxt/devtools-kit": "^3.4.3",
-    "@nuxt/eslint-config": "^1.15.2",
-    "@nuxt/kit": "^4.6.1",
+    "@nuxt/devtools": "^3.4.4",
+    "@nuxt/devtools-kit": "^3.4.4",
+    "@nuxt/kit": "^4.6.2",
     "@nuxt/module-builder": "^1.0.3",
-    "@nuxt/schema": "^4.6.1",
-    "@nuxt/test-utils": "^4.3.3",
-    "@opentelemetry/sdk-trace-base": "^2.9.0",
-    "@opentelemetry/sdk-trace-node": "^2.9.0",
+    "@nuxt/schema": "^4.6.2",
+    "@nuxt/test-utils": "^4.3.4",
+    "@opentelemetry/context-async-hooks": "^3.0.0",
+    "@opentelemetry/core": "^3.0.0",
+    "@opentelemetry/sdk-trace": "^3.0.0",
     "@types/body-parser": "^1.19.6",
-    "@types/node": "latest",
+    "@types/node": "^26.6.5",
     "changelogen": "^0.6.2",
-    "eslint": "^10.4.1",
-    "nuxt": "^4.6.1",
-    "oxfmt": "^0.73.0",
+    "dprint": "^0.64.3",
+    "eslint": "^10.13.0",
+    "nuxt": "^4.6.2",
     "typescript": "~6.0.3",
-    "vitest": "^5.0.0",
-    "vue-tsc": "^3.3.3"
+    "vitest": "^5.0.5",
+    "vue-tsc": "^3.3.13"
   }
 }

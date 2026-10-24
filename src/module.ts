@@ -1,14 +1,14 @@
 import {
-  defineNuxtModule,
-  createResolver,
-  addTypeTemplate,
-  useLogger,
   addDevServerHandler,
   addServerImportsDir,
+  addTypeTemplate,
+  createResolver,
+  defineNuxtModule,
+  useLogger,
 } from '@nuxt/kit'
-import { pathToFileURL } from 'node:url'
 import { eventHandler, readBody } from 'h3'
-import { setupDevtools, getMcpEndpoint } from './devtools.ts'
+import { pathToFileURL } from 'node:url'
+import { getMcpEndpoint, setupDevtools } from './devtools.ts'
 import { INGEST_PATH } from './runtime/server/utils/otel-routes.ts'
 
 export interface TracingChannelOptions {
@@ -56,6 +56,12 @@ export default defineNuxtModule<ModuleOptions>({
       return
     }
 
+    // Nuxt only enables its own `nuxt.*` tracing channels when the option is an
+    // object, so expand the `true` shorthand before Nuxt builds its config.
+    if (nuxt.options.tracingChannel === true) {
+      nuxt.options.tracingChannel = normalizeTracingChannel(true)
+    }
+
     addTypeTemplate({
       filename: 'types/nuxt-otel.d.ts',
       getContents: () => `
@@ -93,8 +99,8 @@ export default defineNuxtModule<ModuleOptions>({
         // TODO use instrumentation fiel from hsot or preset
         const instrumentationsFile = instrumentEnabled
           ? pathToFileURL(
-              await resolver.resolvePath('./runtime/server/instrument/preset/node'),
-            ).href
+            await resolver.resolvePath('./runtime/server/instrument/preset/node'),
+          ).href
           : undefined
 
         rollupConfig.output.entryFileNames = 'server.mjs'
@@ -102,7 +108,9 @@ export default defineNuxtModule<ModuleOptions>({
           rollupConfig.plugins,
           {
             name: '@lutejka/nuxt-otel:entry',
-            async generateBundle() {
+            async generateBundle(
+              this: { emitFile: (file: { type: 'asset'; fileName: string; source: string }) => void },
+            ) {
               const channels = normalizeTracingChannel(nuxt.options.tracingChannel)
               const tracingChannels = [
                 { enabled: channels.srvx, name: 'Srvx' },
@@ -118,10 +126,18 @@ export default defineNuxtModule<ModuleOptions>({
                 source: [
                   // inline resolved option values directly into the bundle
                   `import { trace } from '@opentelemetry/api'`,
-                  `import { registerH3Channels } from '${pathToFileURL(await resolver.resolvePath('./runtime/server/utils/h3.ts')).href}'`,
-                  `import { registerNuxtChannels } from '${pathToFileURL(await resolver.resolvePath('./runtime/server/utils/nuxt.ts')).href}'`,
-                  `import { registerSrvxChannels } from '${pathToFileURL(await resolver.resolvePath('./runtime/server/utils/srvx.ts')).href}'`,
-                  `import { registerUnstorageChannels } from '${pathToFileURL(await resolver.resolvePath('./runtime/server/utils/unstorage.ts')).href}'`,
+                  `import { registerH3Channels } from '${
+                    pathToFileURL(await resolver.resolvePath('./runtime/server/utils/h3.ts')).href
+                  }'`,
+                  `import { registerNuxtChannels } from '${
+                    pathToFileURL(await resolver.resolvePath('./runtime/server/utils/nuxt.ts')).href
+                  }'`,
+                  `import { registerSrvxChannels } from '${
+                    pathToFileURL(await resolver.resolvePath('./runtime/server/utils/srvx.ts')).href
+                  }'`,
+                  `import { registerUnstorageChannels } from '${
+                    pathToFileURL(await resolver.resolvePath('./runtime/server/utils/unstorage.ts')).href
+                  }'`,
                   '',
                   // dev-only: the devtools ingest endpoints exist solely on the dev server
                   ...(devtoolsEnabled ? [`globalThis.devServerUrl = '${nuxt.options?.devServer?.url}'`, ''] : []),
@@ -129,11 +145,12 @@ export default defineNuxtModule<ModuleOptions>({
                   // the host app is expected to register its own provider.
                   ...(instrumentEnabled
                     ? [
-                        `const {default: start} = await import(${JSON.stringify(instrumentationsFile)})`,
-                        `start(${JSON.stringify({ ...options, devtools: devtoolsEnabled })})`,
-                        '',
-                      ]
+                      `const {default: start} = await import(${JSON.stringify(instrumentationsFile)})`,
+                      `start(${JSON.stringify({ ...options, devtools: devtoolsEnabled })})`,
+                      '',
+                    ]
                     : []),
+                  `await import('./server.mjs')`,
                   `const tracer = trace.getTracer('nuxt-otel')`,
                   ...tracingChannels.map(({ enabled, name }) => {
                     if (!enabled) {
@@ -141,8 +158,6 @@ export default defineNuxtModule<ModuleOptions>({
                     }
                     return `register${name}Channels(tracer)`
                   }),
-                  '',
-                  `await import('./server.mjs')`,
                   '',
                 ].join('\n'),
               })

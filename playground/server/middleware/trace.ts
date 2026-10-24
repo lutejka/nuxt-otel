@@ -1,4 +1,4 @@
-import { defineEventHandler, getRequestURL, getRequestHeaders } from 'h3'
+import { defineEventHandler, getRequestHeaders, getRequestURL } from 'h3'
 
 export default defineEventHandler(async (event) => {
   const { trace } = useOtelTracer('app')

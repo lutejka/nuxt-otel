@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from 'vitest'
-import { setAttr } from '../../src/runtime/server/utils/traceChannel'
 import type { Span } from '@opentelemetry/api'
+import { describe, expect, it, vi } from 'vitest'
+import { setAttr } from '../../src/runtime/server/utils/traceChannel'
 
 function createMockSpan() {
   return { setAttribute: vi.fn() } as unknown as Span

@@ -1,32 +1,32 @@
 import { SpanStatusCode, type Tracer } from '@opentelemetry/api'
 import {
+  ATTR_CLIENT_ADDRESS,
+  ATTR_CLIENT_PORT,
   ATTR_HTTP_REQUEST_METHOD,
+  ATTR_HTTP_RESPONSE_STATUS_CODE,
   ATTR_HTTP_ROUTE,
-  ATTR_URL_PATH,
+  ATTR_NETWORK_PEER_ADDRESS,
+  ATTR_NETWORK_PEER_PORT,
   ATTR_NETWORK_PROTOCOL_NAME,
-  ATTR_URL_QUERY,
-  ATTR_URL_SCHEME,
   ATTR_NETWORK_PROTOCOL_VERSION,
   ATTR_SERVER_ADDRESS,
   ATTR_SERVER_PORT,
-  ATTR_CLIENT_ADDRESS,
-  ATTR_NETWORK_PEER_ADDRESS,
-  ATTR_CLIENT_PORT,
-  ATTR_NETWORK_PEER_PORT,
+  ATTR_URL_PATH,
+  ATTR_URL_QUERY,
+  ATTR_URL_SCHEME,
   ATTR_USER_AGENT_ORIGINAL,
-  ATTR_HTTP_RESPONSE_STATUS_CODE,
 } from '@opentelemetry/semantic-conventions'
-import { traceChannel, setAttr, isTracingSuppressed } from './traceChannel.ts'
-import { isInternalRoute } from './otel-routes.ts'
 import {
-  getRequestProtocol,
+  getRequestHeader,
   getRequestHost,
   getRequestIP,
-  getRequestHeader,
+  getRequestProtocol,
   getResponseStatus,
   getResponseStatusText,
 } from 'h3'
 import type { H3Event } from 'h3'
+import { isInternalRoute } from './otel-routes.ts'
+import { isTracingSuppressed, setAttr, traceChannel } from './traceChannel.ts'
 
 interface H3RequestMessage {
   event: H3Event
@@ -55,7 +55,9 @@ export function registerH3Channels(tracer: Tracer) {
       // stays low-cardinality per OTEL HTTP semconv; fall back to the concrete
       // path when the request didn't match a route (404, middleware-only).
       const route = getMatchedRoute(event)
-      span.updateName(data.type === 'middleware' ? `h3 middleware ${event.method} ${pathname}` : `h3 ${event.method} ${pathname}`)
+      span.updateName(
+        data.type === 'middleware' ? `h3 middleware ${event.method} ${pathname}` : `h3 ${event.method} ${pathname}`,
+      )
       setAttr(span, ATTR_HTTP_REQUEST_METHOD, event.method)
       setAttr(span, ATTR_URL_PATH, pathname)
       setAttr(span, ATTR_NETWORK_PROTOCOL_NAME, 'http')

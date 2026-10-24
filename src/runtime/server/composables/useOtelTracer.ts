@@ -1,4 +1,4 @@
-import { trace as traceApi, type Span, INVALID_SPAN_CONTEXT } from '@opentelemetry/api'
+import { INVALID_SPAN_CONTEXT, type Span, trace as traceApi } from '@opentelemetry/api'
 import { isTracingSuppressed } from '../utils/traceChannel.ts'
 
 export function useOtelTracer(namespace: string) {

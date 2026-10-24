@@ -1,6 +1,6 @@
+import { $fetch, setup } from '@nuxt/test-utils/e2e'
 import { fileURLToPath } from 'node:url'
-import { describe, it, expect } from 'vitest'
-import { setup, $fetch } from '@nuxt/test-utils/e2e'
+import { describe, expect, it } from 'vitest'
 
 type Spans = {
   name: string
@@ -33,8 +33,8 @@ describe('ssr with tracing enabled', async () => {
     const { spans } = (await $fetch('/api/spans')) as { spans: Spans }
     const spanNames = spans.map((s: { name: string }) => s.name)
 
-    expect(spanNames).toContain('nuxt.render')
-    expect(spans.find((s: { name: string }) => s.name === 'nuxt.render')!.attributes).toHaveProperty('url')
+    expect(spanNames).toContain('nuxt render /')
+    expect(spans.find((s: { name: string }) => s.name === 'nuxt render /')!.attributes).toHaveProperty('url')
     /*
     This will start working with nuxt 5. Until then only nuxt.* and useOtelTracer will show up in the spans
     expect(spanNames).toContain('GET /**')

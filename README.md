@@ -99,11 +99,11 @@ export default defineNuxtConfig({
 
 ```ts
 // server/plugins/otel.ts
-import { defineNitroPlugin } from 'nitropack/runtime'
-import { NodeSDK } from '@opentelemetry/sdk-node'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http'
 import { Resource } from '@opentelemetry/resources'
+import { NodeSDK } from '@opentelemetry/sdk-node'
 import { SEMRESATTRS_SERVICE_NAME } from '@opentelemetry/semantic-conventions'
+import { defineNitroPlugin } from 'nitropack/runtime'
 
 export default defineNitroPlugin(() => {
   const sdk = new NodeSDK({
