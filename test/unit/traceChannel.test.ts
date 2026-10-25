@@ -1,6 +1,9 @@
 import type { Span } from '@opentelemetry/api'
-import { describe, expect, it, vi } from 'vitest'
-import { setAttr } from '../../src/runtime/server/utils/traceChannel'
+import { context, ROOT_CONTEXT, trace } from '@opentelemetry/api'
+import { AsyncLocalStorageContextManager } from '@opentelemetry/context-async-hooks'
+import { getRPCMetadata, RPCType, setRPCMetadata } from '@opentelemetry/core'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
+import { setAttr, setRpcRoute } from '../../src/runtime/server/utils/traceChannel'
 
 function createMockSpan() {
   return { setAttribute: vi.fn() } as unknown as Span
@@ -35,5 +38,27 @@ describe('setAttr', () => {
     const span = createMockSpan()
     setAttr(span, 'key', undefined)
     expect(span.setAttribute).not.toHaveBeenCalled()
+  })
+})
+
+describe('setRpcRoute', () => {
+  beforeAll(() => {
+    context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable())
+  })
+
+  it('sets the route on the active HTTP RPC metadata', () => {
+    const ctx = setRPCMetadata(ROOT_CONTEXT, {
+      type: RPCType.HTTP,
+      span: trace.getTracer('test').startSpan('test'),
+    })
+
+    context.with(ctx, () => {
+      setRpcRoute('/users/:id')
+      expect(getRPCMetadata(context.active())?.route).toBe('/users/:id')
+    })
+  })
+
+  it('does nothing when there is no HTTP RPC metadata', () => {
+    expect(() => setRpcRoute('/')).not.toThrow()
   })
 })

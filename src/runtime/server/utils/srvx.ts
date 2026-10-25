@@ -17,7 +17,7 @@ import {
   ATTR_USER_AGENT_ORIGINAL,
 } from '@opentelemetry/semantic-conventions'
 import { isInternalRoute } from './otel-routes.ts'
-import { isTracingSuppressed, setAttr, traceChannel } from './traceChannel.ts'
+import { isTracingSuppressed, setAttr, setRpcRoute, traceChannel } from './traceChannel.ts'
 
 interface SrvxRequestMessage {
   request: {
@@ -94,13 +94,20 @@ export function registerSrvxChannels(tracer: Tracer) {
       const route = data.request.context?.matchedRoute?.route
       const target = route || url.pathname
       span.updateName(`srvx ${data.request.method} ${target}`)
+      setRpcRoute(target)
       setSrvxAttributes(span, data)
       if (route) {
         setAttr(span, ATTR_HTTP_ROUTE, route)
+        setRpcRoute(route)
       }
     },
     beforeEndUpdate(span, data) {
       if (!data.result) return
+      // The route may only be populated once the request has been dispatched.
+      const route = data.request.context?.matchedRoute?.route
+      if (route) {
+        setAttr(span, ATTR_HTTP_ROUTE, route)
+      }
       const statusCode = data.result.status
       const statusText = data.result.statusText?.trim() ?? undefined
       setAttr(span, ATTR_HTTP_RESPONSE_STATUS_CODE, statusCode)
