@@ -7,6 +7,12 @@ interface OrderRequest {
   userId: string
 }
 
+const meter = useOtelMeter('order')
+const orderQuantity = meter.createHistogram('orders.quantity', {
+  description: 'Quantity of items in completed orders',
+  unit: '{item}',
+})
+
 export default defineEventHandler(async (event) => {
   const { trace } = useOtelTracer('order')
   const logger = useOtelLogger()
@@ -83,6 +89,7 @@ export default defineEventHandler(async (event) => {
     })
 
     span.setStatus({ code: SpanStatusCode.OK })
+    orderQuantity.record(body.quantity)
     logger.emit({
       severityNumber: 9,
       body: `Order ${orderId} completed successfully`,

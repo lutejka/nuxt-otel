@@ -175,7 +175,7 @@ Nuxt OTEL runs on Node.js Diagnostic Channels, so there is nothing to import and
 See every trace [in DevTools]{class="text-primary-600 dark:text-primary-400"}
 
 #description
-Enable `nuxtOtel.devtools` and an **OpenTelemetry** panel appears in Vite DevTools. Browse traces and logs in real time — no collector needed.
+Enable `nuxtOtel.devtools` and an **OpenTelemetry** panel appears in Vite DevTools. Browse traces, logs, and metrics in real time — no collector needed.
 
 #body
   :::u-page-grid
@@ -315,7 +315,7 @@ Nuxt OTEL is the Nuxt-shaped layer over standard OTel packages. Each of them is 
   vite-opentelemetry-inspector
 
   #description
-  The DevTools panel powering the trace waterfall, log viewer and MCP tools.
+  The DevTools panel powering the trace waterfall, log viewer, metric charts, and MCP tools.
   :::
 ::
 

@@ -189,7 +189,7 @@ Each traced operation follows the Diagnostic Channels lifecycle:
 
 ## 🖥️ DevTools UI
 
-When devtools are enabled (`devtools: true` in `nuxtOtel` config), the module adds an **OpenTelemetry** panel to [Vite DevTools](https://devtools.vite.dev) for browsing traces and logs in real time. It is powered by [`vite-opentelemetry-inspector`](https://github.com/lutejka/vite-opentelemetry-inspector).
+When devtools are enabled (`devtools: true` in `nuxtOtel` config), the module adds an **OpenTelemetry** panel to [Vite DevTools](https://devtools.vite.dev) for browsing traces, logs, and metrics in real time. It is powered by [`vite-opentelemetry-inspector`](https://github.com/lutejka/vite-opentelemetry-inspector).
 
 **Traces** shows a resizable split panel with a trace list on the left and a waterfall timeline with span details on the right.
 
@@ -199,19 +199,21 @@ When devtools are enabled (`devtools: true` in `nuxtOtel` config), the module ad
 
 ![Logs view - expandable log entries with severity badges](./.github/logs.png)
 
-When using a custom instrumentation setup (i.e. `instrument: false`), you can still forward spans and logs to the devtools panel by exporting them to the OTLP HTTP endpoint at:
+**Metrics** shows one tile per metric with its latest value, a sparkline, and a histogram chart. Histograms are displayed as their average (`sum / count`), so a histogram named `orders.quantity` reads as the average order quantity.
+
+When using a custom instrumentation setup (i.e. `instrument: false`), you can still forward spans, logs, and metrics to the devtools panel by exporting them to the OTLP HTTP endpoint at:
 
 ```
 {devServerUrl}/__opentelemetry-ingest
 ```
 
-The endpoint accepts both trace and log OTLP JSON payloads (`/v1/traces` and `/v1/logs`). This lets you use any OTel SDK or collector to push data into the devtools panel without relying on the built-in NodeSDK.
+The endpoint accepts trace, log, and metric OTLP JSON payloads (`/v1/traces`, `/v1/logs`, and `/v1/metrics`). This lets you use any OTel SDK or collector to push data into the devtools panel without relying on the built-in NodeSDK.
 
 ## 🔌 MCP Server
 
-> **Note:** The MCP integration is development-only. The OTEL tools query in-memory trace and log stores that are populated during development. In production builds, the OTEL-specific tools are not available.
+> **Note:** The MCP integration is development-only. The OTEL tools query in-memory trace, log, and metric stores that are populated during development. In production builds, the OTEL-specific tools are not available.
 
-The OpenTelemetry panel exposes agent tools (`get-traces`, `get-trace`, `get-spans`, `get-logs`, `clear-traces`, `clear-logs`) over the devframe MCP adapter provided by [`vite-opentelemetry-inspector`](https://github.com/lutejka/vite-opentelemetry-inspector#mcp).
+The OpenTelemetry panel exposes agent tools (`get-traces`, `get-trace`, `get-spans`, `get-logs`, `get-metrics`, `clear-traces`, `clear-logs`, `clear-metrics`) over the devframe MCP adapter provided by [`vite-opentelemetry-inspector`](https://github.com/lutejka/vite-opentelemetry-inspector#mcp).
 
 ### Prerequisites
 
