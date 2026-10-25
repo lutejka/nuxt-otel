@@ -1,5 +1,7 @@
 export default defineNuxtConfig({
   site: {
+    name: 'Nuxt OTel',
+    description: 'OpenTelemetry tracing for Nuxt applications using Diagnostic Channels.',
     url: 'https://nuxt-otel.vercel.app',
   },
   image: {

@@ -1,14 +1,22 @@
 export default defineAppConfig({
-  docus: {
-    name: 'Nuxt Otel',
+  header: {
+    title: 'Nuxt OTel',
+  },
+  seo: {
+    title: 'Nuxt OTel',
     description: 'OpenTelemetry tracing for Nuxt applications using Diagnostic Channels.',
-    url: 'https://nuxt-otel.vercel.app',
-    socials: {
-      github: 'lutejka/nuxt-otel',
-    },
-    header: {
-      title: 'Nuxt Otel',
-    },
+    titleTemplate: '%s - Nuxt OTel',
+  },
+  socials: {
+    github: 'https://github.com/lutejka/nuxt-otel',
+  },
+  github: {
+    owner: 'lutejka',
+    name: 'nuxt-otel',
+    url: 'https://github.com/lutejka/nuxt-otel',
+    branch: 'main',
+    // Content lives in docs/content, so edit links need the docs prefix.
+    rootDir: 'docs',
   },
   ui: {
     colors: {

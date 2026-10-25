@@ -1,6 +1,6 @@
 ---
 seo:
-  title: Nuxt OTEL — OpenTelemetry tracing for Nuxt
+  title: Nuxt OTel — OpenTelemetry tracing for Nuxt
   description: Automatic OpenTelemetry tracing for Nuxt renders, H3 requests, server routes and storage. Zero overhead, zero code changes, DevTools included.
 ---
 
@@ -17,7 +17,7 @@ ui:
 Observability for Nuxt, [without the setup]{class="text-primary-600 dark:text-primary-400"}
 
 #description
-Write a server route and Nuxt OTEL traces it, links the async context, and shows the waterfall in DevTools. No manual spans, no wrapper components, no collector config to start.
+Enable tracing, write a server route, and Nuxt OTel traces it, links the async context, and shows the waterfall in DevTools. No manual spans, no wrapper components, no collector config to start.
 
 #links
   :::u-button
@@ -33,7 +33,7 @@ Write a server route and Nuxt OTEL traces it, links the async context, and shows
   :::
 
 #default
-:u-color-mode-image{alt="Trace waterfall timeline with span details" class="w-full rounded-lg border border-muted shadow-xl" dark="/images/trace-dark.png" light="/images/trace-light.png"}
+:zoomable-color-mode-image{alt="Trace waterfall timeline with span details" class="w-full rounded-lg border border-muted shadow-xl" dark="/images/trace-dark.png" light="/images/trace-light.png" width="1920" height="1080"}
 ::
 
 ::u-page-section
@@ -41,7 +41,7 @@ Write a server route and Nuxt OTEL traces it, links the async context, and shows
 One module. [Every layer traced.]{class="text-primary-600 dark:text-primary-400"}
 
 #description
-Channels connect Nuxt OTEL to a layer of your app. Each one hooks a Diagnostic Channel and creates real OpenTelemetry spans. Enable all of them, pick a subset, or turn everything off.
+Channels connect Nuxt OTel to a layer of your app. Each one hooks a Diagnostic Channel and creates real OpenTelemetry spans. Enable all of them, enable only the layers you need, or turn everything off.
 
 #features
   :::u-page-feature
@@ -110,7 +110,7 @@ Channels connect Nuxt OTEL to a layer of your app. Each one hooks a Diagnostic C
 What happens [after a request starts]{class="text-primary-600 dark:text-primary-400"}
 
 #description
-Nuxt OTEL runs on Node.js Diagnostic Channels, so there is nothing to import and no component to wrap your code in.
+Nuxt OTel runs on Node.js Diagnostic Channels, so there is nothing to import and no component to wrap your code in.
 
 #features
   :::u-page-feature
@@ -172,7 +172,7 @@ Nuxt OTEL runs on Node.js Diagnostic Channels, so there is nothing to import and
 
 ::u-page-section
 #title
-See every trace [in DevTools]{class="text-primary-600 dark:text-primary-400"}
+See every signal [in DevTools]{class="text-primary-600 dark:text-primary-400"}
 
 #description
 Enable `nuxtOtel.devtools` and an **OpenTelemetry** panel appears in Vite DevTools. Browse traces, logs, and metrics in real time — no collector needed.
@@ -184,7 +184,7 @@ Enable `nuxtOtel.devtools` and an **OpenTelemetry** panel appears in Vite DevToo
     variant: subtle
     to: /guide/devtools
     ---
-    :::::u-color-mode-image{alt="Traces view waterfall timeline and span details" class="w-full rounded-lg border border-muted" dark="/images/trace-dark.png" light="/images/trace-light.png"}
+    :::::zoomable-color-mode-image{alt="Traces view waterfall timeline and span details" class="w-full rounded-lg border border-muted" dark="/images/trace-dark.png" light="/images/trace-light.png" width="1920" height="1080" loading="lazy"}
     :::::
     #title
     Traces — waterfall timeline
@@ -198,13 +198,27 @@ Enable `nuxtOtel.devtools` and an **OpenTelemetry** panel appears in Vite DevToo
     variant: subtle
     to: /guide/devtools
     ---
-    :::::u-color-mode-image{alt="Logs view expandable log entries with severity badges" class="w-full rounded-lg border border-muted" dark="/images/logs-dark.png" light="/images/logs-light.png"}
+    :::::zoomable-color-mode-image{alt="Logs view expandable log entries with severity badges" class="w-full rounded-lg border border-muted" dark="/images/logs-dark.png" light="/images/logs-light.png" width="1920" height="1080" loading="lazy"}
     :::::
     #title
     Logs — structured events
 
     #description
     Scrollable list of OpenTelemetry log records with severity badges and expandable attributes, linked to the same async context as your traces.
+    ::::
+
+    ::::u-page-card
+    ---
+    variant: subtle
+    to: /guide/devtools
+    ---
+    :::::zoomable-color-mode-image{alt="Metrics view tiles with latest values, sparklines and histogram charts" class="w-full rounded-lg border border-muted" dark="/images/metrics-dark.png" light="/images/metrics-light.png" width="1920" height="1080" loading="lazy"}
+    :::::
+    #title
+    Metrics — live charts
+
+    #description
+    One tile per metric with its latest value, a sparkline trend, and a histogram chart — runtime metrics and custom instruments side by side.
     ::::
   :::
 ::
@@ -227,7 +241,7 @@ Defaults worth [keeping]{class="text-primary-600 dark:text-primary-400"}
   Zero code changes to start
 
   #description
-  Add the module and keep writing routes. Tracing is automatic from the first request.
+  Add the module, enable a tracing channel, and keep writing routes. Spans start with the first request.
   :::
 
   :::u-page-feature
@@ -276,7 +290,7 @@ ui:
 Built on [OpenTelemetry]{class="text-primary-600 dark:text-primary-400"}
 
 #description
-Nuxt OTEL is the Nuxt-shaped layer over standard OTel packages. Each of them is useful on its own.
+Nuxt OTel is the Nuxt-shaped layer over standard OTel packages. Each of them is useful on its own.
 
 #features
   :::u-page-card
@@ -327,7 +341,7 @@ class: bg-muted border-t border-default
 Add it to your app [in one command]{class="text-primary-600 dark:text-primary-400"}
 
 #description
-Nuxt OTEL is MIT licensed and maintained by the community.
+Nuxt OTel is MIT licensed and maintained by the community.
 
 #links
   :::u-button

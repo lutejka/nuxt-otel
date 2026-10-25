@@ -1,5 +1,6 @@
 {
   "name": "nuxt-otel-docs",
+  "description": "OpenTelemetry tracing for Nuxt applications using Diagnostic Channels.",
   "private": true,
   "type": "module",
   "scripts": {
