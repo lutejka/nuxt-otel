@@ -1,7 +1,7 @@
 {
   "name": "nuxt-otel-docs",
-  "description": "OpenTelemetry tracing for Nuxt applications using Diagnostic Channels.",
   "private": true,
+  "description": "OpenTelemetry tracing for Nuxt applications using Diagnostic Channels.",
   "type": "module",
   "scripts": {
     "dev": "nuxt dev --extends docus",
@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@nuxt/icon": "^2.6.0",
+    "@nuxt/ui": "^4.12.0",
     "@nuxtjs/color-mode": "^4.0.1",
     "better-sqlite3": "^12.5.0",
     "docus": "latest",
-    "nuxt": "^4.6.2"
+    "nuxt": "^4.6.2",
+    "tailwindcss": "^4.3.3"
   }
 }
