@@ -228,13 +228,46 @@ When devtools are enabled (`devtools: true` in `nuxtOtel` config), the module ad
 
 **Traces** shows a resizable split panel with a trace list on the left and a waterfall timeline with span details on the right.
 
-![Traces view - waterfall timeline and span details](./.github/traces.png)
+<!-- markdownlint-disable MD033 -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/public/images/trace-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="./docs/public/images/trace-light.png">
+  <img
+    src="./docs/public/images/trace-light.png"
+    alt="Traces view - waterfall timeline and span details"
+    width="1920"
+    height="1080"
+  >
+</picture>
 
 **Logs** provides a scrollable list of log entries with expandable metadata.
 
-![Logs view - expandable log entries with severity badges](./.github/logs.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/public/images/logs-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="./docs/public/images/logs-light.png">
+  <img
+    src="./docs/public/images/logs-light.png"
+    alt="Logs view - expandable log entries with severity badges"
+    width="1920"
+    height="1080"
+    loading="lazy"
+  >
+</picture>
 
 **Metrics** shows one tile per metric with its latest value, a sparkline, and a histogram chart. Histograms are displayed as their average (`sum / count`), so a histogram named `orders.quantity` reads as the average order quantity.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/public/images/metrics-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="./docs/public/images/metrics-light.png">
+  <img
+    src="./docs/public/images/metrics-light.png"
+    alt="Metrics view - tiles with latest values, sparklines and histogram charts"
+    width="1920"
+    height="1080"
+    loading="lazy"
+  >
+</picture>
+<!-- markdownlint-enable MD033 -->
 
 When using a custom instrumentation setup (i.e. `instrument: false`), you can still forward spans, logs, and metrics to the DevTools panel. Point your exporter at the ingest endpoint:
 
