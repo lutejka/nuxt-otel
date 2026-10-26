@@ -26,7 +26,7 @@ import {
 } from 'h3'
 import type { H3Event } from 'h3'
 import { isInternalRoute } from './otel-routes.ts'
-import { isTracingSuppressed, setAttr, traceChannel } from './traceChannel.ts'
+import { isTracingSuppressed, setAttr, setRpcRoute, traceChannel } from './traceChannel.ts'
 
 interface H3RequestMessage {
   event: H3Event
@@ -61,6 +61,7 @@ export function registerH3Channels(tracer: Tracer) {
       setAttr(span, ATTR_HTTP_REQUEST_METHOD, event.method)
       setAttr(span, ATTR_URL_PATH, pathname)
       setAttr(span, ATTR_NETWORK_PROTOCOL_NAME, 'http')
+      setRpcRoute(pathname)
       if (route) {
         setAttr(span, ATTR_HTTP_ROUTE, route)
       }

@@ -1,4 +1,5 @@
 import { type Context, context, type Span, SpanStatusCode, trace, type Tracer } from '@opentelemetry/api'
+import { getRPCMetadata, RPCType } from '@opentelemetry/core'
 import type { AsyncLocalStorage } from 'node:async_hooks'
 import { tracingChannel as createTracingChannel } from 'node:diagnostics_channel'
 
@@ -39,6 +40,20 @@ export function enterWithContext(ctx: Context): void {
 export function setAttr(span: Span, key: string, value: unknown) {
   if (value !== null && value !== undefined) {
     span.setAttribute(key, value as number | string | boolean)
+  }
+}
+
+/**
+ * Publish the matched route template to the active RPC metadata. Node's HTTP
+ * instrumentation reads it when the response closes and renames its parent
+ * server span to `METHOD <route>` (otherwise it keeps just the method name).
+ * The metadata lives on a `Symbol.for` context key, so this works even when
+ * the host app resolves a different copy of `@opentelemetry/core`.
+ */
+export function setRpcRoute(route: string): void {
+  const metadata = getRPCMetadata(context.active())
+  if (metadata?.type === RPCType.HTTP) {
+    metadata.route = route
   }
 }
 
