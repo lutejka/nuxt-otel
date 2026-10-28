@@ -9,8 +9,8 @@ import {
 } from '@opentelemetry/semantic-conventions'
 import type { H3Event } from 'h3'
 import { getResponseStatus } from 'h3'
-import { isInternalRoute } from './otel-routes.ts'
-import { isTracingSuppressed, setAttr, traceChannel } from './traceChannel.ts'
+import { isInternalRoute } from './otel-routes'
+import { isTracingSuppressed, setAttr, traceChannel } from './traceChannel'
 
 interface NuxtRequestMessage {
   event: NuxtRequestEvent

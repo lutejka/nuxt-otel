@@ -16,8 +16,8 @@ import {
   ATTR_URL_SCHEME,
   ATTR_USER_AGENT_ORIGINAL,
 } from '@opentelemetry/semantic-conventions'
-import { isInternalRoute } from './otel-routes.ts'
-import { isTracingSuppressed, setAttr, setRpcRoute, traceChannel } from './traceChannel.ts'
+import { isInternalRoute } from './otel-routes'
+import { isTracingSuppressed, setAttr, setRpcRoute, traceChannel } from './traceChannel'
 
 interface SrvxRequestMessage {
   request: {

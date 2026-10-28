@@ -76,7 +76,7 @@
     "devframe": "^1.2.6",
     "h3": "^1.15.11",
     "ufo": "^1.6.4",
-    "vite-opentelemetry-inspector": "0.1.0"
+    "vite-opentelemetry-inspector": "0.1.1"
   },
   "devDependencies": {
     "@devframes/agentic": "^1.2.6",
