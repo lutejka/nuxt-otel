@@ -25,8 +25,8 @@ import {
   getResponseStatusText,
 } from 'h3'
 import type { H3Event } from 'h3'
-import { isInternalRoute } from './otel-routes.ts'
-import { isTracingSuppressed, setAttr, setRpcRoute, traceChannel } from './traceChannel.ts'
+import { isInternalRoute } from './otel-routes'
+import { isTracingSuppressed, setAttr, setRpcRoute, traceChannel } from './traceChannel'
 
 interface H3RequestMessage {
   event: H3Event

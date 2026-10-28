@@ -1,5 +1,5 @@
 import type { Tracer } from '@opentelemetry/api'
-import { isTracingSuppressed, setAttr, traceChannel } from './traceChannel.ts'
+import { isTracingSuppressed, setAttr, traceChannel } from './traceChannel'
 
 interface UnstorageMessage {
   keys: string[]

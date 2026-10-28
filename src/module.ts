@@ -1,8 +1,9 @@
 import { addServerImportsDir, addTypeTemplate, createResolver, defineNuxtModule, useLogger } from '@nuxt/kit'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { pathToFileURL } from 'node:url'
-import { getMcpEndpoint, setupDevtools } from './devtools.ts'
-import { INGEST_PATH } from './runtime/server/utils/otel-routes.ts'
+import { getMcpEndpoint, setupDevtools } from './devtools'
+import type { ModuleOptions } from './runtime/otel/types'
+import { INGEST_PATH } from './runtime/server/utils/otel-routes'
 
 export interface TracingChannelOptions {
   nuxt?: boolean
@@ -11,10 +12,7 @@ export interface TracingChannelOptions {
   unstorage?: boolean
 }
 
-export interface ModuleOptions {
-  instrument: boolean
-  devtools?: boolean
-}
+export type { ModuleOptions }
 
 export function normalizeTracingChannel(val: boolean | TracingChannelOptions | undefined): TracingChannelOptions {
   if (val === true) {
@@ -188,10 +186,21 @@ export default defineNuxtModule<ModuleOptions>({
 
     const startOptions = JSON.stringify({ ...options, devtools: devtoolsEnabled })
     const devServerUrl = JSON.stringify(nuxt.options.devServer?.url ?? '')
-    const instrumentationsUrl = instrumentationsFile ? pathToFileURL(instrumentationsFile).href : undefined
 
     /** Bundler ids are POSIX-style; keep Windows drive letters but drop `\`. */
     const fsPath = (path: string) => path.replace(/\\/g, '/')
+
+    const instrumentationsPath = instrumentationsFile ? fsPath(instrumentationsFile) : undefined
+    /**
+     * In dev the preset is imported by path so the bundler resolves its
+     * extensionless imports (it is source in the stub setup). In a build it
+     * stays external and is loaded through a `file://` URL, so Nitro does not
+     * inline the OTel dependency tree — the published runtime uses `.js`
+     * specifiers, so no extension resolution is needed there.
+     */
+    const instrumentationsSpecifier = instrumentationsFile
+      ? nuxt.options.dev ? instrumentationsPath : pathToFileURL(instrumentationsFile).href
+      : undefined
 
     const registrationLines = enabledChannels.map(({ name }) => `register${name}Channels(tracer)`)
 
@@ -206,7 +215,7 @@ export default defineNuxtModule<ModuleOptions>({
       `  globalThis.__nuxtOtelStarted = true`,
       ...(instrumentEnabled
         ? [
-          `  const { default: start } = await import(${JSON.stringify(instrumentationsUrl)})`,
+          `  const { default: start } = await import(${JSON.stringify(instrumentationsSpecifier)})`,
           `  start(${startOptions})`,
         ]
         : []),
@@ -261,11 +270,11 @@ export default defineNuxtModule<ModuleOptions>({
           registrationSource,
         })
 
-        // Keep the instrumentation SDK out of the server bundle: its CJS
-        // dependency tree is not something Nitro can reliably bundle, and it
-        // resolves its own dependencies next to the installed module.
-        if (instrumentationsUrl && instrumentationsFile) {
-          const presetFiles = new Set([instrumentationsUrl, instrumentationsFile, fsPath(instrumentationsFile)])
+        // In builds the preset stays out of the server bundle: its CJS
+        // dependency tree is resolved next to the installed module instead of
+        // being traced into the output.
+        if (!nuxt.options.dev && instrumentationsSpecifier && instrumentationsFile) {
+          const presetFiles = new Set([instrumentationsSpecifier, instrumentationsFile, fsPath(instrumentationsFile)])
           const isPreset = (id: string) => presetFiles.has(id) || presetFiles.has(fsPath(id.split('?')[0]!))
           const previousExternal = rollupConfig.external
           rollupConfig.external = ((id: string, ...args: unknown[]) => {

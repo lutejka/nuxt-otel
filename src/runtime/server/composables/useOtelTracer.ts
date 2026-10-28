@@ -1,5 +1,5 @@
 import { INVALID_SPAN_CONTEXT, type Span, trace as traceApi } from '@opentelemetry/api'
-import { isTracingSuppressed } from '../utils/traceChannel.ts'
+import { isTracingSuppressed } from '../utils/traceChannel'
 
 export function useOtelTracer(namespace: string) {
   const tracer = traceApi.getTracer('nuxt-otel')

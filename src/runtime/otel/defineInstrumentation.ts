@@ -1,4 +1,4 @@
-import type { ModuleOptions } from '../../module.ts'
+import type { ModuleOptions } from './types'
 
 export function defineInstrumentation(setup: (options: ModuleOptions) => void): (options: ModuleOptions) => void {
   return setup

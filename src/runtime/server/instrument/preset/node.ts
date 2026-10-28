@@ -2,11 +2,11 @@ import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentation
 import { SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs'
 import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics'
 import { NodeSDK } from '@opentelemetry/sdk-node'
-import { DevToolsOTLPLogExporter } from '../../../otel//exporters/DevToolsOTLPLogExporter.ts'
-import { DevToolsOTLPMetricExporter } from '../../../otel//exporters/DevToolsOTLPMetricExporter.ts'
-import { DevToolsOTLPTraceExporter } from '../../../otel//exporters/DevToolsOTLPTraceExporter.ts'
-import { defineInstrumentation } from '../../../otel/defineInstrumentation.ts'
-import { isInternalRoute } from '../../utils/otel-routes.ts'
+import { defineInstrumentation } from '../../../otel/defineInstrumentation'
+import { DevToolsOTLPLogExporter } from '../../../otel/exporters/DevToolsOTLPLogExporter'
+import { DevToolsOTLPMetricExporter } from '../../../otel/exporters/DevToolsOTLPMetricExporter'
+import { DevToolsOTLPTraceExporter } from '../../../otel/exporters/DevToolsOTLPTraceExporter'
+import { isInternalRoute } from '../../utils/otel-routes'
 
 export default defineInstrumentation((options) => {
   const { devtools: devtoolsEnabled } = options
