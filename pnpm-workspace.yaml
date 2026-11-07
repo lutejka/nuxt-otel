@@ -30,4 +30,5 @@ minimumReleaseAgeExclude:
   - "@nuxt/devtools-wizard@3.4.3"
   - "@nuxt/devtools@3.4.3"
   - structured-clone-es@2.0.1
-  - vite-opentelemetry-inspector@0.0.2 || 0.1.0
+  - vite-opentelemetry-inspector@0.0.2 || 0.1.0 || 0.1.2
+  - my-bad@0.2.12
