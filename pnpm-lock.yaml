@@ -47,7 +47,7 @@ importers:
         version: 1.44.0
       devframe:
         specifier: ^1.3.2
-        version: 1.3.2(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
+        version: 1.3.3(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
       h3:
         specifier: ^1.15.11
         version: 1.15.11
@@ -56,11 +56,11 @@ importers:
         version: 1.6.4
       vite-opentelemetry-inspector:
         specifier: 0.1.2
-        version: 0.1.2(@devframes/agentic@1.3.3)(cac@7.1.0)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1)(srvx@1.0.8)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+        version: 0.1.2(@devframes/agentic@1.3.3)(cac@7.1.0)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1)(srvx@1.0.8)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
     devDependencies:
       '@devframes/agentic':
         specifier: ^1.3.2
-        version: 1.3.3(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1)
+        version: 1.3.3(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1)
       '@nuxt/cli':
         specifier: ^4.0.3
         version: 4.0.3(@nuxt/schema@4.6.4)(jiti@2.7.0)(oxc-parser@0.151.0)(rolldown@1.2.19)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
@@ -4961,11 +4961,11 @@ packages:
     resolution: {integrity: sha512-3woMEITftG1wKeO/4d/QXH1DVKctTSZg3jNGPpjp9hNr5Hos8MCFF5McTML5ZtgKDObm2R591B0spRp2IVernA==}
     engines: {node: '>=18'}
 
-  devframe@1.3.2:
-    resolution: {integrity: sha512-dvPSTSrGecjJ/EfyGKWYXDaSP+PvDM1hhlftKBsVSwUUyACKEYGO6PfrdKiuiFKz/GSvtTSPp9SfLHMbqXTTgw==}
+  devframe@1.3.3:
+    resolution: {integrity: sha512-RB9gTSJ5M3TSyxsaqbTyTtHEmyYwjqUtWAYrQz8SJllq5yR4UPzjTvkDCEYrlv1xNCnbIQ/WL8s6jozh/4wdoA==}
     hasBin: true
     peerDependencies:
-      '@devframes/agentic': 1.3.2
+      '@devframes/agentic': 1.3.3
       cac: ^7.0.0
     peerDependenciesMeta:
       '@devframes/agentic':
@@ -9086,11 +9086,11 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.2': {}
 
-  '@devframes/agentic@1.3.3(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1)':
+  '@devframes/agentic@1.3.3(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1)':
     dependencies:
       '@modelcontextprotocol/client': 2.4.0
       '@modelcontextprotocol/server': 2.4.0
-      devframe: 1.3.2(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
+      devframe: 1.3.3(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
       h3: 2.0.8(crossws@0.4.17(srvx@1.0.8))(ocache@0.3.1)
       pathe: 2.0.3
     transitivePeerDependencies:
@@ -9103,27 +9103,27 @@ snapshots:
       package-manager-detector: 1.9.0
       tinyexec: 1.3.1
 
-  '@devframes/hub@1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1)':
+  '@devframes/hub@1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1)':
     dependencies:
       destr: 2.0.5
-      devframe: 1.3.2(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
+      devframe: 1.3.3(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
       h3: 2.0.8(crossws@0.4.17(srvx@1.0.8))(ocache@0.3.1)
       pathe: 2.0.3
       tinyexec: 1.3.1
       zigpty: 0.2.1
     optionalDependencies:
-      '@devframes/agentic': 1.3.3(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1)
+      '@devframes/agentic': 1.3.3(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1)
     transitivePeerDependencies:
       - crossws
       - ocache
 
-  '@devframes/json-render@1.2.6(@devframes/hub@1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1))(devframe@1.3.2)':
+  '@devframes/json-render@1.2.6(@devframes/hub@1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1))(devframe@1.3.3)':
     dependencies:
       '@json-render/core': 0.21.1(zod@4.6.7)
-      devframe: 1.3.2(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
+      devframe: 1.3.3(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
       zod: 4.6.7
     optionalDependencies:
-      '@devframes/hub': 1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1)
+      '@devframes/hub': 1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1)
     optional: true
 
   '@dprint/android-arm64@0.64.3':
@@ -14183,9 +14183,9 @@ snapshots:
 
   '@vitejs/devtools-kit@0.7.6(@devframes/agentic@1.3.3)(cac@7.1.0)(crossws@0.4.17(srvx@1.0.8))(ocache@0.3.1)(srvx@1.0.8)(vite@8.3.8(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))':
     dependencies:
-      '@devframes/hub': 1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1)
-      '@devframes/json-render': 1.2.6(@devframes/hub@1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1))(devframe@1.3.2)
-      devframe: 1.3.2(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
+      '@devframes/hub': 1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1)
+      '@devframes/json-render': 1.2.6(@devframes/hub@1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1))(devframe@1.3.3)
+      devframe: 1.3.3(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
       local-pkg: 1.2.1
       nostics: 1.3.0
       package-manager-detector: 1.9.0
@@ -14200,9 +14200,9 @@ snapshots:
 
   '@vitejs/devtools-kit@0.7.6(@devframes/agentic@1.3.3)(cac@7.1.0)(crossws@0.4.17(srvx@1.0.8))(ocache@0.3.1)(srvx@1.0.8)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))':
     dependencies:
-      '@devframes/hub': 1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1)
-      '@devframes/json-render': 1.2.6(@devframes/hub@1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1))(devframe@1.3.2)
-      devframe: 1.3.2(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
+      '@devframes/hub': 1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1)
+      '@devframes/json-render': 1.2.6(@devframes/hub@1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1))(devframe@1.3.3)
+      devframe: 1.3.3(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
       local-pkg: 1.2.1
       nostics: 1.3.0
       package-manager-detector: 1.9.0
@@ -14217,8 +14217,8 @@ snapshots:
 
   '@vitejs/devtools-kit@0.8.2(@devframes/agentic@1.3.3)(cac@7.1.0)(crossws@0.4.17(srvx@1.0.8))(ocache@0.3.1)(srvx@1.0.8)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))':
     dependencies:
-      '@devframes/hub': 1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1)
-      devframe: 1.3.2(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
+      '@devframes/hub': 1.3.2(@devframes/agentic@1.3.3)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1)
+      devframe: 1.3.3(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
       local-pkg: 2.0.0
       nostics: 1.3.0
       package-manager-detector: 1.9.0
@@ -15114,14 +15114,14 @@ snapshots:
 
   devalue@6.0.3: {}
 
-  devframe@1.3.2(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8):
+  devframe@1.3.3(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8):
     dependencies:
       crossws: 0.4.17(srvx@1.0.8)
       h3: 2.0.8(crossws@0.4.17(srvx@1.0.8))(ocache@0.3.1)
       nostics: 1.3.0
       pathe: 2.0.3
     optionalDependencies:
-      '@devframes/agentic': 1.3.3(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1)
+      '@devframes/agentic': 1.3.3(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1)
       cac: 7.1.0
     transitivePeerDependencies:
       - ocache
@@ -20280,12 +20280,12 @@ snapshots:
       - tsx
       - yaml
 
-  vite-opentelemetry-inspector@0.1.2(@devframes/agentic@1.3.3)(cac@7.1.0)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1)(srvx@1.0.8)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)):
+  vite-opentelemetry-inspector@0.1.2(@devframes/agentic@1.3.3)(cac@7.1.0)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1)(srvx@1.0.8)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)):
     dependencies:
       '@vitejs/devtools-kit': 0.8.2(@devframes/agentic@1.3.3)(cac@7.1.0)(crossws@0.4.17(srvx@1.0.8))(ocache@0.3.1)(srvx@1.0.8)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
     optionalDependencies:
-      '@devframes/agentic': 1.3.3(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.2)(ocache@0.3.1)
-      devframe: 1.3.2(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
+      '@devframes/agentic': 1.3.3(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.3)(ocache@0.3.1)
+      devframe: 1.3.3(@devframes/agentic@1.3.3)(cac@7.1.0)(ocache@0.3.1)(srvx@1.0.8)
       vite: 8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)
     transitivePeerDependencies:
       - cac
