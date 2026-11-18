@@ -1,8 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
-    ":semanticCommits"
+    "config:recommended"
   ],
   "configMigration": true,
   "labels": ["dependencies"],
@@ -15,33 +14,23 @@
   "packageRules": [
     {
       "description": "Nuxt core moves fast - exempt it from the release-age delay like pnpm does",
-      "matchPackageNames": ["nuxt", "/^@nuxt//"],
+      "matchPackageNames": ["nuxt", "/^@nuxt/"],
       "minimumReleaseAge": null,
       "groupName": "nuxt"
     },
     {
       "description": "OpenTelemetry packages are released in lockstep - always update them together",
-      "matchPackageNames": ["/^@opentelemetry//"],
+      "matchPackageNames": ["/^@opentelemetry/"],
       "groupName": "opentelemetry"
     },
     {
-      "description": "Batch minor/patch dev tooling updates and automerge them once CI passes",
-      "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "dev dependencies (minor and patch)",
+      "description": "Automerge patch updates",
+      "matchUpdateTypes": ["patch"],
       "automerge": true,
-      "platformAutomerge": true
-    },
-    {
-      "description": "Never automerge major updates - they need manual review",
-      "matchUpdateTypes": ["major"],
-      "automerge": false
-    },
-    {
-      "description": "TypeScript 7 is not supported yet - stay on TypeScript 6",
-      "matchPackageNames": ["typescript"],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
+      "autoApprove": true,
+      "platformAutomerge": true,
+      "rebaseWhen": "auto",
+      "automergeType": "pr"
     }
   ]
 }
