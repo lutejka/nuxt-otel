@@ -1,9 +1,9 @@
 import { addServerImportsDir, addTypeTemplate, createResolver, defineNuxtModule, useLogger } from '@nuxt/kit'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { pathToFileURL } from 'node:url'
-import { getMcpEndpoint, setupDevtools } from './devtools'
+import { getMcpEndpoint, setupDevtools } from './devtools.ts'
 import type { ModuleOptions } from './runtime/otel/types'
-import { INGEST_PATH } from './runtime/server/utils/otel-routes'
+import { INGEST_PATH } from './runtime/server/utils/otel-routes.ts'
 
 export interface TracingChannelOptions {
   nuxt?: boolean

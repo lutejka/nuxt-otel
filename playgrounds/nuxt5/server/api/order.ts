@@ -1,6 +1,6 @@
 import { SpanStatusCode } from '@opentelemetry/api'
-import { defineEventHandler, readBody } from 'h3'
 import { useStorage } from 'nitro/storage'
+import { defineEventHandler, readBody } from 'nuxt/server'
 
 interface OrderRequest {
   productId: string
@@ -88,8 +88,9 @@ export default defineEventHandler(async (event) => {
       await delay(15, 40)
       s.setAttribute('inventory.deducted', body.quantity)
     })
-    orderQuantity.record(body.quantity)
+
     span.setStatus({ code: SpanStatusCode.OK })
+    orderQuantity.record(body.quantity)
     logger.emit({
       severityNumber: 9,
       body: `Order ${orderId} completed successfully`,
