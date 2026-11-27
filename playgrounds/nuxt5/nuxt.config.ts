@@ -14,4 +14,15 @@ export default defineNuxtConfig({
   },
   nuxtOtel: { instrument: true, devtools: true },
   tracingChannel: true,
+  hooks: {
+    // Nuxt 5 turns its default `/vendor` ignore into a path relative to the
+    // filesystem root (`../../…/vendor`). In a deeply nested checkout that
+    // pattern matches every file, so Nitro finds no `server/` routes or
+    // middleware and `/api/*` falls through to the Vue renderer (HTML).
+    'nitro:config'(nitroConfig) {
+      nitroConfig.ignore = (nitroConfig.ignore ?? []).filter(
+        pattern => typeof pattern !== 'string' || !/^(\.\.\/)+vendor$/.test(pattern),
+      )
+    },
+  },
 })

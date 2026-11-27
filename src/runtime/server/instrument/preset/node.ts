@@ -7,9 +7,26 @@ import { DevToolsOTLPLogExporter } from '../../../otel/exporters/DevToolsOTLPLog
 import { DevToolsOTLPMetricExporter } from '../../../otel/exporters/DevToolsOTLPMetricExporter'
 import { DevToolsOTLPTraceExporter } from '../../../otel/exporters/DevToolsOTLPTraceExporter'
 import { isInternalRoute } from '../../utils/otel-routes'
+import type { ModuleOptions } from '../../../otel/types'
 
-export default defineInstrumentation((options) => {
-  const { devtools: devtoolsEnabled } = options
+/**
+ * Check whether a request pathname matches any of the user-provided ignore
+ * patterns (strings or RegExp). Strings are matched as prefixes.
+ */
+function matchesIgnorePaths(pathname: string, patterns: (string | RegExp)[] | undefined): boolean {
+  if (!patterns || patterns.length === 0) {
+    return false
+  }
+  return patterns.some((pattern) => {
+    if (typeof pattern === 'string') {
+      return pathname.startsWith(pattern)
+    }
+    return pattern.test(pathname)
+  })
+}
+
+export default defineInstrumentation((options: ModuleOptions) => {
+  const { devtools: devtoolsEnabled, headersToSpanAttributes, redactedQueryParamsServer, redactedQueryParams, ignoreRequestPaths, ignoreRequest } = options
   const sdk = new NodeSDK({
     traceExporter: devtoolsEnabled ? new DevToolsOTLPTraceExporter() : undefined,
     logRecordProcessors: devtoolsEnabled
@@ -22,16 +39,20 @@ export default defineInstrumentation((options) => {
     instrumentations: getNodeAutoInstrumentations({
       '@opentelemetry/instrumentation-http': {
         ignoreIncomingRequestHook: (request) => {
-          return isInternalRoute(request.url ?? '')
+          return isInternalRoute(request.url ?? '') || matchesIgnorePaths(request.url ?? '', ignoreRequestPaths) || (ignoreRequest?.(request) ?? false)
         },
         ignoreOutgoingRequestHook: (requestOptions) => {
-          return isInternalRoute(requestOptions.path ?? '')
+          return isInternalRoute(requestOptions.path ?? '') || matchesIgnorePaths(requestOptions.path ?? '', ignoreRequestPaths) || (ignoreRequest?.(requestOptions as unknown as Parameters<typeof ignoreRequest>[0]) ?? false)
         },
+        ...(headersToSpanAttributes ? { headersToSpanAttributes } : {}),
+        ...(redactedQueryParamsServer ? { redactedQueryParamsServer } : {}),
       },
       '@opentelemetry/instrumentation-undici': {
         ignoreRequestHook: (request) => {
-          return isInternalRoute(request.path)
+          return isInternalRoute(request.path) || matchesIgnorePaths(request.path, ignoreRequestPaths) || (ignoreRequest?.(request as unknown as Parameters<typeof ignoreRequest>[0]) ?? false)
         },
+        ...(headersToSpanAttributes ? { headersToSpanAttributes } : {}),
+        ...(redactedQueryParams ? { redactedQueryParams } : {}),
       },
       '@opentelemetry/instrumentation-redis': {
         enabled: true,

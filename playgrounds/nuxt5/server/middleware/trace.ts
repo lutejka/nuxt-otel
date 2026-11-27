@@ -1,4 +1,4 @@
-import { defineEventHandler, getRequestHeaders, getRequestURL } from 'h3'
+import { defineEventHandler, getRequestHeaders, getRequestURL } from 'nuxt/server'
 
 export default defineEventHandler(async (event) => {
   const { trace } = useOtelTracer('app')

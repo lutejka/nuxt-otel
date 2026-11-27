@@ -2,8 +2,10 @@ import type { Span } from '@opentelemetry/api'
 import { context, ROOT_CONTEXT, trace } from '@opentelemetry/api'
 import { AsyncLocalStorageContextManager } from '@opentelemetry/context-async-hooks'
 import { getRPCMetadata, RPCType, setRPCMetadata } from '@opentelemetry/core'
+import { InMemorySpanExporter, SimpleSpanProcessor, TracerProvider } from '@opentelemetry/sdk-trace'
+import { tracingChannel } from 'node:diagnostics_channel'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
-import { setAttr, setRpcRoute } from '../../src/runtime/server/utils/traceChannel'
+import { setAttr, setRpcRoute, traceChannel } from '../../src/runtime/server/utils/traceChannel'
 
 function createMockSpan() {
   return { setAttribute: vi.fn() } as unknown as Span
@@ -60,5 +62,30 @@ describe('setRpcRoute', () => {
 
   it('does nothing when there is no HTTP RPC metadata', () => {
     expect(() => setRpcRoute('/')).not.toThrow()
+  })
+})
+
+describe('traceChannel parenting', () => {
+  const exporter = new InMemorySpanExporter()
+  const provider = new TracerProvider({ spanProcessors: [new SimpleSpanProcessor({ exporter })] })
+
+  beforeAll(() => {
+    context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable())
+    traceChannel<{ event: object }>('test.parenting', provider.getTracer('test'), {})
+  })
+
+  it('groups parentless spans of one request into a single trace', async () => {
+    const channel = tracingChannel('test.parenting')
+    const event = {}
+    await channel.tracePromise(async () => {}, { event })
+    await channel.tracePromise(async () => {}, { event })
+    await channel.tracePromise(async () => {}, { event: {} })
+
+    await provider.forceFlush()
+    const [first, second, other] = exporter.getFinishedSpans()
+    expect(first!.parentSpanContext).toBeUndefined()
+    expect(second!.spanContext().traceId).toBe(first!.spanContext().traceId)
+    expect(second!.parentSpanContext?.spanId).toBe(first!.spanContext().spanId)
+    expect(other!.spanContext().traceId).not.toBe(first!.spanContext().traceId)
   })
 })

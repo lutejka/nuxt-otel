@@ -57,6 +57,25 @@ export function setRpcRoute(route: string): void {
   }
 }
 
+/**
+ * Fallback trace roots for requests that have no active parent span.
+ *
+ * The `srvx.request` channel is published before this module subscribes to it
+ * on the first request after a (re)start (Nitro loads the app lazily), and no
+ * HTTP server span exists when the HTTP instrumentation is not patching. In
+ * both cases the sibling `h3.request` spans of one request (each middleware,
+ * then the route) would each start their own trace. The first parentless span
+ * of a request becomes the root its siblings attach to, keyed by the request
+ * object (`event` for h3/nuxt, `request` for srvx).
+ */
+const requestRoots = new WeakMap<object, Context>()
+
+function getRequestKey(data: unknown): object | undefined {
+  const { event, request } = (data ?? {}) as { event?: unknown; request?: unknown }
+  const key = event ?? request
+  return typeof key === 'object' && key !== null ? key : undefined
+}
+
 export function traceChannel<T>(
   channelName: string,
   tracer: Tracer,
@@ -85,10 +104,18 @@ export function traceChannel<T>(
       // so that, e.g., `nuxt.plugin` spans are skipped once `nuxt.render` is.
       return context.active().setValue(SUPPRESS_TRACING_KEY, true)
     }
-    const span = tracer.startSpan(channelName)
+    const activeContext = context.active()
+    const hasParent = trace.getSpan(activeContext) !== undefined
+    const requestKey = hasParent ? undefined : getRequestKey(data)
+    const parentContext = (requestKey && requestRoots.get(requestKey)) || activeContext
+    const span = tracer.startSpan(channelName, undefined, parentContext)
     startUpdate?.(span, data)
     ;(rawData as Record<string, unknown>).span = span
-    return trace.setSpan(context.active(), span)
+    const spanContext = trace.setSpan(parentContext, span)
+    if (requestKey && !requestRoots.has(requestKey)) {
+      requestRoots.set(requestKey, spanContext)
+    }
+    return spanContext
   })
   channel.subscribe({
     start() {},
